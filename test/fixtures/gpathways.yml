@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  description: MyText
+  species: MyString
+  tissue: MyString
+  cell_line: MyString
+  bind_backbone: MyString
+  user_id: 1
+
+two:
+  title: MyString
+  description: MyText
+  species: MyString
+  tissue: MyString
+  cell_line: MyString
+  bind_backbone: MyString
+  user_id: 1

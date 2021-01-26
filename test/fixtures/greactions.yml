@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  rxnid: MyString
+  reactant: MyString
+  enzyme_name: MyString
+  sugar_nt: MyString
+  product: MyString
+  cellular_locate: MyString
+  gpathway: one
+
+two:
+  rxnid: MyString
+  reactant: MyString
+  enzyme_name: MyString
+  sugar_nt: MyString
+  product: MyString
+  cellular_locate: MyString
+  gpathway: two

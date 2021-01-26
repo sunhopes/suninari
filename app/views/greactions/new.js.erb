@@ -1,0 +1,5 @@
+$("input").val("");     <%# 모달값의 초기화%>
+$('#reactionModal').modal('hide');     <%# 모달창을 닫기 %>
+$("#reactionModal").find(".modal-dialog").html("<%= j(render 'greactions/modalRform') %>");
+$("#reactionModal").modal("show");
+

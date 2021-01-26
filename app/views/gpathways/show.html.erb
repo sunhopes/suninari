@@ -1,0 +1,147 @@
+<%=render 'gpathways/error' %>
+
+<div class="container mt-5">
+<h3>[Pathway Basic information]</h3>
+  <div class="row">
+    <div class="col-6">
+      <div class="container">
+        <div class="card">
+          <div class="card-header"><%= @gpathway.title %></div>
+          <div class="card-body">
+            <h5 class="card-text"><strong>&#149 Description:</strong><p class="tab"><%= simple_format @gpathway.description %></p></h5>
+            <h5 class="card-text"><strong>&#149 Species:</strong>&nbsp<%= @gpathway.species %></h5>
+            <h5 class="card-text"><strong>&#149 Tissue:</strong>&nbsp<%= @gpathway.tissue %></h5>
+            <h5 class="card-text"><strong>&#149 Cell Line:</strong>&nbsp<%= @gpathway.cell_line %></h5>
+            <h5 class="card-text"><strong>&#149 Binding Site:</strong>&nbsp<%= @gpathway.bind_backbone %></h5>
+            <h5 class="card-text"><strong>&#149 Update:&nbsp</strong>&nbsp<%= @gpathway.updated_at.strftime("%Y-%m-%d") %></h5>
+          </div>
+            <% if @gpathway.user == current_user %>
+                <div class="">
+                  <div class="float-left">
+                    <%=link_to 'Pathway List', gpathways_path, class: "btn btn-info btn-lg" %></div>
+                  <div class="float-right">
+                    <%=link_to 'Edit', edit_gpathway_path(@gpathway), remote: true, data: { target: '#pathwayModal', toggle: 'modal'}, class: "btn btn-outline-primary btn-lg" %></div>
+                    <%#=link_to 'Delete', gpathway_path(@gpathway), method: :delete, class: "btn btn-outline-danger btn-lg", data: { confirm: 'Are you sure?' } %>
+                      <div id="pathwayModal" class="modal fade"   tabindex="-1" role="dialog" aria-labelledby="pathwayModalLabel" aria-hidden="true"> 
+                        <div class="modal-dialog" role="document">
+                          <%=render 'pathwayForm' %>
+                        </div>
+                      </div>
+                </div>
+            <% end %>
+        </div>    
+      </div>
+    </div>
+  </div>
+</div>
+<br><br> 
+<%
+=begin  
+%>
+<!-- Modal for Edit Gpathway -->
+<div class="container mt-2">
+  <div class="row">
+    <div class="col-3 sidebar">  
+      <!-- Modal Button of Gpathway Edit -->
+      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#pathwayModal">
+        Edit of Pathway information
+      </button>
+    </div>
+  </div>
+</div>   
+      <!-- Modal body for gpathway edit-->
+      <%=render 'pathwayForm' %><br>
+
+
+<div class="container">
+<!-- Modal for New reaction  -->
+  <span>
+  <div class="container mt-2">
+    <div class="row">
+      <div class="col-6 sidebar">  
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reactionModal">
+          Add New Reaction
+        </button>
+      </div>
+      <%# <div class="col-9 greactions">   이 부분이 화면이 바꾸지 않고 보여주고 싶은 부분이고 class를 잡아서 (.greactions) js 화일에 적어주면 된다. 난 경우가 다르다.
+        <%=render 'rform', %>
+      <%# </div>  %>
+    </div>
+  </div> 
+  </span>  
+        <!-- Modal body for New Reaction-->
+        <%#=render 'greactions/modalRform', gpathway: @gpathway, greaction: @greaction %>
+        <%=render partial: "greactions/modalRform", locals: { gpathway: @gpathway, greaction: @greaction } %>
+<!-- Modal for Edit reaction  --> 
+  <span>       
+  <div class="container mt-2">
+    <div class="row">
+      <div class="col-6 sidebar">  
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#edit_reactionModal">
+          Edit Reaction
+        </button>
+      </div>
+      <%# <div class="col-9 greactions">   이 부분이 화면이 바꾸지 않고 보여주고 싶은 부분이고 class를 잡아서 (.greactions) js 화일에 적어주면 된다. 난 경우가 다르다.
+        <%=render 'rform', %>
+      <%# </div>  %>
+    </div>
+  </div>
+  </span>
+        <!-- Modal body for Edit Reaction-->
+        <% @gpathway.greactions.each do |greaction|%>
+          <%#=render 'greactions/modalERform', gpathway: @greaction.gpathway, greaction: greaction %>
+          <%=render partial: "greactions/modalERform", locals: { gpathway: @gpathway, greaction: greaction.id } %>
+        <% end %>
+</div>
+<%
+=end
+%>
+<!-- Reaction Index -->
+
+<div class="container mt-11">
+<h3>[Reaction Table]</h3>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>RXN ID</th>
+        <th>Reactant</th>
+        <th>Enzyme</th>
+        <th>Sugar Nucleotide</th>
+        <th>Product</th>
+        <th>Cell Location</th>
+        <th colspan="5">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @gpathway.greactions.each do |greaction|%>
+        <tr>
+          <td><%=greaction.rxnid%></td>
+          <td><%=greaction.reactant%></td>
+          <td><%=greaction.enzyme_name%></td>
+          <td><%=greaction.sugar_nt%></td>
+          <td><%=greaction.product%></td>
+          <td><%=greaction.cellular_locate%></td>
+          <td>
+              <%= link_to new_gpathway_greaction_path(@gpathway), remote: true, data: { target: '#reactionModal', toggle: 'modal'}, class: 'btn btn-primary' do %>
+                <i class="fas fa-plus-square"></i><% end %>
+                <div id="reactionModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="reactionModalLabel" aria-hidden="true"> 
+                  <div class="modal-dialog" role="document">
+                  </div>
+                </div>
+              <%= link_to edit_gpathway_greaction_path(@gpathway, greaction.id), remote: true, data: { target: '#edit_reactionModal', toggle: 'modal'}, class: 'btn btn-success' do %>
+                 <i class="fas fa-edit"></i><% end %>
+                <div id="edit_reactionModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="edit_reactionLabel" aria-hidden="true"> 
+                  <div class="modal-dialog2" role="document">
+                    <%=render 'greactions/modalERform', gpathway: @gpathway, greaction: greaction.id  %>
+                  </div>
+                </div>
+              <%= link_to gpathway_greaction_path(@gpathway, greaction), class: 'btn btn-danger', method: :delete, data: { confirm: 'Are you sure?' }  do %>
+                 <i class="fas fa-trash-alt"></i><% end %>
+          </td>  
+        </tr> 
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+

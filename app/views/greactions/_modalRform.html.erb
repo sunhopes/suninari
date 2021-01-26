@@ -1,0 +1,37 @@
+<!-- Modal body for New Reaction-->
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title" id="reactionModalLabel">Add of New Reaction</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <%=form_with model: @greaction, url: gpathway_greactions_path(@gpathway), remote: true do |f|%>   <!--create action으로 보내야 한다 -->
+  <%#=form_with model: @greaction, url: new_gpathway_greaction_path(@gpathway) do |f|%>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Reaction ID</label>
+        <%= f.text_field :rxnid, class: "form-control" %></div>
+      <div class="form-group">
+        <label>Reactant Glycan</label>
+        <%= f.text_field :reactant, class: "form-control" %></div>
+      <div class="form-group">
+        <label>Enzyme</label>
+        <%= f.text_field :enzyme_name, class: "form-control" %></div>
+      <div class="form-group">
+        <label>Sugar Nuclotide</label>
+        <%= f.text_field :sugar_nt, class: "form-control" %></div>
+      <div class="form-group">
+        <label>Product Glycan</label>
+        <%= f.text_field :product, class: "form-control" %></div> 
+      <div class="form-group">
+        <label>Cellular Locate</label>
+        <%= f.text_field :cellular_locate, class: "form-control" %></div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      <%= f.submit "Save Change", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>
+
