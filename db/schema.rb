@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_13_121222) do
+ActiveRecord::Schema.define(version: 2021_02_04_143936) do
 
   create_table "gpathways", force: :cascade do |t|
     t.string "title"
@@ -34,6 +34,8 @@ ActiveRecord::Schema.define(version: 2021_01_13_121222) do
     t.integer "gpathway_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "reactant_img"
+    t.string "product_img"
     t.index ["gpathway_id"], name: "index_greactions_on_gpathway_id"
   end
 

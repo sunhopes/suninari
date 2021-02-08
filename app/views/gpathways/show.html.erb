@@ -16,25 +16,26 @@
             <h5 class="card-text"><strong>&#149 Update:&nbsp</strong>&nbsp<%= @gpathway.updated_at.strftime("%Y-%m-%d") %></h5>
           </div>
             <% if @gpathway.user == current_user %>
-                <div class="">
-                  <div class="float-left">
-                    <%=link_to 'Pathway List', gpathways_path, class: "btn btn-info btn-lg" %></div>
-                  <div class="float-right">
-                    <%=link_to 'Edit', edit_gpathway_path(@gpathway), remote: true, data: { target: '#pathwayModal', toggle: 'modal'}, class: "btn btn-outline-primary btn-lg" %></div>
-                    <%#=link_to 'Delete', gpathway_path(@gpathway), method: :delete, class: "btn btn-outline-danger btn-lg", data: { confirm: 'Are you sure?' } %>
-                      <div id="pathwayModal" class="modal fade"   tabindex="-1" role="dialog" aria-labelledby="pathwayModalLabel" aria-hidden="true"> 
-                        <div class="modal-dialog" role="document">
-                          <%=render 'pathwayForm' %>
-                        </div>
+              <div class="">
+                <div class="float-left">
+                  <%=link_to 'Pathway List', gpathways_path, class: "btn btn-info btn-lg" %></div>
+                <div class="float-right">
+                  <%=link_to 'Edit', edit_gpathway_path(@gpathway), remote: true, data: { target: '#pathwayModal', toggle: 'modal'}, class: "btn btn-outline-primary btn-lg" %></div>
+                  <%#=link_to 'Delete', gpathway_path(@gpathway), method: :delete, class: "btn btn-outline-danger btn-lg", data: { confirm: 'Are you sure?' } %>
+                    <div id="pathwayModal" class="modal fade"   tabindex="-1" role="dialog" aria-labelledby="pathwayModalLabel" aria-hidden="true"> 
+                      <div class="modal-dialog" role="document">
+                        <%=render 'pathwayForm' %>
                       </div>
-                </div>
+                    </div>
+              </div>
             <% end %>
         </div>    
       </div>
     </div>
   </div>
 </div>
-<br><br> 
+<br><br>
+ 
 <%
 =begin  
 %>
@@ -100,42 +101,48 @@
 
 <div class="container mt-11">
 <h3>[Reaction Table]</h3>
-  <table class="table table-striped">
-    <thead>
+  <table class="table table-hover">
+    <thead class="thead-light">
       <tr>
-        <th>RXN ID</th>
-        <th>Reactant</th>
-        <th>Enzyme</th>
-        <th>Sugar Nucleotide</th>
-        <th>Product</th>
-        <th>Cell Location</th>
-        <th colspan="5">Action</th>
+        <th class="text-center">RXN ID</th>
+        <th class="text-center">Reactant</th>
+        <th class="text-center">Enzyme</th>
+        <th class="text-center">Sugar Nucleotide</th>
+        <th class="text-center">Product</th>
+        <th class="text-center">Cell Location</th>
+        <th colspan="6">Action&nbsp;&nbsp;
+           <%= link_to new_gpathway_greaction_path(@gpathway), id: 'newReaction', remote: true, data: { target: '#reactionModal', toggle: 'modal'}, class: 'btn btn-primary btn-sm' do %>
+            <i class="fas fa-plus-square"></i><% end %>
+              <div id="reactionModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="reactionModalLabel" aria-hidden="true"> 
+                <div class="modal-dialog" role="document"></div>
+              </div>
+        </th>
       </tr>
     </thead>
     <tbody>
       <% @gpathway.greactions.each do |greaction|%>
         <tr>
           <td><%=greaction.rxnid%></td>
-          <td><%=greaction.reactant%></td>
+          <td><glytoucan-image accession="<%=greaction.reactant_img %>" imageApi="https://api.glycosmos.org/wurcs2image/experimental/png/binary/" ></glytoucan-image></td>
           <td><%=greaction.enzyme_name%></td>
           <td><%=greaction.sugar_nt%></td>
-          <td><%=greaction.product%></td>
+          <td><glytoucan-image accession="<%=greaction.product_img %>" imageApi="https://api.glycosmos.org/wurcs2image/experimental/png/binary/" ></glytoucan-image></td>
           <td><%=greaction.cellular_locate%></td>
           <td>
-              <%= link_to new_gpathway_greaction_path(@gpathway), remote: true, data: { target: '#reactionModal', toggle: 'modal'}, class: 'btn btn-primary' do %>
+              <%= link_to new_gpathway_greaction_path(@gpathway), id: 'newReaction', remote: true, data: { target: '#reactionModal', toggle: 'modal'}, class: 'btn btn-primary btn-sm' do %>
                 <i class="fas fa-plus-square"></i><% end %>
                 <div id="reactionModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="reactionModalLabel" aria-hidden="true"> 
                   <div class="modal-dialog" role="document">
                   </div>
                 </div>
-              <%= link_to edit_gpathway_greaction_path(@gpathway, greaction.id), remote: true, data: { target: '#edit_reactionModal', toggle: 'modal'}, class: 'btn btn-success' do %>
+              <%= link_to edit_gpathway_greaction_path(@gpathway, greaction.id), remote: true, data: { target: '#edit_reactionModal', toggle: 'modal'}, class: 'btn btn-success btn-sm' do %>
                  <i class="fas fa-edit"></i><% end %>
                 <div id="edit_reactionModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="edit_reactionLabel" aria-hidden="true"> 
                   <div class="modal-dialog2" role="document">
                     <%=render 'greactions/modalERform', gpathway: @gpathway, greaction: greaction.id  %>
                   </div>
                 </div>
-              <%= link_to gpathway_greaction_path(@gpathway, greaction), class: 'btn btn-danger', method: :delete, data: { confirm: 'Are you sure?' }  do %>
+              <%= link_to gpathway_greaction_path(@gpathway, greaction), class: 'btn btn-danger btn-sm', method: :delete, data: { confirm: 'Are you sure?' }  do %>
                  <i class="fas fa-trash-alt"></i><% end %>
           </td>  
         </tr> 
@@ -145,3 +152,4 @@
 </div>
 
 
+<script src = "https://glycosmos-layout.glycosmos.org/bundle.js"></script>
