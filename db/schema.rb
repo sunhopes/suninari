@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_04_143936) do
+ActiveRecord::Schema.define(version: 2021_02_09_082043) do
 
   create_table "gpathways", force: :cascade do |t|
     t.string "title"
@@ -36,7 +36,19 @@ ActiveRecord::Schema.define(version: 2021_02_04_143936) do
     t.datetime "updated_at", null: false
     t.string "reactant_img"
     t.string "product_img"
+    t.integer "sugar_id"
+    t.string "enzyme_onto_id"
+    t.string "sugar_onto_id"
+    t.string "cellcomp_onto_id"
     t.index ["gpathway_id"], name: "index_greactions_on_gpathway_id"
+    t.index ["sugar_id"], name: "index_greactions_on_sugar_id"
+  end
+
+  create_table "sugars", force: :cascade do |t|
+    t.string "onto_id"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|

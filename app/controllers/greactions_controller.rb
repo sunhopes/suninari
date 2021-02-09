@@ -2,7 +2,7 @@ class GreactionsController < ApplicationController
   def new
     @gpathway = Gpathway.find(params[:gpathway_id])
     @greaction = Greaction.new
-    #@greactions = Greaction.all
+
     respond_to do |format|
       format.html
       format.js
@@ -10,16 +10,23 @@ class GreactionsController < ApplicationController
   end
   
   def create
+    @gpathway = Gpathway.find(params[:gpathway_id])
     require 'net/http'
     require 'uri'
     get_glycanid(greaction_params[:reactant], params[:textype1])
     get_glycanid(greaction_params[:product], params[:textype2])
-    
-    @gpathway = Gpathway.find(params[:gpathway_id])
+    #sid = params[:greaction][:sugar_id]
+    sugarid = Sugar.find_by(id: params[:greaction][:sugar_id])
+    @sugar = sugarid.name
+    sugar_onto_id = sugarid.onto_id
+    #p sid
+    p sugarid
     new_params2 = greaction_params
     new_params2[:reactant_img] = @reactant_img     # !!입력으로 받은 문자열을 TouCanID로 바꿔서 이 ID를 :reactant_img에 넣어주고 표시는 glycosmos image convert API를 이용하여 show 에서 한다.
     new_params2[:product_img] = @product_img
-    #new_params2[:sugar_nt] = params[:sugar][:name]
+    new_params2[:sugar_nt] = @sugar
+    new_params2[:sugar_onto_id] = sugar_onto_id
+
     @greaction = @gpathway.greactions.create(new_params2)
     redirect_back(fallback_location: root_path)
     # redirect_to gpathway_path(@gpathway)  
@@ -31,7 +38,7 @@ class GreactionsController < ApplicationController
     title = @greaction.rxnid
     
     if @greaction.destroy
-      flash[:notice] = "\"#{title}\" was deleted successfully."
+      flash[:notice] = "\"#{title}\" reaction was deleted successfully."
       redirect_back(fallback_location: root_path)
     else
       flash[:error] = "There was an error deleting the reaction."
@@ -63,7 +70,7 @@ class GreactionsController < ApplicationController
   private
  
   def greaction_params
-    params.require(:greaction).permit(:rxnid, :reactant, :enzyme_name, :sugar_nt, :product, :cellular_locate, :reactant_img, :product_img)
+    params.require(:greaction).permit(:sugar_id, :rxnid, :reactant, :enzyme_name, :sugar_nt, :product, :cellular_locate)
 
   end
 
