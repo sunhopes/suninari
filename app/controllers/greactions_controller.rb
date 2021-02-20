@@ -6,6 +6,7 @@ class GreactionsController < ApplicationController
     respond_to do |format|
       format.html
       format.js
+      #format.json { render json: json_file }
     end
   end
   
@@ -20,7 +21,7 @@ class GreactionsController < ApplicationController
     @sugar = sugarid.name
     sugar_onto_id = sugarid.onto_id
     #p sid
-    p sugarid
+    #p sugarid
     new_params2 = greaction_params
     new_params2[:reactant_img] = @reactant_img     # !!입력으로 받은 문자열을 TouCanID로 바꿔서 이 ID를 :reactant_img에 넣어주고 표시는 glycosmos image convert API를 이용하여 show 에서 한다.
     new_params2[:product_img] = @product_img

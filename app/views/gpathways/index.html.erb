@@ -34,4 +34,17 @@
       </table>
     </div>
   </div>
+  <hr>
+  <h5 class="tableUpload">[Pathway Table Upload]</h5><br>
+    <div id ="file_download">
+        <%= link_to 'Reaction Format Download', {controller: :gpathways, action: :download_file}, method: :get, class: 'btn btn-info' %></div><br>
+    <div id ="file_upload">
+        <%= form_tag({ action: :upload }, multipart: true) do %>
+        <table><tr>
+            <td><%= file_field_tag :fileupload %></td>
+            <td><%= submit_tag("Upload", :style => "color:blue;") %></td></tr>
+        </table>
+        <% end %></div>
+    <hr>
+
 </div>

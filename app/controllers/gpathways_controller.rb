@@ -59,6 +59,34 @@ class GpathwaysController < ApplicationController
      end
   end
 
+  def download_file
+    send_file "public/docs/input_Format.csv"
+  end
+
+  def upload
+    file = params[:fileupload]
+    name = file.original_filename
+    session[:file_name] = name
+    permit_file = ['.csv','.tsv','.txt']
+    # @name_test = name
+    if permit_file.include?(File.extname(name))
+          File.open("public/docs/#{name}", 'wb') { |f| f.write(file.read) }
+          @file_result = "#{name}"
+    elsif
+          @file_result = "Check your file format!"
+    end
+    require 'csv'
+    # @line_count = File.readlines("public/docs/#{name}").size
+    @rowArray = Array.new
+    CSV.foreach("public/docs/#{name}", headers: true) do |row|
+        @rowArray << row
+    end
+    session[:file_Array] = @rowArray
+        # @f_text_test = @rowArray[0][1]
+        # @f_fig_test = 'https://api.glycosmos.org/wurcs2image/experimental/png/binary/' + @f_text_test
+    #@f_fig_api = 'https://api.glycosmos.org/wurcs2image/experimental/png/binary/'
+  end
+
   private
   def gpathway_params
     params.require(:gpathway).permit(:title, :description, :species, :tissue, :cell_line, :bind_backbone)

@@ -3,7 +3,7 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-6 mx-auto">
-          <h2>New Pathway</h2>
+          <h2>New Glycosylation Pathway</h2>
           <%#= render 'gpathways/pform', gpathway: @gpathway %>
         
           <%= form_with model: @gpathway, local: true do |f| %>
@@ -33,12 +33,17 @@
                 <%= f.text_field :bind_backbone, class: "form-control" %>
                 </div>
                 <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <%= f.submit "Save Change", class: "btn btn-primary" %>
+                <%= link_to  gpathways_path, class: "btn btn-secondary"  do %>
+                  <span>Pathway List</span>
+                <% end%>
+                <%= f.submit "Save New Pathway", class: "btn btn-primary" %>
                 </div> 
               </div>
           <% end %>
         </div>
     </div>
 </div>
+
+<p>hello</p>
+<%#=javascript_include_tag "gpathways.js" %>
   
