@@ -46,4 +46,30 @@
 
 <p>hello</p>
 <%#=javascript_include_tag "gpathways.js" %>
-  
+<script>
+  $(function(){
+    var cell_line_url = "http://localhost:3003/sparqlist/api/CelllineOnto";
+    xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", cell_line_url, false);
+    xmlHttp.send(null);
+    var result = JSON.parse(xmlHttp.responseText);
+      //console.log(result)
+      let jlen = result.length;
+      var cell_line_list = [];
+      for(i=0; i<jlen; i++) {
+          cell_line_list.push(result[i]['cellLine_name']);
+        }
+      var cell_line_list = Array.from( new Set(cell_line_list) );
+      $("#gpathway_cell_line").autocomplete({
+        source: cell_line_list,
+        delay: 300,
+        minLength: 2
+        });
+  })
+</script>
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- jQuery UI -->
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    
