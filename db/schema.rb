@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_09_082043) do
+ActiveRecord::Schema.define(version: 2021_02_25_063218) do
 
   create_table "gpathways", force: :cascade do |t|
     t.string "title"
@@ -22,6 +22,11 @@ ActiveRecord::Schema.define(version: 2021_02_09_082043) do
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "pw_category"
+    t.string "pw_category_id"
+    t.string "species_id"
+    t.string "tissue_id"
+    t.string "cell_line_id"
   end
 
   create_table "greactions", force: :cascade do |t|

@@ -12,6 +12,7 @@ class GpathwaysController < ApplicationController
 
   def new
     @gpathway = Gpathway.new
+  
   end
 
   def create
@@ -89,7 +90,7 @@ class GpathwaysController < ApplicationController
 
   private
   def gpathway_params
-    params.require(:gpathway).permit(:title, :description, :species, :tissue, :cell_line, :bind_backbone)
+    params.require(:gpathway).permit(:title, :description, :species, :pw_category, :tissue, :cell_line, :bind_backbone)
 
   end
 end

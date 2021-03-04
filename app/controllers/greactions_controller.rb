@@ -15,18 +15,19 @@ class GreactionsController < ApplicationController
     require 'net/http'
     require 'uri'
     get_glycanid(greaction_params[:reactant], params[:textype1])
-    get_glycanid(greaction_params[:product], params[:textype2])
+    
+    new_params2 = greaction_params
+    new_params2[:reactant_img] = @reactant_img     # !!입력으로 받은 문자열을 TouCanID로 바꿔서 이 ID를 :reactant_img에 넣어주고 표시는 glycosmos image convert API를 이용하여 show 에서 한다.
     #sid = params[:greaction][:sugar_id]
     sugarid = Sugar.find_by(id: params[:greaction][:sugar_id])
     @sugar = sugarid.name
     sugar_onto_id = sugarid.onto_id
     #p sid
     #p sugarid
-    new_params2 = greaction_params
-    new_params2[:reactant_img] = @reactant_img     # !!입력으로 받은 문자열을 TouCanID로 바꿔서 이 ID를 :reactant_img에 넣어주고 표시는 glycosmos image convert API를 이용하여 show 에서 한다.
-    new_params2[:product_img] = @product_img
     new_params2[:sugar_nt] = @sugar
     new_params2[:sugar_onto_id] = sugar_onto_id
+    get_glycanid(greaction_params[:product], params[:textype2])
+    new_params2[:product_img] = @product_img
 
     @greaction = @gpathway.greactions.create(new_params2)
     redirect_back(fallback_location: root_path)

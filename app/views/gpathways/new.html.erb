@@ -1,53 +1,121 @@
 <%= render 'error', gpathway: @gpathway %>
-
-<div class="container mt-5">
+<section class="mt-2 ml-3 pt-2 pb-5">
+  <div class="container mt-3">
+    <h2>Basic Information of Glycosylation Pathway</h2>
     <div class="row">
-        <div class="col-6 mx-auto">
-          <h2>New Glycosylation Pathway</h2>
-          <%#= render 'gpathways/pform', gpathway: @gpathway %>
-        
-          <%= form_with model: @gpathway, local: true do |f| %>
-              <div class="modal-body">
-                <div class="form-group">
-                <label>Title</label>
-                <%= f.text_field :title, class: "form-control" %>
-                </div>
-                <div class="form-group">
-                <label>Description</label>
-                <%= f.text_area :description, class: "form-control" %>
-                </div>
-                <div class="form-group">
-                <label>Species</label>
-                <%= f.text_field :species, class: "form-control" %>
-                </div>
-                <div class="form-group">
-                <label>Tissue</label>
-                <%= f.text_field :tissue, class: "form-control" %>
-                </div>
-                <div class="form-group">
-                <label>Cell Line</label>
-                <%= f.text_field :cell_line, class: "form-control" %>
-                </div> 
-                <div class="form-group">
-                <label>Binding Site</label>
-                <%= f.text_field :bind_backbone, class: "form-control" %>
-                </div>
-                <div class="modal-footer">
-                <%= link_to  gpathways_path, class: "btn btn-secondary"  do %>
-                  <span>Pathway List</span>
-                <% end%>
-                <%= f.submit "Save New Pathway", class: "btn btn-primary" %>
-                </div> 
+      <div class="col-4 mx-auto">
+        <ul>
+          <li class="jstree-open" id="node_1">Tissue </li>
+          <li class="jstree-clicked">
+            <div id="tissue_select"></div>
+          </li>
+        </ul>
+      </div>
+      <%# <div  class="col-5 pt-4" id="pw_category">
+      </div> %>
+      <div class="col-6 mx-auto">
+        <%#= render 'gpathways/pform', gpathway: @gpathway %>
+        <%= form_with model: @gpathway, local: true do |f| %>
+            <div class="">
+              <div class="form-group">
+              <label>Title</label>
+              <%= f.text_field :title, class: "form-control" %>
               </div>
-          <% end %>
-        </div>
+              <div class="form-group">
+              <label>Description</label>
+              <%= f.text_area :description, class: "form-control" %>
+              </div>
+              <div class="form-group">
+              <label>Species</label>
+              <%= f.text_field :species, class: "form-control", placeholder: "Type species(e.g. Homo sapiense)" %>
+              </div>
+              <div class="form-group">
+              <label>Pathway Category</label>
+              <%= f.text_field :pw_catagory, class: "form-control" %>
+              </div>
+              <div class="form-group">
+              <label>Tissue</label>
+              <%= f.text_field :tissue, class: "form-control" %>
+              </div>
+              <div class="form-group">
+              <label>Cell Line</label>
+              <%= f.text_field :cell_line, class: "form-control", placeholder: "Type your cell line(e.g. Hela)" %>
+              </div> 
+              <div class="form-group">
+              <label>Binding Site</label><br>
+                <%= f.select :bind_backbone, [ ['N-glycan', 'http://glycomics.ccrc.uga.edu/ontologies/GlycO#N-glycan'], ['O-glycan', 'http://glycomics.ccrc.uga.edu/ontologies/GlycO#O-glycan'], ['Lipid moiety', 'http://glycomics.ccrc.uga.edu/ontologies/GlycO#lipid_moiety'] ], include_blank: "Select your glycan type", class: "form-control" %>
+              </div>
+              <div class="modal-footer">
+              <%= link_to  gpathways_path, class: "btn btn-secondary"  do %>
+                <span>Pathway List</span>
+              <% end%>
+              <%= f.submit "Save New Pathway", class: "btn btn-primary" %>
+              </div> 
+            </div>
+        <% end %>
+      </div>
     </div>
-</div>
+    <div class="row">
+      <div class="col-4 mx-auto">
+          <ul>
+          <li class="jstree-open" id="node_1">Pathway Category 
+            <ul>
+              <li class="jstree-closed">
+                <div id="pw_category"></div>
+              </li>
+            </ul>
+          </li>
+          </ul>
+        </div>
+      </div>
+  </div>
+</section>
 
-<p>hello</p>
-<%#=javascript_include_tag "gpathways.js" %>
-<script>
+
+
+<!-- For jsTree -->
+<script type="text/javascript">
   $(function(){
+    var pw_url = "http://localhost:3003/sparqlist/api/PW_category";
+    $('#pw_category').jstree({ 
+        'core' : {
+          'data' : [    
+  {
+    "id": "http://purl.obolibrary.org/obo/PW_0000002",
+    "parent": "#",
+    "text": "classic metabolic pathway"
+  },
+  
+    　　　　　　　] 
+          // 'data' : {
+          //     'url' : pw_url,
+          //     'data' : function (node) {
+          //       return { 'id': node.text };
+          //     } 
+          //   }    
+          }
+        });
+  })
+</script>
+<%# <script>
+  $(function(){
+    var tissue_url = "http://localhost:3003/sparqlist/api/Tissue_Onto";
+    $('#tissue_select').jstree({ 
+      'core' : { 
+        'data' : {
+            'url' : tissue_url,
+            'data' : function (node) {
+              　return { 'id': node.text };
+            } 
+          }    
+        }
+      });
+  })
+</script> %>
+<%#=javascript_include_tag "gpathways.js" %>
+<!-- For autocomplete -->
+<script>
+ $(function(){
     var cell_line_url = "http://localhost:3003/sparqlist/api/CelllineOnto";
     xmlHttp = new XMLHttpRequest();
     xmlHttp.open("GET", cell_line_url, false);
@@ -67,9 +135,33 @@
         });
   })
 </script>
+<%# <script>
+ $(function(){
+    var species_url = "http://localhost:3003/sparqlist/api/uniprot_archaea_taxon";
+    species_xmlHttp = new XMLHttpRequest();
+    species_xmlHttp.open("GET", species_url, false);
+    species_xmlHttp.send(null);
+    var species_result = JSON.parse(species_xmlHttp.responseText);
+      console.log(species_result)
+      let jlen = species_result.length;
+      var species_list = [];
+      for(i=0; i<jlen; i++) {
+          species_list.push(species_result[i]['SC-Name']);
+        }
+      var species_list = Array.from( new Set(species_list) );
+      $("#gpathway_species").autocomplete({
+        source: species_list,
+        delay: 300,
+        minLength: 2
+        });
+  })
+</script> %>
 <!-- jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <!-- jQuery UI -->
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-    
+<!-- jstree -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+   

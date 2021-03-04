@@ -29,7 +29,7 @@
         <%= f.text_field :product, class: "form-control" %></div> 
       <div class="form-group">
         <label>Cellular Localizaiton</label>
-        <%= f.text_field  :cellular_locate, input_html: { autocomplete: 'on' }, class: "form-control"  %></div>
+        <%= f.text_field  :cellular_locate, class: "form-control", placeholder: "Type your cellular localizaton(e.g. golgi)"  %></div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -40,13 +40,42 @@
 
 <%#=javascript_include_tag "greactions.js" %>
 
-<%# <script>
-$(function(){
-  $('#greacton_cellular_locate').autocomplete({
-    source: ['green','grey','white','yellow','red']
-  });
-})
-</script> %>
+<!-- For autocomplete -->
+<script>
+ $(function(){
+    var cell_comp_url = "http://localhost:3003/sparqlist/api/Cellular_Compartment";
+    cell_comp_xmlHttp = new XMLHttpRequest();
+    cell_comp_xmlHttp.open("GET", cell_comp_url, false);
+    cell_comp_xmlHttp.send(null);
+    var cell_comp_result = JSON.parse(cell_comp_xmlHttp.responseText);
+      console.log(cell_comp_result)
+      let jlen = cell_comp_result.length;
+      var cell_comp_list = [];
+      for(i=0; i<jlen; i++) {
+          cell_comp_list.push(cell_comp_result[i]['cell_comp_name']);
+        }
+      var cell_comp_list = Array.from( new Set(cell_comp_list) );
+      console.log(cell_comp_list);
+      $("#greaction_cellular_locate").autocomplete({
+        source: cell_comp_list,
+        delay: 300,
+        minLength: 2
+        });
+  })
+</script>
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- jQuery UI -->
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+<!-- jstree -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+   
+<%# <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> %>
+<!-- jQuery UI -->
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
 
 
 
