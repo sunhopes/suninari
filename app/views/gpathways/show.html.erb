@@ -39,19 +39,7 @@
 <%
 =begin  
 %>
-<!-- Modal for Edit Gpathway -->
-<div class="container mt-2">
-  <div class="row">
-    <div class="col-3 sidebar">  
-      <!-- Modal Button of Gpathway Edit -->
-      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#pathwayModal">
-        Edit of Pathway information
-      </button>
-    </div>
-  </div>
-</div>   
-      <!-- Modal body for gpathway edit-->
-      <%=render 'pathwayForm' %><br>
+
 
 
 <div class="container">
@@ -73,27 +61,7 @@
         <!-- Modal body for New Reaction-->
         <%#=render 'greactions/modalRform', gpathway: @gpathway, greaction: @greaction %>
         <%=render partial: "greactions/modalRform", locals: { gpathway: @gpathway, greaction: @greaction } %>
-<!-- Modal for Edit reaction  --> 
-  <span>       
-  <div class="container mt-2">
-    <div class="row">
-      <div class="col-6 sidebar">  
-        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#edit_reactionModal">
-          Edit Reaction
-        </button>
-      </div>
-      <%# <div class="col-9 greactions">   이 부분이 화면이 바꾸지 않고 보여주고 싶은 부분이고 class를 잡아서 (.greactions) js 화일에 적어주면 된다. 난 경우가 다르다.
-        <%=render 'rform', %>
-      <%# </div>  %>
-    </div>
-  </div>
-  </span>
-        <!-- Modal body for Edit Reaction-->
-        <% @gpathway.greactions.each do |greaction|%>
-          <%#=render 'greactions/modalERform', gpathway: @greaction.gpathway, greaction: greaction %>
-          <%=render partial: "greactions/modalERform", locals: { gpathway: @gpathway, greaction: greaction.id } %>
-        <% end %>
-</div>
+
 <%
 =end
 %>
@@ -152,5 +120,4 @@
 </div>
 <script src = "https://glycosmos-layout.glycosmos.org/bundle.js"></script>
 
-<%#=javascript_include_tag "gpathways.js" %>
-<%# <input type="text" id="test2" placeholder="Search"> %>
+
