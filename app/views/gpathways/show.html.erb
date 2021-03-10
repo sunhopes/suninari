@@ -1,70 +1,75 @@
 <%=render 'gpathways/error' %>
 
-<div class="container mt-5">
-<h3>[Pathway Basic information]</h3>
-  <div class="row">
-    <div class="col-6">
-      <div class="container">
-        <div class="card">
-          <div class="card-header"><%= @gpathway.title %></div>
-          <div class="card-body">
-            <h5 class="card-text"><strong>&#149 Description:</strong><p class="tab"><%= simple_format @gpathway.description %></p></h5>
-            <h5 class="card-text"><strong>&#149 Species:</strong>&nbsp<%= @gpathway.species %></h5>
-            <h5 class="card-text"><strong>&#149 Tissue:</strong>&nbsp<%= @gpathway.tissue %></h5>
-            <h5 class="card-text"><strong>&#149 Cell Line:</strong>&nbsp<%= @gpathway.cell_line %></h5>
-            <h5 class="card-text"><strong>&#149 Binding Site:</strong>&nbsp<%= @gpathway.bind_backbone %></h5>
-            <h5 class="card-text"><strong>&#149 Update:&nbsp</strong>&nbsp<%= @gpathway.updated_at.strftime("%Y-%m-%d") %></h5>
-          </div>
-            <% if @gpathway.user == current_user %>
-              <div class="">
+<main class="mt-1 pt-2">
+    <div class="container wow fadeIn">
+       <h2 class="my-5 h2 text-left">Pathway Basic information</h2>
+        <div class="row">
+          <div class="col-md-7 mb-4">
+            <ul class="list-group mb-3 z-depth-1">
+            <li class="list-group-item d-flex justify-content-between bg-light">
+              <div>
+                <h6 class="text-primary">Title</h6>
+                <h5 class="text-muted"><%= @gpathway.title %></h5>
+              </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between lh-condensed">
+              <div>
+                <h6 class="text-primary">Description</h6>
+                <h5 class="text-muted"><%= simple_format @gpathway.description %></h5>
+              </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between bg-light">
+              <div>
+                <h6 class="text-primary">Species</h6>
+                <h5><%= @gpathway.species %></h5>
+              </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between lh-condensed">
+              <div>
+                <h6 class="text-primary">Tissue</h6>
+                <h5 class="text-muted"><%= @gpathway.tissue %></h5>
+              </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between bg-light">
+              <div>
+                <h6 class="text-primary">Cell Line</h6>
+                <h5 class="text-muted"><%= @gpathway.cell_line %></h5>
+              </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between lh-condensed">
+              <div>
+                <h6 class="text-primary">Binding site</h6>
+                <h5 class="text-muted"><%= @gpathway.bind_backbone %></h5>
+              </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between bg-light">
+              <div>
+                <h6 class="text-primary">Regist date</h6>
+                <h5 class="text-muted"><%= @gpathway.updated_at.strftime("%Y-%m-%d") %></h5>
+              </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <% if @gpathway.user == current_user %>
                 <div class="float-left">
-                  <%=link_to 'Pathway List', gpathways_path, class: "btn btn-info btn-lg" %></div>
+                  <%=link_to 'Pathway List', gpathways_path, class: "btn btn-primary btn-lg" %></div>
                 <div class="float-right">
-                  <%=link_to 'Edit', edit_gpathway_path(@gpathway), remote: true, data: { target: '#pathwayModal', toggle: 'modal'}, class: "btn btn-outline-primary btn-lg" %></div>
+                  <%=link_to 'Edit', edit_gpathway_path(@gpathway), remote: true, data: { target: '#pathwayModal', toggle: 'modal'}, class: "btn btn-outline-info btn-lg" %></div>
                   <%#=link_to 'Delete', gpathway_path(@gpathway), method: :delete, class: "btn btn-outline-danger btn-lg", data: { confirm: 'Are you sure?' } %>
                     <div id="pathwayModal" class="modal fade"   tabindex="-1" role="dialog" aria-labelledby="pathwayModalLabel" aria-hidden="true"> 
                       <div class="modal-dialog" role="document">
                         <%=render 'pathwayForm' %>
                       </div>
                     </div>
-              </div>
-            <% end %>
-        </div>    
-      </div>
-    </div>
-  </div>
-</div>
-<br><br>
- 
-<%
-=begin  
-%>
+                </div>
+              <% end %>
+              
+            </li>
+          </ul>
+          </div>
+       </div>
+     </div>
+</main>
 
-
-
-<div class="container">
-<!-- Modal for New reaction  -->
-  <span>
-  <div class="container mt-2">
-    <div class="row">
-      <div class="col-6 sidebar">  
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reactionModal">
-          Add New Reaction
-        </button>
-      </div>
-      <%# <div class="col-9 greactions">   이 부분이 화면이 바꾸지 않고 보여주고 싶은 부분이고 class를 잡아서 (.greactions) js 화일에 적어주면 된다. 난 경우가 다르다.
-        <%=render 'rform', %>
-      <%# </div>  %>
-    </div>
-  </div> 
-  </span>  
-        <!-- Modal body for New Reaction-->
-        <%#=render 'greactions/modalRform', gpathway: @gpathway, greaction: @greaction %>
-        <%=render partial: "greactions/modalRform", locals: { gpathway: @gpathway, greaction: @greaction } %>
-
-<%
-=end
-%>
 <!-- Reaction Index -->
 
 <div class="container mt-11">

@@ -1,45 +1,49 @@
 <%= render 'error', gpathway: @gpathway %>
-<section class="mt-2 ml-3 pt-2 pb-5">
+<section class="mt-2 ml-1 pt-2 pb-5">
   <div class="container mt-3">
     <h2>Basic Information of Glycosylation Pathway</h2>
     <div class="row">
-      <div class="col-6 mx-auto">
+      <div class="col-7 mx-auto">
         <%#= render 'gpathways/pform', gpathway: @gpathway %>
         <%= form_with model: @gpathway, local: true do |f| %>
             <div class="">
               <div class="form-group">
-                <label>Title</label>
+                <label for="gpathway_title">Title</label>
                 <%= f.text_field :title, class: "form-control" %>
               </div>
               <div class="form-group">
-                <label>Description</label>
+                <label for="gpathway_description">Description</label>
                 <%= f.text_area :description, class: "form-control" %>
               </div>
               <div class="form-group">
-                <label>Species</label>
+                <label for="gpathway_species">Species</label>
                 <%= f.text_field :species, class: "form-control", placeholder: "Type species(e.g. Homo sapiense)" %>
+                <%= f.hidden_field :species_id, class: "form-control"%>
               </div>
               <div class="form-group">
-                <label>Pathway Category</label>
+                <label for="gpathway_pw_category">Pathway Category</label>
                   <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#pwOntoModal">
                     Select </button>
                 <%= f.text_field :pw_category, class: "form-control" %>
+                <%= f.hidden_field :pw_category_id, class: "form-control"%>
               </div>
               <div class="form-group">
-                <label>Tissue</label>
+                <label for="gpathway_tissue">Tissue</label>
                   <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#tissueOntoModal">
                     Select </button>
                 <%= f.text_field :tissue, class: "form-control" %>
+                <%= f.hidden_field :tissue_id, class: "form-control"%>
               </div>
               <div class="form-group">
-                <label>Cell Line</label>
+                <label for="gpathway_cell_line">Cell Line</label>
                 <%= f.text_field :cell_line, class: "form-control", placeholder: "Type your cell line(e.g. Hela)" %>
+                <%= f.hidden_field :cell_line_id, class: "form-control"%>
               </div> 
               <div class="form-group">
-                <label>Binding Site</label><br>
-                  <%= f.select :bind_backbone, [ ['N-glycan', 'http://glycomics.ccrc.uga.edu/ontologies/GlycO#N-glycan'], ['O-glycan', 'http://glycomics.ccrc.uga.edu/ontologies/GlycO#O-glycan'], ['Lipid moiety', 'http://glycomics.ccrc.uga.edu/ontologies/GlycO#lipid_moiety'] ], include_blank: "Select your glycan type", class: "form-control" %>
+                <label for="gpathway_bind_backbone">Binding Site</label><br>
+                  <%= f.select :bind_backbone, [ ['N-glycan', 'N-glycan' ], ['O-glycan', 'O-glycan' ], ['Lipid moiety', 'Lipid moiety']], include_blank: "Select your glycan type", class: "form-select form-select-lg mb-3" %>
               </div>
-              <div class="modal-footer">
+              <div class="form-group">
                 <%= link_to  gpathways_path, class: "btn btn-secondary"  do %>
                   <span>Pathway List</span>
                 <% end%>
@@ -108,9 +112,13 @@
     $('#pw_category').bind("select_node.jstree", function (event, data) {
         var node_id = data.instance.get_node(data.selected).id;        //id 가져오기
         var node_text = data.instance.get_node(data.selected).text;    //text 가져오기
-        console.log("id= "+ node_id + " text = " + node_text);      
-      　document.getElementById("gpathway_pw_category").value = node_text;
-      });    
+        //console.log("id= "+ node_id + " text = " + node_text);      
+          document.getElementById("gpathway_pw_category").value = node_text;
+          document.getElementById("gpathway_pw_category_id").value = node_id;
+        // this.closeAll = function() {
+        //   $tree.jstree("close_all");
+        //   };
+    });
   })
 </script>
 <script>
@@ -129,34 +137,13 @@
     $('#tissue_select').bind("select_node.jstree", function (event, data) {
       var node_id = data.instance.get_node(data.selected).id;        //id 가져오기
       var node_text = data.instance.get_node(data.selected).text;    //text 가져오기
-      console.log("id= "+ node_id + " text = " + node_text);     
+      //console.log("id= "+ node_id + " text = " + node_text);     
       document.getElementById("gpathway_tissue").value = node_text;
+      document.getElementById("gpathway_tissue_id").value = node_id;
       });
   })
 </script>
-<%# =javascript_include_tag "gpathways.js" %>
-<!-- autocomplete for cell line-->
-<script>
- $(function(){
-    var cell_line_url = "http://localhost:3003/sparqlist/api/CelllineOnto";
-    xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", cell_line_url, false);
-    xmlHttp.send(null);
-    var result = JSON.parse(xmlHttp.responseText);
-      //console.log(result)
-      let jlen = result.length;
-      var cell_line_list = [];
-      for(i=0; i<jlen; i++) {
-          cell_line_list.push(result[i]['cellLine_name']);
-        }
-      var cell_line_list = Array.from( new Set(cell_line_list) );
-      $("#gpathway_cell_line").autocomplete({
-        source: cell_line_list,
-        delay: 300,
-        minLength: 2
-        });
-  })
-</script>
+<!-- autocomplete for Taxon-->
 <script>
  $(function(){
     var species_url = "https://sparqlist.glycosmos.org/sparqlist/api/glytoucan_taxon_list";
@@ -178,6 +165,45 @@
           });
   })
 </script>
+<!-- autocomplete for cell line-->
+<script>
+ $(function(){
+    var cell_line_url = "http://localhost:3003/sparqlist/api/CelllineOnto";
+    xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", cell_line_url, false);
+    xmlHttp.send(null);
+    var results = JSON.parse(xmlHttp.responseText);
+    
+      $("#gpathway_cell_line").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+              url: cell_line_url, 
+              dataType: "json",
+              success: function(data) {
+                response(
+                  $.map(data, function (item) {
+                    //console.log(item);
+                    return { label: item.cellLine_name,
+                             value: item.cellLine_name,
+                             'data-id': item.CellID  //ontology를 얻기위해서 변수를 만듬.
+                    } 
+                  })
+                );
+              },
+            });
+        },
+        select: function( event, ui ) {
+                //console.log(ui.item.value);
+                $('#gpathway_cell_line_id').val(`${ui.item['data-id']}`);   //ontology ID 얻기
+        },
+        delay: 300,
+        minLength: 2,
+        autoFocus: true
+      });
+})
+</script>
+
+<%# =javascript_include_tag "gpathways.js" %>
 <!-- jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <!-- jQuery UI -->
@@ -186,4 +212,5 @@
 <!-- jstree -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+   
    

@@ -72,7 +72,7 @@ class GreactionsController < ApplicationController
   private
  
   def greaction_params
-    params.require(:greaction).permit(:sugar_id, :rxnid, :reactant, :enzyme_name, :sugar_nt, :product, :cellular_locate)
+    params.require(:greaction).permit(:sugar_onto_id, :rxnid, :reactant, :enzyme_name, :sugar_nt, :product, :cellular_locate, :cellcomp_onto_id)
 
   end
 

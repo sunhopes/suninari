@@ -90,7 +90,7 @@ class GpathwaysController < ApplicationController
 
   private
   def gpathway_params
-    params.require(:gpathway).permit(:title, :description, :species, :pw_category, :tissue, :cell_line, :bind_backbone)
+    params.require(:gpathway).permit(:title, :description, :species, :species_id, :pw_category, :pw_category_id, :tissue, :tissue_id, :cell_line, :cell_line_id, :bind_backbone)
 
   end
 end
