@@ -18,6 +18,7 @@ class GpathwaysController < ApplicationController
   def create
     @gpathway = Gpathway.new(gpathway_params)
     @gpathway.user_id = current_user.id
+    #puts params[:gpathway_bind_backbone][:value]
     if @gpathway.save
       redirect_to gpathway_path(@gpathway), notice: "Your pathway is successfully saved." #@gpathway는 id
     else

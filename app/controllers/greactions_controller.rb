@@ -14,7 +14,7 @@ class GreactionsController < ApplicationController
     @gpathway = Gpathway.find(params[:gpathway_id])
     require 'net/http'
     require 'uri'
-    get_glycanid(greaction_params[:reactant], params[:textype1])
+    get_glycanid(greaction_params[:reactant], params[:textype1]) #함수호출
     
     new_params2 = greaction_params
     new_params2[:reactant_img] = @reactant_img     # !!입력으로 받은 문자열을 TouCanID로 바꿔서 이 ID를 :reactant_img에 넣어주고 표시는 glycosmos image convert API를 이용하여 show 에서 한다.
@@ -31,7 +31,7 @@ class GreactionsController < ApplicationController
 
     @greaction = @gpathway.greactions.create(new_params2)
     redirect_back(fallback_location: root_path)
-    # redirect_to gpathway_path(@gpathway)  
+    # redirect_to gpathway_path(@gpathway)   
   end
   
   def destroy
@@ -72,8 +72,7 @@ class GreactionsController < ApplicationController
   private
  
   def greaction_params
-    params.require(:greaction).permit(:sugar_onto_id, :rxnid, :reactant, :enzyme_name, :sugar_nt, :product, :cellular_locate, :cellcomp_onto_id)
-
+    params.require(:greaction).permit(:sugar_onto_id, :sugar_id, :rxnid, :reactant, :enzyme_name, :sugar_nt, :product, :cellular_locate, :enzyme_onto_id, :cellcomp_onto_id, :gpathway_id)
   end
 
   def get_glycanid(param_glycan, text_type)

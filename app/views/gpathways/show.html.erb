@@ -73,7 +73,7 @@
 <!-- Reaction Index -->
 
 <div class="container mt-11">
-<h3>[Reaction Table]</h3>
+<h3>Reaction Table</h3>
   <table class="table table-hover">
     <thead class="thead-light">
       <tr>
@@ -83,12 +83,12 @@
         <th class="text-center">Sugar Nucleotide</th>
         <th class="text-center">Product</th>
         <th class="text-center">Cell Location</th>
-        <th colspan="6">Action&nbsp;&nbsp;
-           <%= link_to new_gpathway_greaction_path(@gpathway), id: 'newReaction', remote: true, data: { target: '#reactionModal', toggle: 'modal'}, class: 'btn btn-primary btn-sm' do %>
-            <i class="fas fa-plus-square"></i><% end %>
-              <div id="reactionModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="reactionModalLabel" aria-hidden="true"> 
-                <div class="modal-dialog" role="document"></div>
-              </div>
+        <th colspan="７">Action&nbsp;&nbsp;
+          <%= link_to new_gpathway_greaction_path(@gpathway), id: 'newReaction', remote: true, data: { target: '#reactionModal', toggle: 'modal'}, class: 'btn btn-primary btn-sm' do %>
+          <i class="fas fa-plus-square"></i><% end %>
+            <div id="reactionModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="reactionModalLabel" aria-hidden="true"> 
+              <div class="modal-dialog" role="document"></div>
+            </div>
         </th>
       </tr>
     </thead>
@@ -102,27 +102,27 @@
           <td><glytoucan-image accession="<%=greaction.product_img %>" imageApi="https://api.glycosmos.org/wurcs2image/experimental/png/binary/" ></glytoucan-image></td>
           <td><%=greaction.cellular_locate%></td>
           <td>
-              <%= link_to new_gpathway_greaction_path(@gpathway), id: 'newReaction', remote: true, data: { target: '#reactionModal', toggle: 'modal'}, class: 'btn btn-primary btn-sm' do %>
-                <i class="fas fa-plus-square"></i><% end %>
-                <div id="reactionModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="reactionModalLabel" aria-hidden="true"> 
-                  <div class="modal-dialog" role="document">
-                  </div>
+            <%= link_to new_gpathway_greaction_path(@gpathway), id: 'newReaction', remote: true, data: { target: '#reactionModal', toggle: 'modal'}, class: 'btn btn-primary btn-sm' do %>
+              <i class="fas fa-plus-square"></i><% end %>
+              <div id="reactionModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="reactionModalLabel" aria-hidden="true"> 
+                <div class="modal-dialog" role="document">
                 </div>
-              <%= link_to edit_gpathway_greaction_path(@gpathway, greaction.id), remote: true, data: { target: '#edit_reactionModal', toggle: 'modal'}, class: 'btn btn-success btn-sm' do %>
-                 <i class="fas fa-edit"></i><% end %>
-                <div id="edit_reactionModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="edit_reactionLabel" aria-hidden="true"> 
-                  <div class="modal-dialog2" role="document">
-                    <%=render 'greactions/modalERform', gpathway: @gpathway, greaction: greaction.id  %>
-                  </div>
+              </div>
+            <%= link_to edit_gpathway_greaction_path(@gpathway, greaction.id), remote: true, data: { target: '#edit_reactionModal', toggle: 'modal'}, class: 'btn btn-success btn-sm' do %>
+                <i class="fas fa-edit"></i><% end %>
+              <div id="edit_reactionModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="edit_reactionLabel" aria-hidden="true"> 
+                <div class="modal-dialog2" role="document">
+                  <%=render 'greactions/modalERform', gpathway: @gpathway, greaction: greaction.id  %>
                 </div>
-              <%= link_to gpathway_greaction_path(@gpathway, greaction), class: 'btn btn-danger btn-sm', method: :delete, data: { confirm: 'Are you sure?' }  do %>
-                 <i class="fas fa-trash-alt"></i><% end %>
+              </div>
+            <%= link_to gpathway_greaction_path(@gpathway, greaction), class: 'btn btn-danger btn-sm', method: :delete, data: { confirm: 'Are you sure?' }  do %>
+              <i class="fas fa-trash-alt"></i><% end %>
           </td>  
         </tr> 
       <% end %>
     </tbody>
   </table>
 </div>
-<script src = "https://glycosmos-layout.glycosmos.org/bundle.js"></script>
+
 
 

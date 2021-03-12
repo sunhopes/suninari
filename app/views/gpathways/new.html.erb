@@ -41,7 +41,7 @@
               </div> 
               <div class="form-group">
                 <label for="gpathway_bind_backbone">Binding Site</label><br>
-                  <%= f.select :bind_backbone, [ ['N-glycan', 'N-glycan' ], ['O-glycan', 'O-glycan' ], ['Lipid moiety', 'Lipid moiety']], include_blank: "Select your glycan type", class: "form-select form-select-lg mb-3" %>
+                  <%= f.select :bind_backbone, options_for_select([['N-glycan', 'http://glycomics.ccrc.uga.edu/ontologies/GlycO#N-glycan' ], ['O-glycan', 'http://glycomics.ccrc.uga.edu/ontologies/GlycO#O-glycan' ], ['Lipid moiety', 'http://glycomics.ccrc.uga.edu/ontologies/GlycO#lipid_moiety']]), include_blank: "Select your glycan type", class: "form-select form-select-lg mb-3" %>
               </div>
               <div class="form-group">
                 <%= link_to  gpathways_path, class: "btn btn-secondary"  do %>
@@ -121,6 +121,7 @@
     });
   })
 </script>
+<!-- jsTree for tissue ontology -->
 <script>
   $(function(){
     var tissue_url = "http://localhost:3003/sparqlist/api/Tissue_Onto";
@@ -173,7 +174,6 @@
     xmlHttp.open("GET", cell_line_url, false);
     xmlHttp.send(null);
     var results = JSON.parse(xmlHttp.responseText);
-    
       $("#gpathway_cell_line").autocomplete({
         source: function (request, response) {
             $.ajax({
@@ -184,8 +184,8 @@
                   $.map(data, function (item) {
                     //console.log(item);
                     return { label: item.cellLine_name,
-                             value: item.cellLine_name,
-                             'data-id': item.CellID  //ontology를 얻기위해서 변수를 만듬.
+                            value: item.cellLine_name,
+                            'data-id': item.CellID  //ontology를 얻기위해서 변수를 만듬.
                     } 
                   })
                 );
@@ -194,7 +194,7 @@
         },
         select: function( event, ui ) {
                 //console.log(ui.item.value);
-                $('#gpathway_cell_line_id').val(`${ui.item['data-id']}`);   //ontology ID 얻기
+            $('#gpathway_cell_line_id').val(`${ui.item['data-id']}`);   //ontology ID 얻기
         },
         delay: 300,
         minLength: 2,
@@ -205,7 +205,7 @@
 
 <%# =javascript_include_tag "gpathways.js" %>
 <!-- jQuery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<%# <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> %>
 <!-- jQuery UI -->
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">

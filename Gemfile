@@ -65,6 +65,7 @@ gem 'devise'
 gem 'bootstrap', '~> 4.4.1'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
+
 gem 'rails-ujs'
 gem 'jquery-turbolinks'
 #gem 'jstree-rails-4'
