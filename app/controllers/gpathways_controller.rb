@@ -1,18 +1,17 @@
 class GpathwaysController < ApplicationController
   before_action :authenticate_user!, except: [:index] #person who don't be logined can see only pathway list.
+  before_action :set_gpathway, only: [:show, :edit, :update, :destroy]
+  
   def index
     @gpathways = Gpathway.all
   end
 
   def show
-    @gpathway = Gpathway.find(params[:id])
     @greaction = Greaction.new   #used by the form of greaction
-    
   end
 
   def new
     @gpathway = Gpathway.new
-  
   end
 
   def create
@@ -27,7 +26,6 @@ class GpathwaysController < ApplicationController
   end
 
   def edit
-    @gpathway = Gpathway.find(params[:id])
     if @gpathway.user_id != current_user.id
        #redirect_to gpathways_path, alert: 'You do not have authority to edit.'
     end
@@ -39,7 +37,6 @@ class GpathwaysController < ApplicationController
 
   def update
     @gpathways = Gpathway.all
-    @gpathway = Gpathway.find(params[:id])
       if @gpathway.update(gpathway_params)
         redirect_to gpathway_path(@gpathway), notice: "Your pathway is edited."
       else
@@ -48,7 +45,6 @@ class GpathwaysController < ApplicationController
   end
 
   def destroy
-     @gpathway = Gpathway.find(params[:id]) 
      @gpathway.destroy
      title = @gpathway.title
      
@@ -90,6 +86,10 @@ class GpathwaysController < ApplicationController
   end
 
   private
+
+  def set_gpathway
+    @gpathway = Gpathway.find(params[:id]) 
+  end
   def gpathway_params
     params.require(:gpathway).permit(:title, :description, :species, :species_id, :pw_category, :pw_category_id, :tissue, :tissue_id, :cell_line, :cell_line_id, :bind_backbone)
 
