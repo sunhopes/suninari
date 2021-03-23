@@ -21,11 +21,17 @@
     position: absolute;
     z-index: 99999 !important ;
 }
-
+// #pwOntoModal {
+//     position: absolute;
+//     z-index: 99999 !important ;
+// }
 // class 지정이 안됨
 .fa-arrow-alt-right {
      font-size: 30px;
      color: white;
+ }
+ .hide {
+     display: none;
  }
 // .btn {
 //     background: none;

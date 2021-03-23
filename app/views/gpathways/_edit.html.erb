@@ -2,122 +2,89 @@
 
 <div class="container mt-5">
   <div class="row">
-    <div class="col-6 mx-auto">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="pathwayModalLabel">Edit of Pathway information</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
+    <div class="col-6 mx-auto">  
+      <div class="modal-content"> 
+          <div class="modal-header">
+            <h4 class="modal-title">Edit of Pathway information</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+          </div>
         <%= form_with model: @gpathway, url: gpathway_path, remote: true do |f| %>
-        <div class="modal-body">
-          <div class="form-group">
-            <label for="gpathway_title">Title</label>
-            <%= f.text_field :title, class: "form-control" %>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="gpathway_title">Title</label>
+              <%= f.text_field :title, class: "form-control" %>
+            </div>
+            <div class="form-group">
+              <label for="gpathway_description">Description</label>
+              <%= f.text_area :description, class: "form-control" %>
+            </div>
+            <div class="form-group">
+              <label for="gpathway_species">Species</label>
+              <%= f.text_field :species, class: "form-control", placeholder: "Type species(e.g. Homo sapiense)" %>
+              <%= f.hidden_field :species_id, class: "form-control"%>
+            </div>
+            <div class="form-group">
+              <label for="gpathway_pw_category">Pathway Category</label>
+              <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#pwOntoModal">
+                  Select </button> 
+              <%# <a data-toggle="modal" href="#pwOntoModal" class="btn btn-outline-primary btn-sm">Pahway Category</a> %>
+              <%= f.text_field :pw_category, class: "form-control" %>
+              <%= f.hidden_field :pw_category_id, class: "form-control"%>
+            </div>
+            <div class="form-group">
+              <label for="gpathway_tissue">Tissue</label>
+              <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#tissueOntoModal">
+                  Select </button>
+              <%= f.text_field :tissue, class: "form-control" %>
+              <%= f.hidden_field :tissue_id, class: "form-control"%>
+            </div>
+            <div class="form-group">
+              <label for="gpathway_cell_line">Cell Line</label>
+              <%= f.text_field :cell_line, class: "form-control", placeholder: "Type your cell line(e.g. Hela)" %>
+              <%= f.hidden_field :cell_line_id, class: "form-control"%>
+            </div> 
+            <div class="form-group">
+              <label for="gpathway_bind_backbone">Binding Site</label><br>
+              <%= f.select :bind_backbone, [ ['N-glycan', 'N-glycan' ], ['O-glycan', 'O-glycan' ], ['Lipid moiety', 'Lipid moiety']], include_blank: "Select your glycan type", class: "form-select form-select-lg mb-3" %>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="gpathway_description">Description</label>
-            <%= f.text_area :description, class: "form-control" %>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <%= f.submit "Save Change", class: "btn btn-primary" %>
           </div>
-          <div class="form-group">
-            <label for="gpathway_species">Species</label>
-            <%= f.text_field :species, class: "form-control", placeholder: "Type species(e.g. Homo sapiense)" %>
-            <%= f.hidden_field :species_id, class: "form-control"%>
-          </div>
-          <div class="form-group">
-            <label for="gpathway_pw_category">Pathway Category</label>
-            <%# <button class="popOpenBtnCmmn" type="button" data-num="1">Select</button> %>
-            <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#pwOntoModal">
-                Select </button>
-            <%# <a href="#pwOntoModal" role="button" id="modalOpenBtn1" class="btn btn-outline-primary btn-sm" data-toggle="modal" >Select </a> %>
-            <%= f.text_field :pw_category, class: "form-control" %>
-            <%= f.hidden_field :pw_category_id, class: "form-control"%>
-          </div>
-          <div class="form-group">
-            <label for="gpathway_tissue">Tissue</label>
-            <%# <button class="popOpenBtn" type="button" data-num="2">Select</button> %>
-            <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#tissueOntoModal">
-                Select </button>
-            <%= f.text_field :tissue, class: "form-control" %>
-            <%= f.hidden_field :tissue_id, class: "form-control"%>
-          </div>
-          <div class="form-group">
-            <label for="gpathway_cell_line">Cell Line</label>
-            <%= f.text_field :cell_line, class: "form-control", placeholder: "Type your cell line(e.g. Hela)" %>
-            <%= f.hidden_field :cell_line_id, class: "form-control"%>
-          </div> 
-          <div class="form-group">
-            <label for="gpathway_bind_backbone">Binding Site</label><br>
-            <%= f.select :bind_backbone, [ ['N-glycan', 'N-glycan' ], ['O-glycan', 'O-glycan' ], ['Lipid moiety', 'Lipid moiety']], include_blank: "Select your glycan type", class: "form-select form-select-lg mb-3" %>
-          </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <%= f.submit "Save Change", class: "btn btn-primary" %>
-        </div>
         <% end %>
       </div>
     </div>
-  </div>
+  </div> 
 </div>
 
-<!-- Modal for pathway category -->
-<div id="pwOntoModal" class="modal fade" role="dialog" data-backdrop="static">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Pathway Category</h4>
-            </div>
-            <div class="modal-body">
-                <div id="pw_category">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default modal--close" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal for Tissue ontology -->
-<div id="tissueOntoModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Tissue for animal</h4>
-            </div>
-            <div class="modal-body">
-                <div id="tissue_select">
-                </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-primary">Save changes</button>
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
+<%# <script>  //모달 차례로 닫기
+$(function() {
+  $('#pwOntoModal').on({
+    'show.bs.modal': function() {
+      var zIndex = 1040 + (10 * $('.modal:visible').length);
+      $(this).css('z-index', zIndex);
+      setTimeout(function() {
+        $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+      }, 0);
+    },
+    'hidden.bs.modal': function() {
+      if ($('.modal:visible').length > 0) {
+        // restore the modal-open class to the body element, so that scrolling works
+        // properly after de-stacking a modal.
+        setTimeout(function() {
+          $(document.body).addClass('modal-open');
+        }, 0);
+      }
+    }
+  }, '.modal');
+});
+</script> %>
 <!-- For jsTree -->
-
 <script>
-
-
-  $(function(){
-    $("#modalOpenBtn1").click(function(){
-      $("#pwOntoModal").modal({backdrop: "static"});
-    });
-    // $modal = $("#pwOntoModal");
-    // console.log($modal);
-    // $(".modal--close").click(function(){
-    //    $modal.hide();
-    // });
-
+$(function(){
     var pw_url = "http://localhost:3003/sparqlist/api/PW_category";
     //console.log(pw_url);
-    
     $('#pw_category').jstree({ 
         'core' : {
           'data' : {
@@ -129,20 +96,13 @@
           },
         'plugins' :   [ "themes", "json_data", "contextmenu", "search" ] 
       });
-      // $('#pw_category').on('shown.bs.modal', function (e) {
-      // console.log("shown.bs.modal");
-      // });
     $('#pw_category').bind("select_node.jstree", function (event, data) {
         var node_id = data.instance.get_node(data.selected).id;        //id 가져오기
         var node_text = data.instance.get_node(data.selected).text;    //text 가져오기
         //console.log("id= "+ node_id + " text = " + node_text);      
           document.getElementById("gpathway_pw_category").value = node_text;
           document.getElementById("gpathway_pw_category_id").value = node_id;
-        // this.closeAll = function() {
-        //   $tree.jstree("close_all");
-        //   };
     });
-    //$('#pw_category').modal('hide')
   })
 </script>
 
@@ -166,7 +126,7 @@
       //console.log("id= "+ node_id + " text = " + node_text);     
       document.getElementById("gpathway_tissue").value = node_text;
       document.getElementById("gpathway_tissue_id").value = node_id;
-      });
+    });
   })
 </script>
 
@@ -234,7 +194,7 @@
 
 <!-- jQuery UI -->
 <%# <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> %>
-<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+<%# <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css"> %>
 <!-- jstree -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
