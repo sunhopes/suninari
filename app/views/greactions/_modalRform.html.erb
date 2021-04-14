@@ -12,7 +12,8 @@
   <div class="modal-body">
     <div class="form-group" id="reactionId">
       <label for="greaction_rxnid">Reaction ID</label>
-      <%= f.number_field :rxnid, in: 1..50, step: 1, class: "form-control" %></div>
+      <%= f.number_field :rxnid, in: 1..50, step: 1, class: "form-control counter" %>
+      <button type="button" class="btn btn-outline-secondary btn-sm confirmBtn" >Confirm</button></div>
     <div class="form-group">
       <label for="greaction_reactant">Reactant Glycan</label>&nbsp;&nbsp;
       <%= select_tag :textype1, options_for_select([["IUPACcondensed", "iupaccondensed"], ["IUPACextened", "iupacextended"], ["Linear code", "linearcode"]])%><br >
@@ -42,15 +43,10 @@
 
 <%#=javascript_include_tag "greactions.js" %>
 
-<!-- For autocomplete -->
+<!-- For autocomplete, enzyme and cellular_localization -->
 <script>
  $(function(){
     var enzyme_url = "http://localhost:3003/sparqlist/api/uniprot-enzymelist";
-    enzyme_xmlHttp = new XMLHttpRequest();
-    enzyme_xmlHttp.open("GET", enzyme_url, false);
-    enzyme_xmlHttp.send(null);
-    var enzyme_result = JSON.parse(enzyme_xmlHttp.responseText);
-    //console.log(enzyme_result);
       $("#greaction_enzyme_name").autocomplete({
         source: function (request, response) {
             $.ajax({
@@ -60,10 +56,13 @@
                 response(
                   $.map(data, function (item) {
                     //console.log(item);
-                    return { label: item.enzyme_name,
-                             value: item.enzyme_name,
-                             'data-id': item.enzyme_num  //ontology를 얻기위해서 변수를 만듬.
-                    } 
+                    if(item.enzyme_name.search(request.term) >= 0 ){  //문자의 일치 검색
+                      return { 
+                        label: item.enzyme_name,
+                        value: item.enzyme_name,
+                        'data-id': item.enzyme_num  //ontology를 얻기위해서 변수를 만듬.
+                      } 
+                    }
                   })
                 );
               },
@@ -76,16 +75,16 @@
         delay: 300,
         minLength: 2,
         autoFocus: true
-      });
-})
+      })
+});
 </script>
 <script>
  $(function(){
     var cell_comp_url = "http://localhost:3003/sparqlist/api/Cellular_Compartment";
-    cell_comp_xmlHttp = new XMLHttpRequest();
-    cell_comp_xmlHttp.open("GET", cell_comp_url, false);
-    cell_comp_xmlHttp.send(null);
-    var cell_comp_result = JSON.parse(cell_comp_xmlHttp.responseText);
+    // cell_comp_xmlHttp = new XMLHttpRequest();
+    // cell_comp_xmlHttp.open("GET", cell_comp_url, false);
+    // cell_comp_xmlHttp.send(null);
+    // var cell_comp_result = JSON.parse(cell_comp_xmlHttp.responseText);
     //console.log(cell_comp_result);
       $("#greaction_cellular_locate").autocomplete({
         source: function (request, response) {
@@ -96,9 +95,11 @@
                 response(
                   $.map(data, function (item) {
                     //console.log(item);
-                    return { label: item.cell_comp_name,
-                             value: item.cell_comp_name,
-                             'data-id': item.cell_comp_id  //cellular_component ontology를 얻기위해서 변수를 만듬.
+                    if(item.cell_comp_name.search(request.term) >= 0 ){
+                      return { label: item.cell_comp_name,
+                               value: item.cell_comp_name,
+                               'data-id': item.cell_comp_id  //cellular_component ontology를 얻기위해서 변수를 만듬.
+                      }
                     } 
                   })
                 );
@@ -116,6 +117,16 @@
 })
 </script>
 
+<script> 
+
+$('.confirmBtn').click(function() {
+  //var newId = $("#newReaction").data("id");
+  var inputCount = $('.counter').val();
+  var inputNumber = parseInt(inputCount);
+  console.log(inputNumber);
+})
+</script>
+
 <!-- jQuery -->
 <%# <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> %>
 <!-- jQuery UI -->
@@ -123,6 +134,14 @@
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
 
 
+<style>
+.ui-autocomplete {
+    max-height: 500px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+  }
+</style>
 
 
 

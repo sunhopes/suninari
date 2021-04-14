@@ -29,6 +29,7 @@ class GreactionsController < ApplicationController
     new_params2[:product_img] = @product_img
 
     @greaction = @gpathway.greactions.create(new_params2)
+    
     redirect_back(fallback_location: root_path)
     # redirect_to gpathway_path(@gpathway)   
   end

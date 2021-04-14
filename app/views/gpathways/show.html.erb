@@ -1,7 +1,8 @@
+
 <%=render 'gpathways/error' %>
 
 <main class="mt-1 pt-2">
-  <div class="container wow fadeIn">
+  <div class="container fadeIn">
     <h2 class="my-5 h2 text-left">Pathway Basic information</h2>
       <div class="row">
         <div class="col-md-7 mb-4">
@@ -79,7 +80,6 @@
                         <div id="pw_category"></div>
                       </div>
                       <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-primary">Save changes</button>
                       </div>
                     </div>
@@ -114,10 +114,9 @@
 <!-- Reaction Index -->
 <div class="container mt-11">
 <h3>Reaction Table</h3>
-  <table class="table table-hover">
+  <table class="table table-hover" id="rxntable">
     <thead class="thead-light">
       <tr>
-        <th class="hide"></th>
         <th class="text-center">RXN ID</th>
         <th class="text-center">Reactant</th>
         <th class="text-center">Enzyme</th>
@@ -133,18 +132,17 @@
         </th>
       </tr>
     </thead>
-    <tbody>
+    <tbody id="rxnbody">
       <% @gpathway.greactions.each do |greaction|%>
-        <tr>
-          <td class="hide"></td>
-          <td><%=greaction.rxnid%></td>
+        <tr class="rxnrow">
+          <td id='rxnNum'><%=greaction.rxnid%>&nbsp;</td>
           <td><glytoucan-image accession="<%=greaction.reactant_img %>" imageApi="https://api.glycosmos.org/wurcs2image/experimental/png/binary/" ></glytoucan-image></td>
           <td><%=greaction.enzyme_name%></td>
           <td><%=greaction.sugar_nt%></td>
           <td><glytoucan-image accession="<%=greaction.product_img %>" imageApi="https://api.glycosmos.org/wurcs2image/experimental/png/binary/" ></glytoucan-image></td>
           <td><%=greaction.cellular_locate%></td>
           <td>
-            <%= link_to new_gpathway_greaction_path(@gpathway), id: 'newReaction', remote: true, data: { target: '#reactionModal', toggle: 'modal'}, class: 'btn btn-primary btn-sm' do %>
+            <%= link_to new_gpathway_greaction_path(@gpathway), id: 'newReaction' , remote: true, data: { target: '#reactionModal', toggle: 'modal'}, data: { id: greaction.rxnid }, class: 'btn btn-primary btn-sm checkBtn' do %>
               <i class="fas fa-plus-square"></i><% end %>
               <div id="reactionModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="reactionModalLabel" aria-hidden="true"> 
                 <div class="modal-dialog" role="document"></div>
@@ -156,12 +154,24 @@
               </div>
             <%= link_to gpathway_greaction_path(@gpathway, greaction), class: 'btn btn-danger btn-sm', method: :delete, data: { confirm: 'Are you sure?' }  do %>
               <i class="fas fa-trash-alt"></i><% end %>
+            <%# <button type="button" class="btn btn-outline-info btn-sm checkBtn">Insert Reaction</button> %>
           </td>  
         </tr> 
       <% end %>
     </tbody>
   </table>
+  <%= link_to "RDF", gpathway_path(@gpathway), method: :post, class: 'btn btn-success btn-sm' %>
 </div>
 
+<script>
+$(function(){
+  $(".checkBtn").click(function() {
+    var checkBtn = $(this); 
+    var newId = checkBtn.data('id');
+    console.log("new: " + newId);
+    
+  });
+}) 
+</script>
 
 
