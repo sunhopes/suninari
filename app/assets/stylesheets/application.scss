@@ -20,6 +20,10 @@
 .ui-autocomplete {
     position: absolute;
     z-index: 99999 !important ;
+    max-height: 500px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
 }
 // #pwOntoModal {
 //     position: absolute;
