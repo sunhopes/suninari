@@ -8,19 +8,7 @@ class GpathwaysController < ApplicationController
 
   def show
     @greaction = Greaction.new
-   
-    # @lastRxn = Greaction.order("updated_at DESC").limit(1)  #테이블의 마지막에 입력한 정볼르 불러온다.
-    # @reactionList = Hash.new
-    # @lastRxn.each do |item|
-    #   #@reactionList["id"] = item.id 
-    #   @reactionList["RXNID"] = item.rxnid
-    #   @reactionList["Reactant"] = item.reactant_img
-    #   @reactionList["Enzyme"] = item.enzyme_name
-    #   @reactionList["Sugar Nuclotide"] = item.sugar_nt
-    #   @reactionList["Product"] = item.product_img
-    #   @reactionList["Cell Location"] = item.cellular_locate
-    # end
-    
+    #puts @gpathway
   end
 
   def new
@@ -99,41 +87,12 @@ class GpathwaysController < ApplicationController
     #@f_fig_api = 'https://api.glycosmos.org/wurcs2image/experimental/png/binary/'
   end
 
-  def rdf_register
-    require 'net/http'
-    require 'uri'
-    @greactions = Greaction.all
-
-    # @greactions.each do |reaction|
-    #   reaction_uri = URI.parse('http://localhost:3003/sparqlist/api/gpathway_test1?' + 
-        
-    #     '&reaction_id=' + reaction.rxnid.to_s +
-    #     '&reactant_touid=' + reaction.reactant_img +
-    #     'reactant_name=' + reaction.reactant  +
-    #     '&product_touid=' + reaction.product_img +
-    #     '&product_name=' + reaction.product +
-    #     '&enzyme_id=' + reaction.enzyme_onto_id +
-    #     '&enzyme_name=' + reaction.enzyme_name +
-    #     '&sugar_id=' + reaction.sugar_onto_id +
-    #     '&sugar_name=' + reaction.sugar_nt +
-    #     '&sugar_name=' + reaction.sugar_nt +
-    #     )
-    #   Net::HTTP.get(reaction_uri)
-    # end
-    
-    #redirect_to controller: :gpathways, action: :rdf_search
-  end
-
-  # def rdf_search
-
-  # end
-
-
   private
 
   def set_gpathway
     @gpathway = Gpathway.find(params[:id]) 
   end
+  
   def gpathway_params
     params.require(:gpathway).permit(:title, :description, :species, :species_id, :pw_category, :pw_category_id, :tissue, :tissue_id, :cell_line, :cell_line_id, :bind_backbone)
 

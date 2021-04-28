@@ -23,7 +23,7 @@
       <%= f.text_field :enzyme_name, class: "form-control autocomplete" , placeholder: "Type enzyme name" %>
       <%= f.hidden_field :enzyme_onto_id, class: "form-control" %></div>
     <div class="form-group">
-      <label for="greaction_sugar_nt">Sugar Nuclotide</label>
+      <label for="greaction_sugar_nt">Sugar Nucleotide</label>
       <%#= f.collection_select :sugar_id, Sugar.all, :id, :name, prompt: true, class: "form-control" %>
       <%= f.text_field  :sugar_nt, class: "form-control autocomplete", placeholder: "Type your Sugar Nucleotide(e.g. Glucose)"  %>
       <%= f.hidden_field :sugar_onto_id, class: "form-control"%></div>
@@ -32,7 +32,7 @@
       <%= select_tag :textype2, options_for_select([["IUPACcondensed", "iupaccondensed"], ["IUPACextened", "iupacextended"], ["Linear code", "linearcode"]])%><br >
       <%= f.text_field :product, class: "form-control" %></div> 
     <div class="form-group">
-      <label for="greaction_cellular_locate">Cellular Localizaiton</label>
+      <label for="greaction_cellular_locate">Cellular Localization</label>
       <%= f.text_field  :cellular_locate, class: "form-control autocomplete", placeholder: "Type your cellular localizaton(e.g. Golgi)"  %>
       <%= f.hidden_field :cellcomp_onto_id, class: "form-control"%></div>
   </div>
@@ -54,15 +54,18 @@
        //data :: JSON list defined
         response(
           $.map(sugarNt, function (value, key) {
+            if(value.Name.search(request.term) >= 0 ){  //문자의 일치 검색
               return {
                 label: value.Name,
-                value: value.Id
+                value: value.Name,
+                'data-id': value.Id
               }
+            }
           })
         );
       }, 
       select: function( event, ui ) {
-          console.log(ui.item.value);
+          //console.log(ui.item.value);
           $('#greaction_sugar_onto_id').val(`${ui.item['data-id']}`);   //ontology ID 얻기
         },
       delay: 300,
@@ -109,11 +112,6 @@
 <script>
  $(function(){
     var cell_comp_url = "http://localhost:3003/sparqlist/api/GO_Cell_Location";
-    // cell_comp_xmlHttp = new XMLHttpRequest();
-    // cell_comp_xmlHttp.open("GET", cell_comp_url, false);
-    // cell_comp_xmlHttp.send(null);
-    // var cell_comp_result = JSON.parse(cell_comp_xmlHttp.responseText);
-    //console.log(cell_comp_result);
       $("#greaction_cellular_locate").autocomplete({
         source: function (request, response) {
           $.ajax({
@@ -144,15 +142,6 @@
       });
 })
 </script>
-
-<%# <script> 
-$('.confirmBtn').click(function() {
-  //var newId = $("#newReaction").data("id");
-  var inputCount = $('.counter').val();
-  var inputNumber = parseInt(inputCount);
-  console.log(inputNumber);
-})
-</script> %>
 
 <!-- jQuery -->
 <%# <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> %>

@@ -25,8 +25,10 @@
             <%= f.text_field :enzyme_name, class: "form-control autocomplete" , placeholder: "Type enzyme name" %>
             <%= f.hidden_field :enzyme_onto_id, class: "form-control" %></div>
           <div class="form-group">
-            <label for="greaction_sugar_id">Sugar Nuclotide</label>
-            <%= f.collection_select :sugar_id, Sugar.all, :id, :name, prompt: true, class: "form-control" %></div>
+            <label for="greaction_sugar_nt">Sugar Nucleotide</label>
+            <%#= f.collection_select :sugar_id, Sugar.all, :id, :name, prompt: true, class: "form-control" %>
+            <%= f.text_field  :sugar_nt, class: "form-control autocomplete", placeholder: "Type your Sugar Nucleotide(e.g. Glucose)"  %>
+            <%= f.hidden_field :sugar_onto_id, class: "form-control"%></div>
           <div class="form-group">
             <label for="greaction_texttype2">Product Glycan</label>&nbsp;&nbsp;
             <%= select_tag :textype2, options_for_select([["IUPACcondensed", "iupaccondensed"], ["IUPACextened", "iupacextended"], ["Linear code", "linearcode"]])%><br >
@@ -49,69 +51,93 @@
 <!-- For autocomplete -->
 <script>
  $(function(){
+    var sugarNt = [{"Name": "4-Epilegionaminic acid", "Id": "126961780"}, {"Name": "6-Deoxy-L-altrose", "Id": "12302958"}, {"Name": "N-Acetyl-6-deoxy-L-altrosamine", "Id": "126961777"}, {"Name": "6-Deoxy-D-gulose", "Id": "12302960"}, {"Name": "6-Deoxy-D-talose", "Id": "44119431"}, {"Name": "N-Acetyl-6-deoxy-D-talosamine", "Id": "126961778"}, {"Name": "Abequose", "Id": "160540"}, {"Name": "Acinetaminic acid", "Id": "126961779"}, {"Name": "D-Allose", "Id": "439507"}, {"Name": "D-Alluronic acid", "Id": "6602103"}, {"Name": "D-Allosamine", "Id": "6915732"}, {"Name": "N-Acetyl-D-allosamine", "Id": "10944029"}, {"Name": "L-Altrose", "Id": "10219674"}, {"Name": "L-Altruronic acid", "Id": "56845780"}, {"Name": "L-Altrosamine", "Id": "6602094"}, {"Name": "N-Acetyl-L-altrosamine", "Id": "44717159"}, {"Name": "L-Apiose", "Id": "12306753"}, {"Name": "L-Arabinose", "Id": "439195"}, {"Name": "Bacillosamine", "Id": "54029194"}, {"Name": "Colitose", "Id": "12303780"}, {"Name": "D-glycero-D-manno-Heptose", "Id": "53681436"}, {"Name": "3-Deoxy-D-lyxo-heptulosaric acid", "Id": "15608515"}, {"Name": "D-Digitoxose", "Id": "2723626"}, {"Name": "D-Fructose", "Id": "2723872"}, {"Name": "L-Fucose", "Id": "17106"}, {"Name": "N-Acetyl-L-fucosamine", "Id": "91810489"}, {"Name": "D-Galactose", "Id": "6036"}, {"Name": "D-Galacturonic acid", "Id": "439215"}, {"Name": "D-Galactosamine", "Id": "24154"}, {"Name": "N-Acetyl-D-galactosamine", "Id": "35717"}, {"Name": "D-Glucose", "Id": "5793"}, {"Name": "D-Glucuronic acid", "Id": "94715"}, {"Name": "D-Glucosamine", "Id": "439213"}, {"Name": "N-Acetyl-D-glucosamine", "Id": "439174"}, {"Name": "D-Gulose", "Id": "441033"}, {"Name": "D-Guluronic acid", "Id": "11788788"}, {"Name": "D-Gulosamine", "Id": "9920528"}, {"Name": "N-Acetyl-D-gulosamine", "Id": "13201633"}, {"Name": "L-Idose", "Id": "11030410"}, {"Name": "L-Iduronic acid", "Id": "441039"}, {"Name": "L-Idosamine", "Id": "91864695"}, {"Name": "N-Acetyl-L-idosamine", "Id": "13201636"}, {"Name": "3-Deoxy-D-glycero-D-galacto-nonulosonic acid", "Id": "13991616"}, {"Name": "3-Deoxy-D-manno-octulosonic acid", "Id": "10857507"}, {"Name": "Legionaminic acid", "Id": "70678967"}, {"Name": "L-glycero-D-manno-Heptose", "Id": "21120522"}, {"Name": "D-Lyxose", "Id": "439240"}, {"Name": "D-Mannose", "Id": "18950"}, {"Name": "D-Mannuronic acid", "Id": "439630"}, {"Name": "D-Mannosamine", "Id": "440049"}, {"Name": "N-Acetyl-D-mannosamine", "Id": "439281"}, {"Name": "Muramic acid", "Id": "441038"}, {"Name": "N-Acetylmuramic acid", "Id": "441038"}, {"Name": "N-Glycolylmuramic acid", "Id": "91810748"}, {"Name": "Neuraminic acid", "Id": "441037"}, {"Name": "N-Acetylneuraminic acid", "Id": "439197"}, {"Name": "N-Glycolylneuraminic acid", "Id": "91810748"}, {"Name": "Olivose", "Id": "10888063"}, {"Name": "Paratose", "Id": "12303783"}, {"Name": "Pseudaminic acid", "Id": "101137651"}, {"Name": "D-Psicose", "Id": "441036"}, {"Name": "D-Quinovose", "Id": "439746"}, {"Name": "N-Acetyl-D-quinovosamine", "Id": "11954187"}, {"Name": "L-Rhamnose", "Id": "25310"}, {"Name": "N-Acetyl-L-rhamnosamine", "Id": "91807222"}, {"Name": "D-Ribose", "Id": "10975657"}, {"Name": "Sialic acid", "Id": "906"}, {"Name": "L-Sorbose", "Id": "439192"}, {"Name": "D-Tagatose", "Id": "439312"}, {"Name": "D-Talose", "Id": "441035"}, {"Name": "D-Taluronic acid", "Id": "11298488"}, {"Name": "D-Talosamine", "Id": "9834117"}, {"Name": "N-Acetyl-D-talosamine", "Id": "57376616"}, {"Name": "Tyvelose", "Id": "12303782"}, {"Name": "D-Xylose", "Id": "135191"}]
+    $("#greaction_sugar_nt").autocomplete({
+      source: function (request, response) {
+       //data :: JSON list defined
+        response(
+          $.map(sugarNt, function (value, key) {
+            if(value.Name.search(request.term) >= 0 ){  //문자의 일치 검색
+              return {
+                label: value.Name,
+                value: value.Name,
+                'data-id': value.Id
+              }
+            }
+          })
+        );
+      }, 
+      select: function( event, ui ) {
+          //console.log(ui.item.value);
+          $('#greaction_sugar_onto_id').val(`${ui.item['data-id']}`);   //ontology ID 얻기
+        },
+      delay: 300,
+      minLength: 2,
+      autoFocus: true
+    })
+ });
+</script>
+
+<script>
+ $(function(){
     var enzyme_url = "http://localhost:3003/sparqlist/api/uniprot-enzymelist";
-    enzyme_xmlHttp = new XMLHttpRequest();
-    enzyme_xmlHttp.open("GET", enzyme_url, false);
-    enzyme_xmlHttp.send(null);
-    var enzyme_result = JSON.parse(enzyme_xmlHttp.responseText);
-    //console.log(enzyme_result);
       $("#greaction_enzyme_name").autocomplete({
         source: function (request, response) {
-            $.ajax({
-              url: enzyme_url, 
-              dataType: "json",
-              success: function(data) {
-                response(
-                  $.map(data, function (item) {
-                    //console.log(item);
-                    return { label: item.enzyme_name,
-                             value: item.enzyme_name,
-                             'data-id': item.enzyme_num  //enzyme ontology를 얻기위해서 변수를 만듬.
+          $.ajax({
+            url: enzyme_url, 
+            dataType: "json",
+            success: function(data) {
+              response(
+                $.map(data, function (item) {
+                  //console.log(item);
+                  if(item.enzyme_name.search(request.term) >= 0 ){  //문자의 일치 검색
+                    return { 
+                      label: item.enzyme_name,
+                      value: item.enzyme_name,
+                      'data-id': item.enzyme_num  //ontology를 얻기위해서 변수를 만듬.
                     } 
-                  })
-                );
-              },
-            });
+                  }
+                })
+              );
+            },
+          });
         },
         select: function( event, ui ) {
                 //console.log(ui.item.value);
-            $('#greaction_enzyme_onto_id').val(`${ui.item['data-id']}`);   //ontology ID 얻기
+          $('#greaction_enzyme_onto_id').val(`${ui.item['data-id']}`);   //ontology ID 얻기
         },
         delay: 300,
         minLength: 2,
         autoFocus: true
-      });
-})
+      })
+});
 </script>
 <script>
  $(function(){
-    var cell_comp_url = "http://localhost:3003/sparqlist/api/Cellular_Compartment";
-    cell_comp_xmlHttp = new XMLHttpRequest();
-    cell_comp_xmlHttp.open("GET", cell_comp_url, false);
-    cell_comp_xmlHttp.send(null);
-    var cell_comp_result = JSON.parse(cell_comp_xmlHttp.responseText);
-    //console.log(cell_comp_result);
+    var cell_comp_url = "http://localhost:3003/sparqlist/api/GO_Cell_Location";
       $("#greaction_cellular_locate").autocomplete({
         source: function (request, response) {
-            $.ajax({
-              url: cell_comp_url, 
-              dataType: "json",
-              success: function(data) {
-                response(
-                  $.map(data, function (item) {
-                    //console.log(item);
+          $.ajax({
+            url: cell_comp_url, 
+            dataType: "json",
+            success: function(data) {
+              response(
+                $.map(data, function (item) {
+                  //console.log(item);
+                  if(item.cell_comp_name.search(request.term) >= 0 ){
                     return { label: item.cell_comp_name,
-                             value: item.cell_comp_name,
-                             'data-id': item.cell_comp_id  //cellular_component ontology를 얻기위해서 변수를 만듬.
-                    } 
-                  })
-                );
-              },
-            });
+                              value: item.cell_comp_name,
+                              'data-id': item.cell_comp_id  //cellular_component ontology를 얻기위해서 변수를 만듬.
+                    }
+                  } 
+                })
+              );
+            },
+          });
         },
         select: function( event, ui ) {
                 //console.log(ui.item.value);
-            $('#greaction_cellcomp_onto_id').val(`${ui.item['data-id']}`);   //ontology ID 얻기
+          $('#greaction_cellcomp_onto_id').val(`${ui.item['data-id']}`);   //ontology ID 얻기
         },
         delay: 300,
         minLength: 2,
@@ -119,11 +145,6 @@
       });
 })
 </script>
-<%# <script>
-  function close_pop(flag) {
-             $('#pw_editModal').hide();
-        };
-</script> %>
 
 <!-- jQuery UI -->
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>

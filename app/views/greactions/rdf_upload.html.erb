@@ -1,0 +1,26 @@
+Uploaded!<br><br>
+
+<%= @gpathway.title %><br>
+<%= @gpathway.id %><br>
+<%= @gpathway.description %><br>
+<%= @gpathway.tissue %><br>
+<%= @gpathway.tissue_id %><br>
+<%= @gpathway.species %><br>
+<%= @gpathway.species_id %><br>
+<%= @gpathway.cell_line %><br>
+<%= @gpathway.cell_line_id %><br>
+
+<% @greactions.each do |greaction|%>
+
+<%= greaction.enzyme_name%><br>
+<%= greaction.enzyme_onto_id%><br>
+<%= greaction.sugar_nt%><br>
+<%= greaction.sugar_onto_id%><br>
+<%= greaction.cellular_locate%><br>
+<%= greaction.cellcomp_onto_id%><br>
+<%= greaction.product_img%><br>
+<%= greaction.product%><br>
+<%= greaction.reactant_img%><br>
+<%= greaction.reactant%><br>
+<%= greaction.id%><br>
+<% end %>
