@@ -45,10 +45,10 @@
                   <%#= f.hidden_field :bind_backbone_id, class: "form-control" %> 
               </div><br>
               <div class="form-group">
+                <%= f.submit "Save New Pathway", class: "btn btn-primary" %>
                 <%= link_to  gpathways_path, class: "btn btn-secondary"  do %>
                   <span>Pathway List</span>
                 <% end%>
-                <%= f.submit "Save New Pathway", class: "btn btn-primary" %>
               </div> 
             </div>
         <% end %>
@@ -57,44 +57,7 @@
   </div>
 </section>
 
-<!-- Modal for pathway category -->
-<div id="pwOntoModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Pathway Category</h4>
-            </div>
-            <div class="modal-body">
-                <div id="pw_category">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Modal for Tissue ontology -->
-<div id="tissueOntoModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Tissue for animal</h4>
-            </div>
-            <div class="modal-body">
-                <div id="tissue_select">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- For jsTree -->
+<!--jsTree for pw_category-->
 <script>
   $(function(){
     var pw_url = "http://localhost:3003/sparqlist/api/PW_category";
@@ -164,14 +127,10 @@
           });
   })
 </script>
-<!-- autocomplete for cell line(changed to cell type)-->
+<!-- autocomplete for cell type(changed to cell type)-->
 <script>
  $(function(){
     var cell_url = "http://localhost:3003/sparqlist/api/CellTypeOnto";
-    xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", cell_url, false);
-    xmlHttp.send(null);
-    var results = JSON.parse(xmlHttp.responseText);
       $("#gpathway_cell_line").autocomplete({
         source: function (request, response) {
             $.ajax({

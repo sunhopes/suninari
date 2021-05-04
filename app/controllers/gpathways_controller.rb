@@ -1,6 +1,6 @@
 class GpathwaysController < ApplicationController
   before_action :authenticate_user!, except: [:index] #person who don't be logined can see only pathway list.
-  before_action :set_gpathway, only: [:show, :edit, :update, :destroy, :rdf_register, :rdf_search]
+  before_action :set_gpathway, only: [:show, :edit, :update, :destroy]
   
   def index
     @gpathways = Gpathway.all
@@ -21,7 +21,7 @@ class GpathwaysController < ApplicationController
     @gpathway.user_id = current_user.id
     #puts params[:gpathway_bind_backbone][:value]
     if @gpathway.save
-      redirect_to gpathway_path(@gpathway), notice: "Your pathway is successfully saved." #@gpathway는 id
+      redirect_to gpathway_path(@gpathway), notice: "Your pathway is successfully saved." 
     else
       render :new
     end

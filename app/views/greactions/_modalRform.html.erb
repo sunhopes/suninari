@@ -1,4 +1,3 @@
-
 <!-- Modal body for New Reaction-->
 <div class="modal-content">
   <div class="modal-header">
@@ -8,7 +7,6 @@
     </button>
   </div>
   <%=form_with model: @greaction, url: gpathway_greactions_path(@gpathway), remote: true do |f|%>   <!--create action으로 보내야 한다 -->
-  <%#=form_with model: @greaction, url: new_gpathway_greaction_path(@gpathway) do |f|%>
   <div class="modal-body">
     <div class="form-group" id="reactionId">
       <label for="greaction_rxnid">Reaction ID</label>
@@ -24,7 +22,6 @@
       <%= f.hidden_field :enzyme_onto_id, class: "form-control" %></div>
     <div class="form-group">
       <label for="greaction_sugar_nt">Sugar Nucleotide</label>
-      <%#= f.collection_select :sugar_id, Sugar.all, :id, :name, prompt: true, class: "form-control" %>
       <%= f.text_field  :sugar_nt, class: "form-control autocomplete", placeholder: "Type your Sugar Nucleotide(e.g. Glucose)"  %>
       <%= f.hidden_field :sugar_onto_id, class: "form-control"%></div>
     <div class="form-group">
@@ -51,14 +48,13 @@
     var sugarNt = [{"Name": "4-Epilegionaminic acid", "Id": "126961780"}, {"Name": "6-Deoxy-L-altrose", "Id": "12302958"}, {"Name": "N-Acetyl-6-deoxy-L-altrosamine", "Id": "126961777"}, {"Name": "6-Deoxy-D-gulose", "Id": "12302960"}, {"Name": "6-Deoxy-D-talose", "Id": "44119431"}, {"Name": "N-Acetyl-6-deoxy-D-talosamine", "Id": "126961778"}, {"Name": "Abequose", "Id": "160540"}, {"Name": "Acinetaminic acid", "Id": "126961779"}, {"Name": "D-Allose", "Id": "439507"}, {"Name": "D-Alluronic acid", "Id": "6602103"}, {"Name": "D-Allosamine", "Id": "6915732"}, {"Name": "N-Acetyl-D-allosamine", "Id": "10944029"}, {"Name": "L-Altrose", "Id": "10219674"}, {"Name": "L-Altruronic acid", "Id": "56845780"}, {"Name": "L-Altrosamine", "Id": "6602094"}, {"Name": "N-Acetyl-L-altrosamine", "Id": "44717159"}, {"Name": "L-Apiose", "Id": "12306753"}, {"Name": "L-Arabinose", "Id": "439195"}, {"Name": "Bacillosamine", "Id": "54029194"}, {"Name": "Colitose", "Id": "12303780"}, {"Name": "D-glycero-D-manno-Heptose", "Id": "53681436"}, {"Name": "3-Deoxy-D-lyxo-heptulosaric acid", "Id": "15608515"}, {"Name": "D-Digitoxose", "Id": "2723626"}, {"Name": "D-Fructose", "Id": "2723872"}, {"Name": "L-Fucose", "Id": "17106"}, {"Name": "N-Acetyl-L-fucosamine", "Id": "91810489"}, {"Name": "D-Galactose", "Id": "6036"}, {"Name": "D-Galacturonic acid", "Id": "439215"}, {"Name": "D-Galactosamine", "Id": "24154"}, {"Name": "N-Acetyl-D-galactosamine", "Id": "35717"}, {"Name": "D-Glucose", "Id": "5793"}, {"Name": "D-Glucuronic acid", "Id": "94715"}, {"Name": "D-Glucosamine", "Id": "439213"}, {"Name": "N-Acetyl-D-glucosamine", "Id": "439174"}, {"Name": "D-Gulose", "Id": "441033"}, {"Name": "D-Guluronic acid", "Id": "11788788"}, {"Name": "D-Gulosamine", "Id": "9920528"}, {"Name": "N-Acetyl-D-gulosamine", "Id": "13201633"}, {"Name": "L-Idose", "Id": "11030410"}, {"Name": "L-Iduronic acid", "Id": "441039"}, {"Name": "L-Idosamine", "Id": "91864695"}, {"Name": "N-Acetyl-L-idosamine", "Id": "13201636"}, {"Name": "3-Deoxy-D-glycero-D-galacto-nonulosonic acid", "Id": "13991616"}, {"Name": "3-Deoxy-D-manno-octulosonic acid", "Id": "10857507"}, {"Name": "Legionaminic acid", "Id": "70678967"}, {"Name": "L-glycero-D-manno-Heptose", "Id": "21120522"}, {"Name": "D-Lyxose", "Id": "439240"}, {"Name": "D-Mannose", "Id": "18950"}, {"Name": "D-Mannuronic acid", "Id": "439630"}, {"Name": "D-Mannosamine", "Id": "440049"}, {"Name": "N-Acetyl-D-mannosamine", "Id": "439281"}, {"Name": "Muramic acid", "Id": "441038"}, {"Name": "N-Acetylmuramic acid", "Id": "441038"}, {"Name": "N-Glycolylmuramic acid", "Id": "91810748"}, {"Name": "Neuraminic acid", "Id": "441037"}, {"Name": "N-Acetylneuraminic acid", "Id": "439197"}, {"Name": "N-Glycolylneuraminic acid", "Id": "91810748"}, {"Name": "Olivose", "Id": "10888063"}, {"Name": "Paratose", "Id": "12303783"}, {"Name": "Pseudaminic acid", "Id": "101137651"}, {"Name": "D-Psicose", "Id": "441036"}, {"Name": "D-Quinovose", "Id": "439746"}, {"Name": "N-Acetyl-D-quinovosamine", "Id": "11954187"}, {"Name": "L-Rhamnose", "Id": "25310"}, {"Name": "N-Acetyl-L-rhamnosamine", "Id": "91807222"}, {"Name": "D-Ribose", "Id": "10975657"}, {"Name": "Sialic acid", "Id": "906"}, {"Name": "L-Sorbose", "Id": "439192"}, {"Name": "D-Tagatose", "Id": "439312"}, {"Name": "D-Talose", "Id": "441035"}, {"Name": "D-Taluronic acid", "Id": "11298488"}, {"Name": "D-Talosamine", "Id": "9834117"}, {"Name": "N-Acetyl-D-talosamine", "Id": "57376616"}, {"Name": "Tyvelose", "Id": "12303782"}, {"Name": "D-Xylose", "Id": "135191"}]
     $("#greaction_sugar_nt").autocomplete({
       source: function (request, response) {
-       //data :: JSON list defined
         response(
-          $.map(sugarNt, function (value, key) {
-            if(value.Name.search(request.term) >= 0 ){  //문자의 일치 검색
+          $.map(sugarNt, function (val, key) {
+            if(val.Name.search(request.term) >= 0 ){  //문자의 일치 검색
               return {
-                label: value.Name,
-                value: value.Name,
-                'data-id': value.Id
+                label: val.Name,
+                value: val.Name,
+                'data-id': val.Id
               }
             }
           })
