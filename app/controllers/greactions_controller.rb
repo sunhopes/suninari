@@ -5,6 +5,11 @@ class GreactionsController < ApplicationController
   def new
     @greaction = Greaction.new
 
+    @reactionNum_id = @gpathway.greactions.last[:rxnid].to_i
+    @last_id = @reactionNum_id + 1
+    puts @last_id
+    session[:number] = @last_id 
+  
     respond_to do |format|
       format.html
       format.js
@@ -15,11 +20,23 @@ class GreactionsController < ApplicationController
   def create
     require 'net/http'
     require 'uri'
-    get_glycanid(greaction_params[:reactant], params[:textype1]) #함수호출
-    new_params2 = greaction_params
-    new_params2[:reactant_img] = @reactant_img     # !!입력으로 받은 문자열을 TouCanID로 바꿔서 이 ID를 :reactant_img에 넣어주고 표시는 glycosmos image convert API를 이용하여 show 에서 한다.
-    get_glycanid(greaction_params[:product], params[:textype2])
-    new_params2[:product_img] = @product_img   # !!입력으로 받은 문자열을 TouCanID로 바꿔서 이 ID를 :product_img에 넣어주고 표시는 glycosmos image convert API를 이용하여 show 에서 한다.
+    rnum = params[:rxnid]
+    #rnum = input_id.to_i
+    if rnum != 0
+      new_params2 = greaction_params
+        if params[:textype1] == 'glytoucanid'
+          @reactant_img = greaction_params[:reactant]
+        else  
+          get_glycanid(greaction_params[:reactant], params[:textype1]) #함수호출  
+        end
+        new_params2[:reactant_img] = @reactant_img     # !!입력으로 받은 문자열을 TouCanID로 바꿔서 이 ID를 :reactant_img에 넣어주고 표시는 glycosmos image convert API를 이용하여 show 에서 한다.  
+        if params[:textype2] == "glytoucanid"
+          @product_img = greaction_params[:product]
+        else  
+          get_glycanid(greaction_params[:product], params[:textype2])
+        end
+        new_params2[:product_img] = @product_img   # !!입력으로 받은 문자열을 TouCanID로 바꿔서 이 ID를 :product_img에 넣어주고 표시는 glycosmos image convert API를 이용하여 show 에서 한다.
+    end
     @greaction = @gpathway.greactions.create(new_params2)
     
     redirect_back(fallback_location: root_path)  
@@ -33,14 +50,25 @@ class GreactionsController < ApplicationController
   end
 
   def update 
-    require 'net/http'
+    rrequire 'net/http'
     require 'uri'
-    get_glycanid(greaction_params[:reactant], params[:textype1]) #함수호출
-    new_params2 = greaction_params
-    new_params2[:reactant_img] = @reactant_img     # !!입력으로 받은 문자열을 TouCanID로 바꿔서 이 ID를 :reactant_img에 넣어주고 표시는 glycosmos image convert API를 이용하여 show 에서 한다.
-    get_glycanid(greaction_params[:product], params[:textype2])
-    new_params2[:product_img] = @product_img
-
+    rnum = params[:rxnid]
+    if rnum != 0
+      new_params2 = greaction_params
+        if params[:textype1] == 'glytoucanid'
+          @reactant_img = greaction_params[:reactant]
+        else  
+          get_glycanid(greaction_params[:reactant], params[:textype1]) #함수호출  
+        end
+        new_params2[:reactant_img] = @reactant_img     # !!입력으로 받은 문자열을 TouCanID로 바꿔서 이 ID를 :reactant_img에 넣어주고 표시는 glycosmos image convert API를 이용하여 show 에서 한다.  
+        
+        if params[:textype2] == "glytoucanid"
+          @product_img = greaction_params[:product]
+        else  
+          get_glycanid(greaction_params[:product], params[:textype2])
+        end
+        new_params2[:product_img] = @product_img   # !!입력으로 받은 문자열을 TouCanID로 바꿔서 이 ID를 :product_img에 넣어주고 표시는 glycosmos image convert API를 이용하여 show 에서 한다.
+    end
     if @greaction.update(new_params2)
       redirect_back(fallback_location: root_path) 
     else

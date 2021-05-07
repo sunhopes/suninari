@@ -15,10 +15,11 @@
         <div class="modal-body">
           <div class="form-group" id="reactionId">
             <label for="greaction_rxnid">Reaction ID</label>
-            <%= f.number_field :rxnid, in: 1..50, step: 1, class: "form-control" %></div>
+            <%= f.number_field :rxnid, min: 1, max: 99, step: 1, class: "form-control count" %>
+          </div>
           <div class="form-group">
             <label for="greaction_reactant">Reactant Glycan</label>&nbsp;&nbsp;
-            <%= select_tag :textype1, options_for_select([["IUPACcondensed", "iupaccondensed"], ["IUPACextened", "iupacextended"], ["Linear code", "linearcode"]])%><br >
+            <%= select_tag :textype1, options_for_select([["GlyToucan ID", "glytoucanid"],["IUPACcondensed", "iupaccondensed"], ["IUPACextened", "iupacextended"], ["Linear code", "linearcode"]])%><br >
             <%= f.text_field :reactant, class: "form-control" %></div>
           <div class="form-group">
             <label for="greaction_enzyme_name">Enzyme</label>
@@ -31,7 +32,7 @@
             <%= f.hidden_field :sugar_onto_id, class: "form-control"%></div>
           <div class="form-group">
             <label for="greaction_texttype2">Product Glycan</label>&nbsp;&nbsp;
-            <%= select_tag :textype2, options_for_select([["IUPACcondensed", "iupaccondensed"], ["IUPACextened", "iupacextended"], ["Linear code", "linearcode"]])%><br >
+            <%= select_tag :textype2, options_for_select([["GlyToucan ID", "glytoucanid"],["IUPACcondensed", "iupaccondensed"], ["IUPACextened", "iupacextended"], ["Linear code", "linearcode"]])%><br >
             <%= f.text_field :product, class: "form-control" %></div> 
           <div class="form-group">
             <label for="greaction_cellular_locate">Cellular Localizaiton</label>

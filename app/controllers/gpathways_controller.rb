@@ -8,7 +8,7 @@ class GpathwaysController < ApplicationController
 
   def show
     @greaction = Greaction.new
-    #puts @gpathway
+    @last_id = session[:number]
   end
 
   def new

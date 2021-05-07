@@ -42,12 +42,12 @@
               <h5 class="text-muted"><%= @gpathway.cell_line %></h5>
             </div>
           </li>
-          <li class="list-group-item d-flex justify-content-between lh-condensed">
+          <!-- <li class="list-group-item d-flex justify-content-between lh-condensed">
             <div>
               <h6 class="text-primary">Binding site</h6>
               <h5 class="text-muted"><%= @gpathway.bind_backbone %></h5>
             </div>
-          </li>
+          </li> -->
           <li class="list-group-item d-flex justify-content-between bg-light">
             <div>
               <h6 class="text-primary">Regist date</h6>
@@ -160,18 +160,24 @@
       <% end %>
     </tbody>
   </table>
+  <%#=@id_find %>
   <%= link_to "RDF", gpathway_path(@gpathway), method: :post, class: 'btn btn-success btn-sm' %>
 </div>
 
 <script>
-$(function(){
-  $(".checkBtn").click(function() {
-    var checkBtn = $(this); 
-    var newId = checkBtn.data('id');
-    console.log("new: " + newId);
-    
-  });
-}) 
+window.onload = function(){
+  $(function(){
+    $(".checkBtn").click(function() {
+      var checkBtn = $(this); 
+      var new_id = checkBtn.data('id');   //RXN_ID value
+      var next_id = new_id + 1
+      console.log(next_id);
+      //location.href="/_modalRform.html.erb?" + next_id;
+      $('#greaction_rxnid').attr('value',next_id);
+      //console.log(document.getElementById('greaction_rxnid'));
+    });
+  }) 
+}
 </script>
 
 
