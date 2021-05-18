@@ -109,7 +109,7 @@ $(function(){
 </script>
 
 <!-- autocomplete for Taxon-->
-<script>
+<%# <script>
  $(function(){
     var species_url = "https://sparqlist.glycosmos.org/sparqlist/api/glytoucan_taxon_list";
     species_xmlHttp = new XMLHttpRequest();
@@ -129,6 +129,42 @@ $(function(){
           minLength: 2
           });
   })
+</script> %>
+
+<!-- autocomplete for Taxon-->
+<script>
+ $(function(){
+    var taxon_url = "http://localhost:3003/sparqlist/api/NCBI_BACTERIA";
+      $("#gpathway_species").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+              url: taxon_url, 
+              dataType: "json",
+              success: function(data) {
+                response(
+                  $.map(data, function (item) {
+                    if(item.Taxon_name.search(request.term) >= 0 ){  //문자의 일치 검색
+                    //console.log(item);
+                      return { 
+                        label: item.Taxon_name,
+                        value: item.Taxon_nmae,
+                        'data-id': item.Taxon_id  //taxon ID를 얻기위해서 변수를 만듬.
+                      }
+                    } 
+                  })
+                );
+              },
+            });
+        },
+        select: function(event, ui) {
+                //console.log(ui.item.value);
+            $('#gpathway_species_id').val(`${ui.item['data-id']}`);   //Taxon ID 얻기
+        },
+        delay: 300,
+        minLength: 2,
+        autoFocus: true
+      });
+})
 </script>
 
 <!-- autocomplete for cell type-->
