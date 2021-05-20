@@ -49,13 +49,6 @@ ActiveRecord::Schema.define(version: 2021_02_25_063218) do
     t.index ["sugar_id"], name: "index_greactions_on_sugar_id"
   end
 
-  create_table "sugars", force: :cascade do |t|
-    t.string "onto_id"
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false

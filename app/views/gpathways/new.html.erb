@@ -3,55 +3,102 @@
   <div class="container mt-3">
     <h2>Basic Information of Glycosylation Pathway</h2>
     <div class="row">
-      <div class="col-7 mx-auto">
+      <div class="col-9 mx-auto">
         <%#= render 'gpathways/pform', gpathway: @gpathway %>
         <%= form_with model: @gpathway, local: true do |f| %>
-            <div class="">
-              <div class="form-group">
-                <label for="gpathway_title">Title</label>
-                <%= f.text_field :title, class: "form-control" %>
-              </div>
-              <div class="form-group">
-                <label for="gpathway_description">Description</label>
-                <%= f.text_area :description, class: "form-control" %>
-              </div>
-              <div class="form-group">
+          <div class="">
+            <div class="form-group">
+              <label for="gpathway_title">Title</label>
+              <%= f.text_field :title, class: "form-control" %>
+            </div>
+            <div class="form-group">
+              <label for="gpathway_description">Description</label>
+              <%= f.text_area :description, class: "form-control" %>
+            </div>
+            <div class="form-row">
+              <div class="col">
                 <label for="gpathway_species">Species</label>
-                <%= f.text_field :species, class: "form-control", placeholder: "Type species(e.g. Homo sapiense)" %>
+                <%= f.text_field :species, class: "form-control", placeholder: "Bacteria" %>
                 <%= f.hidden_field :species_id, class: "form-control"%>
               </div>
-              <div class="form-group">
-                <label for="gpathway_pw_category">Pathway Category</label>
-                  <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#pwOntoModal">
-                    Select </button>
-                <%= f.text_field :pw_category, class: "form-control" %>
-                <%= f.hidden_field :pw_category_id, class: "form-control"%>
+              <div class="col">
+                <label for="gpathway_species">Species</label>
+                <%= f.text_field :species, class: "form-control", placeholder: "Virus" %>
+                <%= f.hidden_field :species_id, class: "form-control"%>
               </div>
-              <div class="form-group">
-                <label for="gpathway_tissue">Tissue</label>
-                  <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#tissueOntoModal">
-                    Select </button>
-                <%= f.text_field :tissue, class: "form-control" %>
-                <%= f.hidden_field :tissue_id, class: "form-control"%>
+              <div class="col">
+                <label for="gpathway_species">Species</label>
+                <%= f.text_field :species, class: "form-control", placeholder: "Eukaryote" %>
+                <%= f.hidden_field :species_id, class: "form-control"%>
               </div>
-              <div class="form-group">
-                <label for="gpathway_cell_line">Cell Type</label>
-                <%= f.text_field :cell_line, class: "form-control", placeholder: "Your cell type(e.g. embryonic cell or prokaryotic cell)" %>
-                <%= f.hidden_field :cell_line_id, class: "form-control"%>
-              </div> 
-              <div class="form-group">
-                <label for="gpathway_bind_backbone">Binding Site</label><br>
-                  <%= f.select :bind_backbone, options_for_select([['N-glycan', 'N-glycan' ], ['O-glycan', 'O-glycan' ], ['Lipid moiety', 'Lipid moiety']]), include_blank: "Select your glycan type", class: "form-select form-select-lg mb-3" %>
-                  <%#= f.hidden_field :bind_backbone_id, class: "form-control" %> 
-              </div><br>
-              <div class="form-group">
-                <%= f.submit "Save New Pathway", class: "btn btn-primary" %>
-                <%= link_to  gpathways_path, class: "btn btn-secondary"  do %>
-                  <span>Pathway List</span>
-                <% end%>
-              </div> 
             </div>
+            <div class="form-group mt-4">
+              <label for="gpathway_pw_category">Pathway Category</label>
+                <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#pwOntoModal">
+                  Select </button>
+              <%= f.text_field :pw_category, class: "form-control mt-2" %>
+              <%= f.hidden_field :pw_category_id, class: "form-control"%>
+            </div>
+            <div class="form-group">
+              <label for="gpathway_tissue">Tissue</label>
+                <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#tissueOntoModal">
+                  Select </button>
+              <%= f.text_field :tissue, class: "form-control mt-2" %>
+              <%= f.hidden_field :tissue_id, class: "form-control"%>
+            </div>
+            <div class="form-group">
+              <label for="gpathway_cell_line">Cell Type</label>
+              <%= f.text_field :cell_line, class: "form-control", placeholder: "Your cell type(e.g. embryonic cell or prokaryotic cell)" %>
+              <%= f.hidden_field :cell_line_id, class: "form-control"%>
+            </div> 
+            <div class="form-group">
+              <label for="gpathway_bind_backbone">Binding Site</label><br>
+                <%= f.select :bind_backbone, options_for_select([['N-glycan', 'N-glycan' ], ['O-glycan', 'O-glycan' ], ['Lipid moiety', 'Lipid moiety']]), include_blank: "Select your glycan type", class: "form-select form-select-lg mb-3" %>
+                <%#= f.hidden_field :bind_backbone_id, class: "form-control" %> 
+            </div><br>
+            <div class="form-group">
+              <%= f.submit "Save New Pathway", class: "btn btn-primary" %>
+              <%= link_to  gpathways_path, class: "btn btn-secondary"  do %>
+                <span>Pathway List</span>
+              <% end%>
+            </div> 
+          </div>
         <% end %>
+  <!-- Modal for pathway category -->
+            <div class="modal fade" id="pwOntoModal" role="dialog">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title">Pathway Category</h4>
+                  </div>  
+                  <div class="modal-body">
+                    <div id="pw_category"></div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+  <!-- Modal for Tissue ontology -->
+            <div class="modal fade" id="tissueOntoModal"  role="dialog">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title">Tissue List</h4>
+                  </div>
+                  <div class="modal-body">
+                    <div id="tissue_select"></div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
       </div>
     </div>
   </div>
@@ -60,7 +107,7 @@
 <!--jsTree for pw_category-->
 <script>
   $(function(){
-    var pw_url = "http://localhost:3003/sparqlist/api/PW_category";
+    var pw_url = "http://localhost:3002/sparqlist/api/PW_category";
     //console.log(pw_url);
     $('#pw_category').jstree({ 
         'core' : {
@@ -85,7 +132,7 @@
 <!-- jsTree for tissue ontology -->
 <script>
   $(function(){
-    var tissue_url = "http://localhost:3003/sparqlist/api/Tissue_Onto";
+    var tissue_url = "http://localhost:3002/sparqlist/api/Tissue_Onto";
     $('#tissue_select').jstree({ 
       'core' : { 
         'data' : {
@@ -106,31 +153,43 @@
   })
 </script>
 <!-- autocomplete for Taxon-->
-<%# <script>
+<script>
  $(function(){
-    var species_url = "https://sparqlist.glycosmos.org/sparqlist/api/glytoucan_taxon_list";
-    species_xmlHttp = new XMLHttpRequest();
-    species_xmlHttp.open("GET", species_url, false);
-    species_xmlHttp.send(null);
-    var species_result = JSON.parse(species_xmlHttp.responseText);
-      //console.log(species_result)
-      let jlen = species_result.length;
-      var species_list = [];
-      for(i=0; i<jlen; i++) {
-          species_list.push(species_result[i]);
-        }
-        var species_list = Array.from( new Set(species_list) );
-        $("#gpathway_species").autocomplete({
-          source: species_list,
-          delay: 300,
-          minLength: 2
-          });
-  })
-</script> %>
+    var taxon_url = "http://localhost:3002/sparqlist/api/NCBI_BACTERIA";
+      $("#gpathway_species").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+              url: taxon_url, 
+              dataType: "json",
+              success: function(data) {
+                response(
+                  $.map(data, function (item) {
+                    if(item.Taxon_name.search(request.term) >= 0 ){  //문자의 일치 검색
+                    //console.log(item);
+                      return { 
+                        label: item.Taxon_name,
+                        value: item.Taxon_nmae,
+                        'data-id': item.Taxon_id  //taxon ID를 얻기위해서 변수를 만듬.
+                      }
+                    } 
+                  })
+                );
+              },
+            });
+        },
+        select: function(event, ui) {
+                //console.log(ui.item.value);
+            $('#gpathway_species_id').val(`${ui.item['data-id']}`);},   //Taxon ID 얻기
+        delay: 300,
+        minLength: 2,
+        autoFocus: true
+      });
+})
+</script>
 <!-- autocomplete for cell type(changed to cell type)-->
 <script>
  $(function(){
-    var cell_url = "http://localhost:3003/sparqlist/api/CellTypeOnto";
+    var cell_url = "http://localhost:3002/sparqlist/api/CellTypeOnto";
       $("#gpathway_cell_line").autocomplete({
         source: function (request, response) {
             $.ajax({
@@ -162,41 +221,7 @@
       });
 })
 </script>
-<!-- autocomplete for Taxon-->
-<script>
- $(function(){
-    var taxon_url = "http://localhost:3003/sparqlist/api/NCBI_BACTERIA";
-      $("#gpathway_species").autocomplete({
-        source: function (request, response) {
-            $.ajax({
-              url: taxon_url, 
-              dataType: "json",
-              success: function(data) {
-                response(
-                  $.map(data, function (item) {
-                    if(item.Taxon_name.search(request.term) >= 0 ){  //문자의 일치 검색
-                    //console.log(item);
-                      return { 
-                        label: item.Taxon_name,
-                        value: item.Taxon_nmae,
-                        'data-id': item.Taxon_id  //taxon ID를 얻기위해서 변수를 만듬.
-                      }
-                    } 
-                  })
-                );
-              },
-            });
-        },
-        select: function(event, ui) {
-                //console.log(ui.item.value);
-            $('#gpathway_species_id').val(`${ui.item['data-id']}`);   //Taxon ID 얻기
-        },
-        delay: 300,
-        minLength: 2,
-        autoFocus: true
-      });
-})
-</script>
+
 
 <%# =javascript_include_tag "gpathways.js" %>
 <!-- jQuery -->

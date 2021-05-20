@@ -4,10 +4,10 @@
   <div class="row">
     <div class="col-6 mx-auto">  
       <div class="modal-content"> 
-          <div class="modal-header">
-            <h4 class="modal-title">Edit of Pathway information</h4>
+        <div class="modal-header">
+          <h4 class="modal-title">Edit of Pathway information</h4>
             <%# <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button> %>
-          </div>
+        </div>
         <%= form_with model: @gpathway, url: gpathway_path, remote: true do |f| %>
           <div class="modal-body">
             <div class="form-group">
@@ -53,6 +53,42 @@
             <%= f.submit "Save Change", class: "btn btn-primary" %>
           </div>
         <% end %>
+
+        <!-- Modal for pathway category -->
+            <div class="modal fade" id="pwOntoModal" role="dialog">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title">Pathway Category</h4>
+                  </div>  
+                  <div class="modal-body">
+                    <div id="pw_category"></div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Modal for Tissue ontology -->
+            <div class="modal fade" id="tissueOntoModal"  role="dialog">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title">Tissue for animal</h4>
+                  </div>
+                  <div class="modal-body">
+                    <div id="tissue_select"></div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
       </div>
     </div>
   </div> 

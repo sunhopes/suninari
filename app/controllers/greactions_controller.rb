@@ -4,17 +4,20 @@ class GreactionsController < ApplicationController
 
   def new
     @greaction = Greaction.new
-
-    @reactionNum_id = @gpathway.greactions.last[:rxnid].to_i
-    @last_id = @reactionNum_id + 1
-    puts @last_id
-    session[:number] = @last_id 
-  
+    rxnid = params[:rxnid]
+    if rxnid
+      @reactionNum_id = @gpathway.greactions.last[:rxnid].to_i
+      @last_id = @reactionNum_id + 1
+      puts @last_id
+      session[:number] = @last_id 
+    end
     respond_to do |format|
       format.html
       format.js
       #format.json { render json: json_file }
     end
+    # @enz_json = File.read("{Rails.root}/public/cazy_ec_enz_list.json")
+    # render :json => @enz_json
   end
   
   def create
@@ -100,7 +103,7 @@ class GreactionsController < ApplicationController
       reactions = rxnids.push(reaction.id)
       reactionArray = reactions.sort.join(",")
       #puts reactionArray
-         reaction_uri = URI.parse('http://localhost:3003/sparqlist/api/gpathway_test1?' + 
+         reaction_uri = URI.parse('http://localhost:3002/sparqlist/api/gpathway_test1?' + 
             '&reactionIds=' + reactionArray +
             '&reaction_id=' + reaction.id.to_s  +
             '&reactant_name=' + reaction.reactant +
@@ -117,20 +120,20 @@ class GreactionsController < ApplicationController
          Net::HTTP.get(reaction_uri)
   #     reactionArray.clear()
     end
-       gpathway_uri = URI.parse('http://localhost:3003/sparqlist/api/gpathway_test1?' + 
-           '&gpathway_name=' + @gpathway.title +
-           '&gpathway_id=' + @gpathway.id.to_s  +
-           '&gpathway_comment=' + @gpathway.description +
-           '&gpathway_tissue_id=' + @gpathway.tissue +
-           '&gpathway_tissue_name=' + @gpathway.tissue_id +
-           '&gpathway_cell_name=' + @gpathway.cell_line +
-           '&gpathway_cell_id=' + @gpathway.cell_line_id +
-           '&gpathway_taxon_name=' + @gpathway.species +
-           '&gpathway_taxon_id=' + @gpathway.species_id 
-      #     #'&gpathway_pw_category=' + @gpathway.pw_category +
-      #     #'&gpathway_pw_category_id=' + @gpathway.pw_category_id 
-      #     #'&gpathway_bind_backbone=' + @gpathway.bind_backbone
-           )
+       gpathway_uri = URI.parse('http://localhost:3002/sparqlist/api/gpathway_test1?' + 
+            '&gpathway_name=' + @gpathway.title +
+            '&gpathway_id=' + @gpathway.id.to_s  +
+            '&gpathway_comment=' + @gpathway.description +
+            '&gpathway_tissue_id=' + @gpathway.tissue +
+            '&gpathway_tissue_name=' + @gpathway.tissue_id +
+            '&gpathway_cell_name=' + @gpathway.cell_line +
+            '&gpathway_cell_id=' + @gpathway.cell_line_id +
+            '&gpathway_taxon_name=' + @gpathway.species +
+            '&gpathway_taxon_id=' + @gpathway.species_id +
+            '&gpathway_pw_category=' + @gpathway.pw_category +
+            '&gpathway_pw_category_id=' + @gpathway.pw_category_id 
+            #'&gpathway_bind_backbone=' + @gpathway.bind_backbone
+            )
          Net::HTTP.get(gpathway_uri)
   end
 

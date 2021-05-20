@@ -81,7 +81,7 @@
 
 <script>
  $(function(){
-    var enzyme_url = "http://localhost:3003/sparqlist/api/uniprot-enzymelist";
+    var enzyme_url = "http://localhost:3000/cazy_ec_enz_list.json";
       $("#greaction_enzyme_name").autocomplete({
         source: function (request, response) {
           $.ajax({
@@ -91,11 +91,11 @@
               response(
                 $.map(data, function (item) {
                   //console.log(item);
-                  if(item.enzyme_name.search(request.term) >= 0 ){  //문자의 일치 검색
+                  if(item.enz_name.search(request.term) >= 0 ){  //문자의 일치 검색
                     return { 
-                      label: item.enzyme_name,
-                      value: item.enzyme_name,
-                      'data-id': item.enzyme_num  //ontology를 얻기위해서 변수를 만듬.
+                      label: item.enz_name,
+                      value: item.enz_name,
+                      'data-id': item.enz_number  //ontology를 얻기위해서 변수를 만듬.
                     } 
                   }
                 })
