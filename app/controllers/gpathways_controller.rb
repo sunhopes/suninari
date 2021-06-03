@@ -4,16 +4,16 @@ class GpathwaysController < ApplicationController
   
   def index
     @gpathways = Gpathway.all
+    session[:glycan_id] = params[:glycan_motif_id]
+    #puts session[:glycan_id], params[:glycan_motif_id]
   end
 
   def show
     @greaction = Greaction.new
-    @last_id = session[:number]
   end
 
   def new
     @gpathway = Gpathway.new
-  
   end
 
   def create
@@ -94,7 +94,7 @@ class GpathwaysController < ApplicationController
   end
   
   def gpathway_params
-    params.require(:gpathway).permit(:title, :description, :species, :species_id, :pw_category, :pw_category_id, :tissue, :tissue_id, :cell_line, :cell_line_id, :bind_backbone)
+    params.require(:gpathway).permit(:title, :description, :species, :species_id, :pw_category, :pw_category_id, :tissue, :tissue_id, :cell_line, :cell_line_id, :bind_backbone, :disease, :disease_id)
 
   end
 end

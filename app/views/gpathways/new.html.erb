@@ -15,22 +15,11 @@
               <label for="gpathway_description">Description</label>
               <%= f.text_area :description, class: "form-control" %>
             </div>
-            <div class="form-row">
-              <div class="col">
-                <label for="gpathway_species">Species</label>
-                <%= f.text_field :species, class: "form-control", placeholder: "Bacteria" %>
-                <%= f.hidden_field :species_id, class: "form-control"%>
-              </div>
-              <div class="col">
-                <label for="gpathway_species">Species</label>
-                <%= f.text_field :species, class: "form-control", placeholder: "Virus" %>
-                <%= f.hidden_field :species_id, class: "form-control"%>
-              </div>
-              <div class="col">
-                <label for="gpathway_species">Species</label>
-                <%= f.text_field :species, class: "form-control", placeholder: "Eukaryote" %>
-                <%= f.hidden_field :species_id, class: "form-control"%>
-              </div>
+            <div class="form-group selectBtn">
+              <label for="gpathway_species">Species</label>
+              <%= f.select :kingdom_choice, options_for_select([['Bacteria', 'Bacteria' ], ['Virus', 'Virus' ], ['Eukaryote', 'Eukaryote']]), include_blank: "Select species", class: "form-select form-select-lg mb-3 selectBtn" %>
+              <%= f.text_field :species, class: "form-control" %>
+              <%= f.hidden_field :species_id, class: "form-control"%>
             </div>
             <div class="form-group mt-4">
               <label for="gpathway_pw_category">Pathway Category</label>
@@ -51,11 +40,12 @@
               <%= f.text_field :cell_line, class: "form-control", placeholder: "Your cell type(e.g. embryonic cell or prokaryotic cell)" %>
               <%= f.hidden_field :cell_line_id, class: "form-control"%>
             </div> 
-            <div class="form-group">
-              <label for="gpathway_bind_backbone">Binding Site</label><br>
-                <%= f.select :bind_backbone, options_for_select([['N-glycan', 'N-glycan' ], ['O-glycan', 'O-glycan' ], ['Lipid moiety', 'Lipid moiety']]), include_blank: "Select your glycan type", class: "form-select form-select-lg mb-3" %>
-                <%#= f.hidden_field :bind_backbone_id, class: "form-control" %> 
-            </div><br>
+            <div class="form-group selectBtn">
+              <label for="gpathway_disease">Related Disease</label>
+              <%= f.select :disease_choice, options_for_select([['Human', 'Human' ], ['Animal', 'Animal'], ['Plant', 'Plant']]), include_blank: "Select a related disease", class: "form-select form-select-lg mb-3 deaseBtn" %>
+              <%= f.text_field :disease, class: "form-control" %>
+              <%= f.hidden_field :disease_id, class: "form-control"%>
+            </div>
             <div class="form-group">
               <%= f.submit "Save New Pathway", class: "btn btn-primary" %>
               <%= link_to  gpathways_path, class: "btn btn-secondary"  do %>
@@ -76,7 +66,7 @@
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-primary">Save</button>
                   </div>
                 </div>
               </div>
@@ -93,7 +83,7 @@
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-primary">Save</button>
                   </div>
                 </div>
               </div>
@@ -154,21 +144,36 @@
 </script>
 <!-- autocomplete for Taxon-->
 <script>
- $(function(){
-    var taxon_url = "http://localhost:3002/sparqlist/api/NCBI_BACTERIA";
+$(function(){
+  $("#gpathway_kingdom_choice").change(function(){
+    var select_id = document.getElementById("gpathway_kingdom_choice");
+    var select_value = select_id.value;
+    //console.log(select_value);
+    let select_url;
+    if (select_value == "Bacteria"){
+        select_url = "NCBI_BACTERIA";
+    } else if (select_value == "Virus"){
+        select_url = "NCBI_Virus";
+    } else {
+        select_url = "NCBI_Eukaryota";
+    }
+     
+    let taxon_url = "http://localhost:3002/sparqlist/api/" + select_url;
       $("#gpathway_species").autocomplete({
         source: function (request, response) {
             $.ajax({
               url: taxon_url, 
               dataType: "json",
+              data:{ searchValue : request.term}
               success: function(data) {
                 response(
                   $.map(data, function (item) {
                     if(item.Taxon_name.search(request.term) >= 0 ){  //문자의 일치 검색
                     //console.log(item);
+                    //console.log(request.term);
                       return { 
                         label: item.Taxon_name,
-                        value: item.Taxon_nmae,
+                        value: item.Taxon_name,
                         'data-id': item.Taxon_id  //taxon ID를 얻기위해서 변수를 만듬.
                       }
                     } 
@@ -179,11 +184,13 @@
         },
         select: function(event, ui) {
                 //console.log(ui.item.value);
-            $('#gpathway_species_id').val(`${ui.item['data-id']}`);},   //Taxon ID 얻기
-        delay: 300,
-        minLength: 2,
+            $('#gpathway_species_id').val(`${ui.item['data-id']}`); //Taxon ID 얻기
+        },   
+        delay: 500,
+        minLength: 3,
         autoFocus: true
       });
+  }) 
 })
 </script>
 <!-- autocomplete for cell type(changed to cell type)-->
@@ -219,6 +226,56 @@
         minLength: 2,
         autoFocus: true
       });
+})
+</script>
+
+<!-- autocomplete for Disease-->
+<script>
+$(function(){
+  $("#gpathway_disease_choice").change(function(){
+    var select_disease_id = document.getElementById("gpathway_disease_choice");
+    var select_disease_value = select_disease_id.value;
+    //console.log(select_dvalue);
+    let select_disease_url;
+    if (select_disease_value == "Human"){
+        select_disease_url = "Human_disease";
+    } else if (select_disease_value == "Animal"){
+        select_disease_url = "Animal_Disease";
+    } else {
+        select_disease_url = "Plant_Disease";
+    } 
+    let disease_url = "http://localhost:3002/sparqlist/api/" + select_disease_url;
+      $("#gpathway_disease").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+              url: disease_url, 
+              dataType: "json",
+              success: function(data) {
+                response(
+                  $.map(data, function (item) {
+                    if(item.Disease_name.search(request.term) >= 0 ){  //문자의 일치 검색
+                    //console.log(item);
+                    //console.log(request.term);
+                      return { 
+                        label: item.Disease_name,
+                        value: item.Disease_name,
+                        'data-id': item.Disease_id  //disease ID를 얻기위해서 변수를 만듬.
+                      }
+                    } 
+                  })
+                );
+              },
+            });
+        },
+        select: function(event, ui) {
+                //console.log(ui.item.value);
+            $('#gpathway_disease_id').val(`${ui.item['data-id']}`); //disease ID 얻기
+        },   
+        delay: 300,
+        minLength: 2,
+        autoFocus: true
+      });
+  }) 
 })
 </script>
 

@@ -4,13 +4,20 @@ class GreactionsController < ApplicationController
 
   def new
     @greaction = Greaction.new
-    rxnid = params[:rxnid]
-    if rxnid
-      @reactionNum_id = @gpathway.greactions.last[:rxnid].to_i
-      @last_id = @reactionNum_id + 1
-      puts @last_id
-      session[:number] = @last_id 
+    @g_id = session[:glycan_id]
+    @grxn_count = @gpathway.greactions.count
+    #puts "rxn : #{@grxn_count.to_i}"
+    if @grxn_count.to_i == 0
+      @last_id = 1
+      @receive_product = @g_id 
+      puts "product: #{@receive_product}"
+      #flash[:alert] = "You selected '#{@receive_product }'."
+    elsif @grxn_count.to_i != 0
+      @reaction_last_id = @gpathway.greactions.last[:rxnid].to_i
+      @last_id = @reaction_last_id + 1
+      @receive_product = @gpathway.greactions.last[:product_img] 
     end
+    
     respond_to do |format|
       format.html
       format.js
@@ -24,7 +31,6 @@ class GreactionsController < ApplicationController
     require 'net/http'
     require 'uri'
     rnum = params[:rxnid]
-    #rnum = input_id.to_i
     if rnum != 0
       new_params2 = greaction_params
         if params[:textype1] == 'glytoucanid'
@@ -46,6 +52,8 @@ class GreactionsController < ApplicationController
   end
 
   def edit
+    @edit_react_touid =  @greaction.reactant_img
+    @edit_produdt_touid = @greaction.product_img
     respond_to do |format|
       format.html
       format.js
@@ -53,7 +61,7 @@ class GreactionsController < ApplicationController
   end
 
   def update 
-    rrequire 'net/http'
+    require 'net/http'
     require 'uri'
     rnum = params[:rxnid]
     if rnum != 0
@@ -132,7 +140,8 @@ class GreactionsController < ApplicationController
             '&gpathway_taxon_id=' + @gpathway.species_id +
             '&gpathway_pw_category=' + @gpathway.pw_category +
             '&gpathway_pw_category_id=' + @gpathway.pw_category_id 
-            #'&gpathway_bind_backbone=' + @gpathway.bind_backbone
+            # '&gpathway_pw_disease=' + @gpathway.disease +
+            # '&gpathway_pw_disease_id=' + @gpathway.disease_id 
             )
          Net::HTTP.get(gpathway_uri)
   end

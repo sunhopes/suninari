@@ -1,148 +1,289 @@
 <%=render 'gpathways/error' %>
-
 <main class="mt-1 pt-2">
   <div class="container fadeIn">
-    <h2 class="my-5 h2 text-left">Pathway Basic information</h2>
-      <div class="row">
-        <div class="col-md-7 mb-4">
-          <ul class="list-group mb-3 z-depth-1">
-          <li class="list-group-item d-flex justify-content-between bg-light">
-            <div>
-              <h6 class="text-primary">Title</h6>
-              <h5 class="text-muted"><%= @gpathway.title %></h5>
-            </div>
-          </li>
-          <li class="list-group-item d-flex justify-content-between lh-condensed">
-            <div>
-              <h6 class="text-primary">Description</h6>
-              <h5 class="text-muted"><%= simple_format @gpathway.description %></h5>
-            </div>
-          </li>
-          <li class="list-group-item d-flex justify-content-between bg-light">
-            <div>
-              <h6 class="text-primary">Species</h6>
-              <h5><%= @gpathway.species %></h5>
-            </div>
-          </li>
-          <li class="list-group-item d-flex justify-content-between lh-condensed">
-            <div>
-              <h6 class="text-primary">Tissue</h6>
-              <h5 class="text-muted"><%= @gpathway.tissue %></h5>
-            </div>
-          </li>
-          <li class="list-group-item d-flex justify-content-between lh-condensed">
-            <div>
-              <h6 class="text-primary">Pathway Category</h6>
-              <h5 class="text-muted"><%= @gpathway.pw_category %></h5>
-            </div>
-          </li>
-          <li class="list-group-item d-flex justify-content-between bg-light">
-            <div>
-              <h6 class="text-primary">Cell Type</h6>
-              <h5 class="text-muted"><%= @gpathway.cell_line %></h5>
-            </div>
-          </li>
-          <!-- <li class="list-group-item d-flex justify-content-between lh-condensed">
-            <div>
-              <h6 class="text-primary">Binding site</h6>
-              <h5 class="text-muted"><%= @gpathway.bind_backbone %></h5>
-            </div>
-          </li> -->
-          <li class="list-group-item d-flex justify-content-between bg-light">
-            <div>
-              <h6 class="text-primary">Regist date</h6>
-              <h5 class="text-muted"><%= @gpathway.updated_at.strftime("%Y-%m-%d") %></h5>
-            </div>
-          </li>
-          <li class="list-group-item d-flex justify-content-between">
-            <% if @gpathway.user == current_user %>
-              <div class="float-left">
-                <%=link_to 'Pathway List', gpathways_path, class: "btn btn-primary btn-lg" %>
+    <div class="panel panel-info">
+      <div class="panel-heading"><h4><b>Pathway Basic Information</b></h4></div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-md-8 mb-4">
+            <ul class="list-group mb-3 z-depth-1">
+            <li class="list-group-item d-flex justify-content-between bg-light">
+              <div class="info">
+                <h6 class="text-primary" >Title :</h6>
+                <h5 class="text-muted">&nbsp;&nbsp;<%= @gpathway.title %></h5>
               </div>
-              <div class="float-right">
-                <%=link_to 'Edit', edit_gpathway_path(@gpathway), remote: true, data: { target: '#pathwayModal', toggle: 'modal'}, class: "btn btn-outline-info btn-lg" %>
-              
-                <%#=link_to 'Delete', gpathway_path(@gpathway), method: :delete, class: "btn btn-outline-danger btn-lg", data: { confirm: 'Are you sure?' } %>
+            </li>
+            <li class="list-group-item d-flex justify-content-between lh-condensed">
+              <div class="info">
+                <h6 class="text-primary">Description :</h6>
+                <h5 class="text-muted">&nbsp;&nbsp;<%= simple_format @gpathway.description %></h5>
+              </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between bg-light">
+              <div class="info">
+                <h6 class="text-primary">Species :</h6>
+                <h5 class="text-muted"> &nbsp;&nbsp;<%= @gpathway.species %></h5>
+              </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between lh-condensed">
+              <div class="info">
+                <h6 class="text-primary">Tissue :</h6>
+                <h5 class="text-muted">&nbsp;&nbsp;<%= @gpathway.tissue %></h5>
+              </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between bg-light">
+              <div class="info">
+                <h6 class="text-primary">Pathway Category :</h6>
+                <h5 class="text-muted">&nbsp;&nbsp;<%= @gpathway.pw_category %></h5>
+              </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between li-light">
+              <div class="info">
+                <h6 class="text-primary">Cell Type :</h6>
+                <h5 class="text-muted">&nbsp;&nbsp;<%= @gpathway.cell_line %></h5>
+              </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between bg-light">
+              <div class="info">
+                <h6 class="text-primary">Regist date :</h6>
+                <h5 class="text-muted">&nbsp;&nbsp;<%= @gpathway.updated_at.strftime("%Y-%m-%d") %></h5>
+              </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <% if @gpathway.user == current_user %>
+                <div class="float-left">
+                  <%=link_to 'Edit of Pathway basic information', edit_gpathway_path(@gpathway), remote: true, data: { target: '#pathwayModal', toggle: 'modal'}, class: "btn btn-primary" %>
+                  <%#=link_to 'Delete', gpathway_path(@gpathway), method: :delete, class: "btn btn-outline-danger btn-sm", data: { confirm: 'Are you sure?' } %>
                   <div id="pathwayModal" class="modal fade"   tabindex="-1" role="dialog" aria-labelledby="pathwayModalLabel" aria-hidden="true"> 
-                    <div class="pwModalDialog" role="document"> </div>
+                    <div class="pwModalDialog" role="document"></div>
                   </div>
-              </div>
-              <div>
-            <% end %>
-          </li>
-        </ul>
+                </div>
+                <div class="float-right">
+                  <%=link_to 'Pathway List', gpathways_path, class: "btn btn-outline-info" %>
+                </div>
+              <% end %>
+            </li>
+          </ul>
+        </div>
+<!--File upload -->
+      <div class="container mt-3">
+        <div class="form">
+          <div class="form-group">
+            <label class="custom-file mb-3">Reaction file input</label>
+            <input type="file" class="custom-file-input" id="reaction_file_upload">
+            <div class="mt-1">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </div>  
+        </div>
+      </div>
+
+      </div>
       </div>
     </div>
   </div>
 </main>
 
+<!-- Glycan select box-->
+<div class="container mb-4">
+<h5>Click on icon of glycan if there is a proper one. It will be a starter glycan in your glycan pathway.</h5>
+  <div class="panel panel-info">
+    <div class="panel-heading"><b>Glycan motifs</b></div>
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title" style="color:blue">N-glycan</h5>
+                <div class="row no-gutters">
+                  <div class="col-6">Core
+                    <div class="bg-white">
+                      <%= link_to new_gpathway_greaction_path(@gpathway), id: 'newReaction', remote: true, data: { target: '#reactionModal', toggle: 'modal'}, class: 'btn btn-outline-light btn-sm' do %>
+                      <img id="n_core" class="icon" data-accession="G22768VO" src="https://image.beta.glycosmos.org/snfg/png/G22768VO" height="50" width="120" style="float:left"><% end %>
+                    </div>
+                  </div>
+                  <div class="col-6 icons">Hybrid
+                    <div class="bg-white">
+                      <%= link_to new_gpathway_greaction_path(@gpathway), id: 'newReaction', remote: true, data: { target: '#reactionModal', toggle: 'modal'}, class: 'btn btn-outline-light btn-sm' do %>
+                      <img id="n_hybrid" class="icon" data-accession="G55220VL" src="https://image.beta.glycosmos.org/snfg/png/G55220VL" height="75" width="145" style="float:right;margin-left:5px"><% end %>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-8">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title" style="color:blue">Others</h5>
+                <div class="row">
+                  <div class="col-3">Hyaluronic Acid 
+                    <div class="bg-white">
+                      <%= link_to new_gpathway_greaction_path(@gpathway), id: 'newReaction', remote: true, data: { target: '#reactionModal', toggle: 'modal'}, class: 'btn btn-outline-light btn-sm' do %>
+                      <img id="hyalu" class="icon" data-accession="G48124SB" src="https://image.beta.glycosmos.org/snfg/png/G48124SB" style="max-width: 100%; height: auto;"><% end %></div>
+                  </div>
+                  <div class="col-3">Cad Antigen 
+                    <div class="bg-white">
+                      <%= link_to new_gpathway_greaction_path(@gpathway), id: 'newReaction', remote: true, data: { target: '#reactionModal', toggle: 'modal'}, class: 'btn btn-outline-light btn-sm' do %>
+                      <img id="cad_antigen" class="icon" data-accession="G00063MO" src="https://image.beta.glycosmos.org/snfg/png/G00063MO" style="max-width: 100%; height: auto;"><% end %></div>
+                  </div>
+                  <div class="col-3">PK Antigen 
+                    <div class="bg-white">
+                      <%= link_to new_gpathway_greaction_path(@gpathway), id: 'newReaction', remote: true, data: { target: '#reactionModal', toggle: 'modal'}, class: 'btn btn-outline-light btn-sm' do %>
+                      <img id="pk_antigen" class="icon" data-accession="G00059MO" src="https://image.beta.glycosmos.org/snfg/png/G00059MO" style="max-width: 100%; height: auto;"><% end %></div>
+                  </div>
+                  <div class="col-3">Poly Lactosamine
+                    <div class="bg-white">
+                      <%= link_to new_gpathway_greaction_path(@gpathway), id: 'newReaction', remote: true, data: { target: '#reactionModal', toggle: 'modal'}, class: 'btn btn-outline-light btn-sm' do %>
+                      <img id="poly_lacto" class="icon" data-accession="G00058MO" src="https://image.beta.glycosmos.org/snfg/png/G00058MO" style="max-width: 100%; height: auto;"><% end %></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <div class="row mt-2">
+        <div class="col-sm-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title" style="color:blue">Glycosphingolipids</h5>
+                <div class="row">
+                  <div class="col-2">Arthro
+                    <div class="bg-white">
+                      <%= link_to new_gpathway_greaction_path(@gpathway), id: 'newReaction', remote: true, data: { target: '#reactionModal', toggle: 'modal'}, class: 'btn btn-outline-light btn-sm' do %>
+                      <img id="gl_arthro" class="icon" data-accession="G40793GY" src="https://image.beta.glycosmos.org/snfg/png/G40793GY" style="max-width: 100%; height: auto;"><% end %></div>
+                  </div>
+                  <div class="col-2">Ganglio 
+                    <div class="bg-white">
+                      <%= link_to new_gpathway_greaction_path(@gpathway), id: 'newReaction', remote: true, data: { target: '#reactionModal', toggle: 'modal'}, class: 'btn btn-outline-light btn-sm' do %>
+                      <img id="gl_gangl" class="icon" data-accession="G21856LC" src="https://image.beta.glycosmos.org/snfg/png/G21856LC" style="max-width: 100%; height: auto;"><% end %></div>
+                  </div>
+                  <div class="col-2">Globo 
+                    <div class="bg-white">
+                      <%= link_to new_gpathway_greaction_path(@gpathway), id: 'newReaction', remote: true, data: { target: '#reactionModal', toggle: 'modal'}, class: 'btn btn-outline-light btn-sm' do %>
+                      <img id="gl_globo" class="icon" data-accession="G00061MO" src="https://image.beta.glycosmos.org/snfg/png/G00061MO" style="max-width: 100%; height: auto;"><% end %></div>
+                  </div>
+                  <div class="col-2">Muco 
+                    <div class="bg-white">
+                      <%= link_to new_gpathway_greaction_path(@gpathway), id: 'newReaction', remote: true, data: { target: '#reactionModal', toggle: 'modal'}, class: 'btn btn-outline-light btn-sm' do %>
+                      <img id="gl_muco" class="icon" data-accession="G99042JP" src="https://image.beta.glycosmos.org/snfg/png/G99042JP" style="max-width: 100%; height: auto;"><% end %></div>
+                  </div>
+                  <div class="col-2">Muco 
+                    <div class="bg-white">
+                      <%= link_to new_gpathway_greaction_path(@gpathway), id: 'newReaction', remote: true, data: { target: '#reactionModal', toggle: 'modal'}, class: 'btn btn-outline-light btn-sm' do %>
+                      <img id="n_hybrid" class="icon" data-accession="G55220VL" src="https://image.beta.glycosmos.org/snfg/png/G99042JP" style="max-width: 100%; height: auto;"><% end %></div>
+                  </div>
+                  <div class="col-2">Muco 
+                    <div class="bg-white">
+                      <%= link_to new_gpathway_greaction_path(@gpathway), id: 'newReaction', remote: true, data: { target: '#reactionModal', toggle: 'modal'}, class: 'btn btn-outline-light btn-sm' do %>
+                      <img id="n_hybrid" class="icon" data-accession="G55220VL" src="https://image.beta.glycosmos.org/snfg/png/G99042JP" style="max-width: 100%; height: auto;"><% end %></div>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Reaction Index -->
 <div class="container mt-11 mb-5">
-<h3>Reaction Table</h3>
-  <table class="table table-hover" id="rxntable">
-    <thead class="thead-light">
-      <tr>
-        <th class="text-center">RXN ID</th>
-        <th class="text-center">Reactant</th>
-        <th class="text-center">Enzyme</th>
-        <th class="text-center">Sugar Nucleotide</th>
-        <th class="text-center">Product</th>
-        <th class="text-center">Cell Location</th>
-        <th colspan="７">Action&nbsp;&nbsp;
-          <%= link_to new_gpathway_greaction_path(@gpathway), id: 'newReaction', remote: true, data: { target: '#reactionModal', toggle: 'modal'}, class: 'btn btn-primary btn-sm' do %>
-          <i class="fas fa-plus-square"></i><% end %>
-            <div id="reactionModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="reactionModalLabel" aria-hidden="true"> 
-              <div class="modal-dialog" role="document"></div>
-            </div>
-        </th>
-      </tr>
-    </thead>
-    <tbody id="rxnbody">
-      <% @gpathway.greactions.each do |greaction|%>
-        <tr class="rxnrow">
-          <td id='rxnNum'><%=greaction.rxnid%>&nbsp;</td>
-          <td><glytoucan-image accession="<%=greaction.reactant_img %>" imageApi="https://api.glycosmos.org/wurcs2image/experimental/png/binary/" ></glytoucan-image></td>
-          <td><%=greaction.enzyme_name%></td>
-          <td><%=greaction.sugar_nt%></td>
-          <td><glytoucan-image accession="<%=greaction.product_img %>" imageApi="https://api.glycosmos.org/wurcs2image/experimental/png/binary/" ></glytoucan-image></td>
-          <td><%=greaction.cellular_locate%></td>
-          <td>
-            <%= link_to new_gpathway_greaction_path(@gpathway), id: 'newReaction' , remote: true, data: { target: '#reactionModal', toggle: 'modal'}, data: { id: greaction.rxnid }, class: 'btn btn-primary btn-sm checkBtn' do %>
-              <i class="fas fa-plus-square"></i><% end %>
-              <div id="reactionModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="reactionModalLabel" aria-hidden="true"> 
-                <div class="modal-dialog" role="document"></div>
-              </div>
-            <%= link_to edit_gpathway_greaction_path(@gpathway, greaction.id), remote: true, data: { target: '#edit_reactionModal', toggle: 'modal'}, class: 'btn btn-success btn-sm' do %>
-              <i class="fas fa-edit"></i><% end %>
-              <div id="edit_reactionModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="edit_reactionLabel" aria-hidden="true"> 
-                <div class="modalEdit" role="document"></div>
-              </div>
-            <%= link_to gpathway_greaction_path(@gpathway, greaction), class: 'btn btn-danger btn-sm', method: :delete, data: { confirm: 'Are you sure?' }  do %>
-              <i class="fas fa-trash-alt"></i><% end %>
-            <%# <button type="button" class="btn btn-outline-info btn-sm checkBtn">Insert Reaction</button> %>
-          </td>  
-        </tr> 
-      <% end %>
-    </tbody>
-  </table>
-  <%#=@id_find %>
-  <%= link_to "RDF", gpathway_path(@gpathway), method: :post, class: 'btn btn-success btn-sm' %>
+  <div class="panel panel-info">
+    <div class="panel-heading"><h4><b>Reaction Table</b></h4></div>
+      <div class="panel-body">
+        <table class="table table-hover" id="rxntable">
+          <thead class="thead-light">
+            <tr>
+              <th class="text-center">RXN ID</th>
+              <th class="text-center">Reactant</th>
+              <th class="text-center">Enzyme</th>
+              <th class="text-center">Sugar Nucleotide</th>
+              <th class="text-center">Product</th>
+              <th class="text-center">Cell Location</th>
+              <th colspan="７">Action&nbsp;&nbsp;
+                <%= link_to new_gpathway_greaction_path(@gpathway), id: 'newReaction', remote: true, data: { target: '#reactionModal', toggle: 'modal'}, class: 'btn btn-primary btn-sm' do %>
+                <i class="fas fa-plus-square"></i><% end %>
+                  <div id="reactionModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="reactionModalLabel" aria-hidden="true"> 
+                    <div class="modal-dialog" role="document"></div>
+                  </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody id="rxnbody">
+            <% @gpathway.greactions.each do |greaction|%>
+              <tr class="rxnrow">
+                <td id='rxnNum'><%=greaction.rxnid%>&nbsp;</td>
+                <td><glytoucan-image accession="<%=greaction.reactant_img %>" imageApi="https://api.glycosmos.org/wurcs2image/experimental/png/binary/" ></glytoucan-image></td>
+                <td><%=greaction.enzyme_name%></td>
+                <td><%=greaction.sugar_nt%></td>
+                <td><glytoucan-image accession="<%=greaction.product_img %>" imageApi="https://api.glycosmos.org/wurcs2image/experimental/png/binary/" ></glytoucan-image></td>
+                <td><%=greaction.cellular_locate%></td>
+                <td>
+                  <%= link_to new_gpathway_greaction_path(@gpathway), id: 'newReaction' , remote: true, data: { target: '#reactionModal', toggle: 'modal'}, data: { id: greaction.rxnid }, class: 'btn btn-primary btn-sm checkBtn' do %>
+                    <i class="fas fa-plus-square"></i><% end %>
+                    <div id="reactionModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="reactionModalLabel" aria-hidden="true"> 
+                      <div class="modal-dialog" role="document"></div>
+                    </div>
+                  <%= link_to edit_gpathway_greaction_path(@gpathway, greaction.id), remote: true, data: { target: '#edit_reactionModal', toggle: 'modal'}, class: 'btn btn-success btn-sm' do %>
+                    <i class="fas fa-edit"></i><% end %>
+                    <div id="edit_reactionModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="edit_reactionLabel" aria-hidden="true"> 
+                      <div class="modalEdit" role="document"></div>
+                    </div>
+                  <%= link_to gpathway_greaction_path(@gpathway, greaction), class: 'btn btn-danger btn-sm', method: :delete, data: { confirm: 'Are you sure?' }  do %>
+                    <i class="fas fa-trash-alt"></i><% end %>
+                  <%# <button type="button" class="btn btn-outline-info btn-sm checkBtn">Insert Reaction</button> %>
+                </td>  
+              </tr> 
+            <% end %>
+          </tbody>
+        </table>
+        
+     </div>
+   </div>
+</div>
+<div class="container mb-4">
+  <%= link_to "Regist (RDF)", gpathway_path(@gpathway), method: :post, class: 'btn btn-success btn-sm' %>
+  <%= link_to "Pathway List", gpathways_path, class: 'btn btn-outline-info', style: 'float:right' %>
 </div>
 
 <script>
-window.onload = function(){
-  $(function(){
-    $(".checkBtn").click(function() {
-      var checkBtn = $(this); 
-      var new_id = checkBtn.data('id');   //RXN_ID value
-      var next_id = new_id + 1
-      console.log(next_id);
-      //location.href="/_modalRform.html.erb?" + next_id;
-      $('#greaction_rxnid').attr('value',next_id);
-      //console.log(document.getElementById('greaction_rxnid'));
-    });
-  }) 
-}
+$(function (){
+  const target = $('.icon');
+  var glycan_ids = ["n_core", "n_hybrid", "hyalu", "cad_antigen", "pk_antigen", "poly_lacto"];
+  target.on("click", function(e) {
+    //console.log(e.target);
+    var glycan_id = e.target.id;
+    if (glycan_id == "n_core") {
+        var id_val = $('#n_core').data('accession');
+      } else if (glycan_id == "n_hybrid" ) {
+        var id_val = $('#n_hybrid').data('accession');
+      } else if (glycan_id == "hyalu" ) {
+        var id_val = $('#hyalu').data('accession');
+      } else if (glycan_id == "cad_antigen" ) {
+        var id_val = $('#cad_antigen').data('accession');
+      } else if (glycan_id == "pk_antigen" ) {
+        var id_val = $('#pk_antigen').data('accession');
+      } else if (glycan_id == "poly_lacto" ) {
+        var id_val = $('#poly_lacto').data('accession');
+      }
+    var glycan_select_id = id_val;
+    //console.log(glycan_select_id);
+
+    var data = "glycan_motif_id=" + encodeURIComponent(glycan_select_id)
+    $.ajax({
+      url: 'http://localhost:3000/gpathways/<%=@gpathway%>',
+      data: data,
+      type:'get'
+      })
+      .done(function(response) {
+        return data
+      })
+      .fail(function(error){
+        console.log("error")
+      })
+  }); 
+})
 </script>
-
-

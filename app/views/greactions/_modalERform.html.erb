@@ -20,7 +20,7 @@
           <div class="form-group">
             <label for="greaction_reactant">Reactant Glycan</label>&nbsp;&nbsp;
             <%= select_tag :textype1, options_for_select([["GlyToucan ID", "glytoucanid"],["IUPACcondensed", "iupaccondensed"], ["IUPACextened", "iupacextended"], ["Linear code", "linearcode"]])%><br >
-            <%= f.text_field :reactant, class: "form-control" %></div>
+            <%= f.text_field :reactant, class: "form-control t_style", :value => @edit_react_touid %></div>
           <div class="form-group">
             <label for="greaction_enzyme_name">Enzyme</label>
             <%= f.text_field :enzyme_name, class: "form-control autocomplete" , placeholder: "Type enzyme name" %>
@@ -33,7 +33,7 @@
           <div class="form-group">
             <label for="greaction_texttype2">Product Glycan</label>&nbsp;&nbsp;
             <%= select_tag :textype2, options_for_select([["GlyToucan ID", "glytoucanid"],["IUPACcondensed", "iupaccondensed"], ["IUPACextened", "iupacextended"], ["Linear code", "linearcode"]])%><br >
-            <%= f.text_field :product, class: "form-control" %></div> 
+            <%= f.text_field :product, class: "form-control t_style", :value => @edit_produdt_touid %></div> 
           <div class="form-group">
             <label for="greaction_cellular_locate">Cellular Localizaiton</label>
             <%= f.text_field  :cellular_locate, class: "form-control autocomplete", placeholder: "Type your cellular localizaton(e.g. golgi)"  %>

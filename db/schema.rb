@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_25_063218) do
+ActiveRecord::Schema.define(version: 2021_05_25_054506) do
 
   create_table "gpathways", force: :cascade do |t|
     t.string "title"
@@ -27,6 +27,8 @@ ActiveRecord::Schema.define(version: 2021_02_25_063218) do
     t.string "species_id"
     t.string "tissue_id"
     t.string "cell_line_id"
+    t.string "disease"
+    t.string "disease_id"
   end
 
   create_table "greactions", force: :cascade do |t|
