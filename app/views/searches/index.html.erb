@@ -1,0 +1,49 @@
+<main class="mt-1 pt-5">
+  <div class="container">
+    <div class="panel panel-info">
+      <div class="panel-heading"><h4><b>Pathway Search</b></h4></div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-md-12 mb-4">
+
+            <glycosmos-table
+            listSparqlet="http://localhost:3002/sparqlist/api/pathway_search"
+            columns='{
+                "pathway_name": {
+                    "name": "Pathway Name",
+                    "type": "string"
+                },
+                "pathway_category": {
+                    "name": "Pathway Category",
+                    "type": "string"
+                }, 
+                "pathway_disease": {
+                    "name": "Related Disease",
+                    "type": "string"
+                },
+                "pathway_glycanid": {
+                    "name": "Constitute Glycans",
+                    "type": "array"
+                },
+                "enzyme_name_array": {
+                    "name": "Involved Enzmes",
+                    "type": "array"
+                }
+              }'
+            links='{
+                "pathway_glycanid": {
+                  "url": "http://identifiers.org/glytoucan/"
+                }
+              }'
+
+            stickyTop="75px"
+            imageFile="<%#= @image_domain %>">
+            </glycosmos-table>
+
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</main>

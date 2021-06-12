@@ -10,6 +10,8 @@ class GpathwaysController < ApplicationController
 
   def show
     @greaction = Greaction.new
+    @grxn_count = @gpathway.greactions.count
+    #puts "count: #{ @grxn_count}"
   end
 
   def new
@@ -90,7 +92,7 @@ class GpathwaysController < ApplicationController
   private
 
   def set_gpathway
-    @gpathway = Gpathway.find(params[:id]) 
+    @gpathway = Gpathway.find(params[:id])  
   end
   
   def gpathway_params

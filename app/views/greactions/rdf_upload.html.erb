@@ -1,33 +1,28 @@
-<div class="container mt-5">
+<div class="container mt-5 mb-5">
   <div class="row">
-    <div class="col-12 mx-auto">
-    <b><%= @gpathway.title %></b>&nbsp;Pathway is Uploaded!<br><br>
+    <div class="panel panel-info">
+      <div class="panel-heading"><b><%= @gpathway.title %></b>&nbsp;&nbsp;pathway is Uploaded!<br></div>
+        <div class="panel-body">
+          
+          <div class="row">
+            <% @greactions.each do |greaction|%> 
+              <tr>
+                <td><glytoucan-image accession="<%=greaction.reactant_img %>" imageApi="https://api.glycosmos.org/wurcs2image/experimental/png/binary/" ></glytoucan-image></td>
+              <% end %>
+              </tr> 
+              <glytoucan-image accession="<%=@last_product %>" imageApi="https://api.glycosmos.org/wurcs2image/experimental/png/binary/" ></glytoucan-image>
+            
+          </div>
 
-    <%#= @gpathway.title %>
-    <%#= @gpathway.id %>
-    <%#= @gpathway.description %>
-    <%#= @gpathway.tissue %>
-    <%#= @gpathway.tissue_id %>
-    <%#= @gpathway.species %>
-    <%#= @gpathway.species_id %>
-    <%#= @gpathway.cell_line %>
-    <%#= @gpathway.cell_line_id %>
+        </div>
+      </div>  
+    </div>
+    <div class="float-left">
+      <%= link_to "Pathway List", gpathways_path, class: 'btn btn-outline-info' %>
+    </div>
 
-    <% @greactions.each do |greaction|%>
-    RXN_ID:&nbsp;<%= greaction.id%><br>
-    <%# Reactant_Glycan:&nbsp;<%= greaction.reactant%>
-    Image:&nbsp;<%= greaction.reactant_img%><br>
-    <glytoucan-image accession="<%=greaction.reactant_img %>" imageApi="https://api.glycosmos.org/wurcs2image/experimental/png/binary/" ></glytoucan-image>
-    Enzyme:&nbsp;<%= greaction.enzyme_name%><br>
-    Enzyme_num:&nbsp;<%= greaction.enzyme_onto_id%><br>
-    Sugar_nucleotide:&nbsp;<%= greaction.sugar_nt%><br>
-    Sugar_ID:&nbsp;<%= greaction.sugar_onto_id%><br>
-    <%# Produst_Glycan:&nbsp;<%= greaction.product%>
-    Product_Image:&nbsp;<%= greaction.product_img%><br>
-    <glytoucan-image accession="<%=greaction.product_img %>" imageApi="https://api.glycosmos.org/wurcs2image/experimental/png/binary/" ></glytoucan-image>
-    Cell_Locate:&nbsp;<%= greaction.cellular_locate%><br>
-    Cell_Local_ID:&nbsp;<%= greaction.cellcomp_onto_id%><br>
-    <% end %>
+    <div class="float-right">
+      <%= link_to "Pathway Search", searches_index_path, class: 'btn btn-info' %>
     </div>
   </div>
 </div>

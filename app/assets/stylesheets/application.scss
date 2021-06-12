@@ -74,6 +74,15 @@
   color: #337ab7;
   font-weight: bold;
 }
+.nav-item {
+  font-weight: bold;
+  font-style: italic;
+  color: black;
+}
+.navbar-nav > li {
+  margin-left: 30px;
+  margin-right: 30px;
+}
 // .modal-dialog2{
 //     position: relative;
 //     display: table; 

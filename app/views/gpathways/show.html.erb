@@ -1,11 +1,11 @@
 <%=render 'gpathways/error' %>
-<main class="mt-1 pt-2">
+<main class="mt-5 pt-2">
   <div class="container fadeIn">
     <div class="panel panel-info">
       <div class="panel-heading"><h4><b>Pathway Basic Information</b></h4></div>
       <div class="panel-body">
-        <div class="row">
-          <div class="col-md-8 mb-4">
+        <div class="row mt-3">
+          <div class="col-md-10 mb-4">
             <ul class="list-group mb-3 z-depth-1">
             <li class="list-group-item d-flex justify-content-between bg-light">
               <div class="info">
@@ -43,6 +43,12 @@
                 <h5 class="text-muted">&nbsp;&nbsp;<%= @gpathway.cell_line %></h5>
               </div>
             </li>
+            <li class="list-group-item d-flex justify-content-between li-light">
+              <div class="info">
+                <h6 class="text-primary">Related Disease :</h6>
+                <h5 class="text-muted">&nbsp;&nbsp;<%= @gpathway.disease %></h5>
+              </div>
+            </li>
             <li class="list-group-item d-flex justify-content-between bg-light">
               <div class="info">
                 <h6 class="text-primary">Regist date :</h6>
@@ -52,33 +58,78 @@
             <li class="list-group-item d-flex justify-content-between">
               <% if @gpathway.user == current_user %>
                 <div class="float-left">
-                  <%=link_to 'Edit of Pathway basic information', edit_gpathway_path(@gpathway), remote: true, data: { target: '#pathwayModal', toggle: 'modal'}, class: "btn btn-primary" %>
+                  <%=link_to 'Edit of Pathway basic information', edit_gpathway_path(@gpathway), remote: true, data: { target: '#pathwayModal', toggle: 'modal'}, class: "btn btn-success" %>
                   <%#=link_to 'Delete', gpathway_path(@gpathway), method: :delete, class: "btn btn-outline-danger btn-sm", data: { confirm: 'Are you sure?' } %>
                   <div id="pathwayModal" class="modal fade"   tabindex="-1" role="dialog" aria-labelledby="pathwayModalLabel" aria-hidden="true"> 
                     <div class="pwModalDialog" role="document"></div>
                   </div>
                 </div>
                 <div class="float-right">
-                  <%=link_to 'Pathway List', gpathways_path, class: "btn btn-outline-info" %>
+                  <%=link_to 'Pathway List', gpathways_path, class: "btn btn-secondary" %>
                 </div>
               <% end %>
             </li>
           </ul>
         </div>
-<!--File upload -->
-      <div class="container mt-3">
-        <div class="form">
-          <div class="form-group">
-            <label class="custom-file mb-3">Reaction file input</label>
-            <input type="file" class="custom-file-input" id="reaction_file_upload">
-            <div class="mt-1">
-              <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
+      </div>
+    </div>
+  </div>
+<!-- Modal for pathway category -->
+    <div class="modal fade" id="pwOntoModal" role="dialog">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Pathway Category</h4>
           </div>  
+          <div class="modal-body">
+            <div id="pw_category"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-success">Save changes</button>
+          </div>
         </div>
       </div>
-
+    </div>
+<!-- Modal for Tissue ontology -->
+    <div class="modal fade" id="tissueOntoModal"  role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Tissue for animal</h4>
+          </div>
+          <div class="modal-body">
+            <div id="tissue_select"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-success">Save changes</button>
+          </div>
+        </div>
       </div>
+    </div>
+  
+<!--File upload -->
+    <div class="panel panel-info">
+      <div class="panel-heading"><h4>Reaction Table Upload</b></h4></div>
+      <div class="panel-body">
+        <div class="row mt-3">
+          <div class="col-md-12 mb-4">
+            <div id ="file_download">
+              <%= link_to 'Reaction Format Download', {controller: :gpathways, action: :download_file}, method: :get, class: 'btn btn-info' %></div><br>
+                <div id ="file_upload">
+                  <%= form_tag({ action: :upload }, multipart: true) do %>
+                    <table>
+                      <tr>
+                        <td><%= file_field_tag :fileupload %></td>
+                        <td><%= submit_tag("Upload", :style => "color:blue;") %></td>
+                      </tr>
+                    </table>
+                  <% end %>
+                </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -147,12 +198,12 @@
         <div class="col-sm-12">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title" style="color:blue">Glycosphingolipids</h5>
+              <h5 class="card-title" style="color:blue">GAGs</h5>
                 <div class="row">
-                  <div class="col-2">Arthro
+                  <div class="col-2">Hyaluronic Acid
                     <div class="bg-white">
                       <%= link_to new_gpathway_greaction_path(@gpathway), id: 'newReaction', remote: true, data: { target: '#reactionModal', toggle: 'modal'}, class: 'btn btn-outline-light btn-sm' do %>
-                      <img id="gl_arthro" class="icon" data-accession="G40793GY" src="https://image.beta.glycosmos.org/snfg/png/G40793GY" style="max-width: 100%; height: auto;"><% end %></div>
+                      <img id="gags_hyalu" class="icon" data-accession="G48124SB" src="https://image.beta.glycosmos.org/snfg/png/G48124SB" style="max-width: 100%; height: auto;"><% end %></div>
                   </div>
                   <div class="col-2">Ganglio 
                     <div class="bg-white">
@@ -234,7 +285,6 @@
                     </div>
                   <%= link_to gpathway_greaction_path(@gpathway, greaction), class: 'btn btn-danger btn-sm', method: :delete, data: { confirm: 'Are you sure?' }  do %>
                     <i class="fas fa-trash-alt"></i><% end %>
-                  <%# <button type="button" class="btn btn-outline-info btn-sm checkBtn">Insert Reaction</button> %>
                 </td>  
               </tr> 
             <% end %>
@@ -244,15 +294,74 @@
      </div>
    </div>
 </div>
-<div class="container mb-4">
-  <%= link_to "Regist (RDF)", gpathway_path(@gpathway), method: :post, class: 'btn btn-success btn-sm' %>
-  <%= link_to "Pathway List", gpathways_path, class: 'btn btn-outline-info', style: 'float:right' %>
+<div class="container mb-5">
+  <%= link_to "Pathway List", gpathways_path, class: 'btn btn-secondary btn-sm' %>
+  <%= link_to_if  @grxn_count != 0, "Regist (RDF)", gpathway_path(@gpathway), method: :post, class: 'btn btn-primary btn-sm' , style: 'float:right'%>  
 </div>
 
+<!-- jstree -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+
+<!-- jQuery UI
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> 
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css"> 
+-->
+
+<!-- jsTree for pathway category-->
+<script>
+  $(function(){
+    var pw_url = "http://localhost:3002/sparqlist/api/PW_category";
+    console.log($('#pw_category').jstree);
+    $('#pw_category').jstree({ 
+        'core' : {
+          'data' : {
+              'url' : pw_url,
+              'data' : function (node) {
+                return { 'id': node.text };
+              } 
+            }
+          },
+        'plugins' :   [ "themes", "json_data", "contextmenu", "search" ] 
+      });
+    $('#pw_category').bind("select_node.jstree", function (event, data) {
+        var node_id = data.instance.get_node(data.selected).id;        //id 가져오기
+        var node_text = data.instance.get_node(data.selected).text;    //text 가져오기
+        //console.log("id= "+ node_id + " text = " + node_text);      
+          document.getElementById("gpathway_pw_category").value = node_text;
+          document.getElementById("gpathway_pw_category_id").value = node_id;
+    });
+  })
+</script>
+
+<!-- jsTree for tissue ontology -->
+<script>
+  $(function(){
+    var tissue_url = "http://localhost:3002/sparqlist/api/Tissue_Onto";
+    $('#tissue_select').jstree({ 
+      'core' : { 
+        'data' : {
+            'url' : tissue_url,
+            'data' : function (node) {
+              　return { 'id': node.text };
+            } 
+          }    
+        }
+      });
+    $('#tissue_select').bind("select_node.jstree", function (event, data) {
+      var node_id = data.instance.get_node(data.selected).id;        //id 가져오기
+      var node_text = data.instance.get_node(data.selected).text;    //text 가져오기
+      //console.log("id= "+ node_id + " text = " + node_text);     
+      document.getElementById("gpathway_tissue").value = node_text;
+      document.getElementById("gpathway_tissue_id").value = node_id;
+      });
+  })
+</script>
+<!-- select of glycan Motif -->
 <script>
 $(function (){
   const target = $('.icon');
-  var glycan_ids = ["n_core", "n_hybrid", "hyalu", "cad_antigen", "pk_antigen", "poly_lacto"];
+  var glycan_ids = ["n_core", "n_hybrid", "hyalu", "cad_antigen", "pk_antigen", "poly_lacto", "gags_hyalu"];
   target.on("click", function(e) {
     //console.log(e.target);
     var glycan_id = e.target.id;
@@ -268,6 +377,8 @@ $(function (){
         var id_val = $('#pk_antigen').data('accession');
       } else if (glycan_id == "poly_lacto" ) {
         var id_val = $('#poly_lacto').data('accession');
+      } else if (glycan_id == "gags_hyalu" ) {
+        var id_val = $('#gags_hyalu').data('accession');
       }
     var glycan_select_id = id_val;
     //console.log(glycan_select_id);

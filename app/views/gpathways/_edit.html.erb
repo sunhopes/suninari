@@ -2,7 +2,7 @@
 
 <div class="container mt-5">
   <div class="row">
-    <div class="col-6 mx-auto">  
+    <div class="col-8 mx-auto">  
       <div class="modal-content"> 
         <div class="modal-header">
           <h4 class="modal-title">Edit of Pathway information</h4>
@@ -42,107 +42,25 @@
               <label for="gpathway_cell_line">Cell Type</label>
               <%= f.text_field :cell_line, class: "form-control", placeholder: "Type your cell type(e.g. blood cell)" %>
               <%= f.hidden_field :cell_line_id, class: "form-control"%>
-            </div> 
-            <div class="form-group">
-              <label for="gpathway_bind_backbone">Binding Site</label><br>
-              <%= f.select :bind_backbone, [ ['N-glycan', 'N-glycan' ], ['O-glycan', 'O-glycan' ], ['Lipid moiety', 'Lipid moiety']], include_blank: "Select your glycan type", class: "form-select form-select-lg mb-3" %>
+            </div>
+            <div class="form-group selectBtn">
+              <label for="gpathway_disease">Related Disease</label>
+              <%= f.select :disease_choice, options_for_select([['Human', 'Human' ], ['Animal', 'Animal'], ['Plant', 'Plant'],['No', 'No']]), include_blank: "Select a related disease", class: "form-select form-select-lg mb-3 deaseBtn" %>
+              <%= f.text_field :disease, class: "form-control" %>
+              <%= f.hidden_field :disease_id, class: "form-control"%>
             </div>
           </div>
           <div class="modal-footer">
             <%# <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> %>
-            <%= f.submit "Save Change", class: "btn btn-primary" %>
+            <%= f.submit "Save Change", class: "btn btn-success" %>
           </div>
-        <% end %>
-
-        <!-- Modal for pathway category -->
-            <div class="modal fade" id="pwOntoModal" role="dialog">
-              <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h4 class="modal-title">Pathway Category</h4>
-                  </div>  
-                  <div class="modal-body">
-                    <div id="pw_category"></div>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- Modal for Tissue ontology -->
-            <div class="modal fade" id="tissueOntoModal"  role="dialog">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h4 class="modal-title">Tissue for animal</h4>
-                  </div>
-                  <div class="modal-body">
-                    <div id="tissue_select"></div>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
+        <% end %>      
       </div>
     </div>
   </div> 
 </div>
 
-<!-- For jsTree -->
-<script>
-$(function(){
-    var pw_url = "http://localhost:3003/sparqlist/api/PW_category";
-    //console.log(pw_url);
-    $('#pw_category').jstree({ 
-        'core' : {
-          'data' : {
-              'url' : pw_url,
-              'data' : function (node) {
-                return { 'id': node.text };
-              } 
-            }
-          },
-        //'plugins' :   [ "themes", "json_data", "contextmenu", "search" ] 
-      });
-    $('#pw_category').bind("select_node.jstree", function (event, data) {
-        var node_id = data.instance.get_node(data.selected).id;        //id 가져오기
-        var node_text = data.instance.get_node(data.selected).text;    //text 가져오기
-        //console.log("id= "+ node_id + " text = " + node_text);      
-          document.getElementById("gpathway_pw_category").value = node_text;
-          document.getElementById("gpathway_pw_category_id").value = node_id;
-    });
-  })
-</script>
 
-<!-- jsTree for tissue ontology -->
-<script>
-  $(function(){
-    var tissue_url = "http://localhost:3003/sparqlist/api/Tissue_Onto";
-    $('#tissue_select').jstree({ 
-      'core' : { 
-        'data' : {
-            'url' : tissue_url,
-            'data' : function (node) {
-              　return { 'id': node.text };
-            } 
-          }    
-        }
-      });
-    $('#tissue_select').bind("select_node.jstree", function (event, data) {
-      var node_id = data.instance.get_node(data.selected).id;        //id 가져오기
-      var node_text = data.instance.get_node(data.selected).text;    //text 가져오기
-      //console.log("id= "+ node_id + " text = " + node_text);     
-      document.getElementById("gpathway_tissue").value = node_text;
-      document.getElementById("gpathway_tissue_id").value = node_id;
-    });
-  })
-</script>
 
 <!-- autocomplete for Taxon-->
 <%# <script>
@@ -170,7 +88,7 @@ $(function(){
 <!-- autocomplete for Taxon-->
 <script>
  $(function(){
-    var taxon_url = "http://localhost:3003/sparqlist/api/NCBI_BACTERIA";
+    var taxon_url = "http://localhost:3002/sparqlist/api/NCBI_BACTERIA";
       $("#gpathway_species").autocomplete({
         source: function (request, response) {
             $.ajax({
@@ -206,7 +124,7 @@ $(function(){
 <!-- autocomplete for cell type-->
 <script>
   $(function(){
-    var cell_url = "http://localhost:3003/sparqlist/api/CellTypeOnto";
+    var cell_url = "http://localhost:3002/sparqlist/api/CellTypeOnto";
       $("#gpathway_cell_line").autocomplete({
         source: function (request, response) {
             $.ajax({
@@ -239,11 +157,57 @@ $(function(){
 })
 </script>
 
+<!-- autocomplete for Disease-->
+<script>
+$(function(){
+  $("#gpathway_disease_choice").change(function(){
+    var select_disease_id = document.getElementById("gpathway_disease_choice");
+    var select_disease_value = select_disease_id.value;
+    //console.log(select_dvalue);
+    let select_disease_url;
+    if (select_disease_value == "Human"){
+        select_disease_url = "Human_disease";
+    } else if (select_disease_value == "Animal"){
+        select_disease_url = "Animal_Disease";
+    } else {
+        select_disease_url = "Plant_Disease";
+    } 
+    let disease_url = "http://localhost:3002/sparqlist/api/" + select_disease_url;
+      $("#gpathway_disease").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+              url: disease_url, 
+              dataType: "json",
+              success: function(data) {
+                response(
+                  $.map(data, function (item) {
+                    if(item.Disease_name.search(request.term) >= 0 ){  //문자의 일치 검색
+                    //console.log(item);
+                    //console.log(request.term);
+                      return { 
+                        label: item.Disease_name,
+                        value: item.Disease_name,
+                        'data-id': item.Disease_id  //disease ID를 얻기위해서 변수를 만듬.
+                      }
+                    } 
+                  })
+                );
+              },
+            });
+        },
+        select: function(event, ui) {
+                //console.log(ui.item.value);
+            $('#gpathway_disease_id').val(`${ui.item['data-id']}`); //disease ID 얻기
+        },   
+        delay: 300,
+        minLength: 2,
+        autoFocus: true
+      });
+  }) 
+})
+</script>
+
 <%# =javascript_include_tag "gpathways.js" %>
 
-<!-- jQuery UI -->
-<%# <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> %>
-<%# <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css"> %>
-<!-- jstree -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+
+   

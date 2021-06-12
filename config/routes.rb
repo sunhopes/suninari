@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   
+  get 'searches/index'
+  
   root to: 'gpathways#index'
   devise_for :users
   resource :user, except: [:new, :create, :destroy]

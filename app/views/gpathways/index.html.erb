@@ -1,49 +1,40 @@
 <%# <%= @gpathway.updated_at.strftime("%Y-%m-%d") %>
-<div class="container mt-5">
-  <div class="row">
-    <div class="col-12 mx-auto">
-    <h3>[Pathway List]</h3>
-      <table class="table table-hover">
-        <thead class="thead-light">
-          <tr>
-            <th scope="col">Title</th>
-            <th scope="col">Description</th>
-            <th scope="col">Species</th>
-            <th scope="col">Tissue</th>
-            <th scope="col">Cell Line</th>
-            <th scope="col">Bind Site</th>
-            <th scope="col">Record Date</th>
-            <th scope="col">　</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @gpathways.each do |gpathway| %>
-            <tr>
-              <td><%= link_to gpathway.title, gpathway_path(gpathway) %></td>
-              <td><%= simple_format gpathway.description %></td>
-              <td><%= gpathway.species %></td>
-              <td><%= gpathway.tissue %></td>
-              <td><%= gpathway.cell_line %></td>
-              <td><%= gpathway.bind_backbone %></td>
-              <td><%= gpathway.updated_at.strftime("%Y-%m-%d") %></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+<main class="mt-5 pt-2">
+  <div class="container">
+    <div class="panel panel-info">
+      <div class="panel-heading"><h4><b>Pathway Basic Information</b></h4></div>
+      <div class="panel-body">
+        <div class="row mt-3">
+          <div class="col-md-12 mb-4">
+            <table class="table table-hover">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">Title</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">Species</th>
+                  <th scope="col">Tissue</th>
+                  <th scope="col">Cell Line</th>
+                  <th scope="col">Record Date</th>
+                  <th scope="col">　</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @gpathways.each do |gpathway| %>
+                  <tr>
+                    <td><%= link_to gpathway.title, gpathway_path(gpathway) %></td>
+                    <td><%= simple_format gpathway.description %></td>
+                    <td><%= gpathway.species %></td>
+                    <td><%= gpathway.tissue %></td>
+                    <td><%= gpathway.cell_line %></td>
+                    <td><%= gpathway.updated_at.strftime("%Y-%m-%d") %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
+    
   </div>
-  <hr>
-  <h5 class="tableUpload">[Pathway Table Upload]</h5><br>
-    <div id ="file_download">
-        <%= link_to 'Reaction Format Download', {controller: :gpathways, action: :download_file}, method: :get, class: 'btn btn-info' %></div><br>
-    <div id ="file_upload">
-        <%= form_tag({ action: :upload }, multipart: true) do %>
-        <table><tr>
-            <td><%= file_field_tag :fileupload %></td>
-            <td><%= submit_tag("Upload", :style => "color:blue;") %></td></tr>
-        </table>
-        <% end %>
-    </div>
-    <hr>
-
-</div>
+</main>

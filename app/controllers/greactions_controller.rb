@@ -4,9 +4,9 @@ class GreactionsController < ApplicationController
 
   def new
     @greaction = Greaction.new
-    @g_id = session[:glycan_id]
+    @g_id = session[:glycan_id]   #gpathways_index의 session에서 받아옴(이유를 알아야 한다. 왜 이곳으로 오지 않는가?!)
     @grxn_count = @gpathway.greactions.count
-    #puts "rxn : #{@grxn_count.to_i}"
+    
     if @grxn_count.to_i == 0
       @last_id = 1
       @receive_product = @g_id 
@@ -23,8 +23,6 @@ class GreactionsController < ApplicationController
       format.js
       #format.json { render json: json_file }
     end
-    # @enz_json = File.read("{Rails.root}/public/cazy_ec_enz_list.json")
-    # render :json => @enz_json
   end
   
   def create
@@ -52,8 +50,9 @@ class GreactionsController < ApplicationController
   end
 
   def edit
-    @edit_react_touid =  @greaction.reactant_img
+    @edit_react_touid = @greaction.reactant_img
     @edit_produdt_touid = @greaction.product_img
+
     respond_to do |format|
       format.html
       format.js
@@ -105,45 +104,44 @@ class GreactionsController < ApplicationController
     require 'uri'
     @gpathway = Gpathway.find(params[:gpathway_id])
     @greactions = @gpathway.greactions.all
+    reactionArray = @gpathway.greaction_ids.join(',') #배열을 string으로 만듬.(join)
+    #puts "id_array: #{reactionArray}"
     
     @greactions.each do |reaction|
-      rxnids = Array.new
-      reactions = rxnids.push(reaction.id)
-      reactionArray = reactions.sort.join(",")
-      #puts reactionArray
-         reaction_uri = URI.parse('http://localhost:3002/sparqlist/api/gpathway_test1?' + 
-            '&reactionIds=' + reactionArray +
-            '&reaction_id=' + reaction.id.to_s  +
-            '&reactant_name=' + reaction.reactant +
-            '&reactant_touid=' + reaction.reactant_img +
-            '&product_touid=' + reaction.product_img +
-            '&product_name=' + reaction.product +
-            '&enzyme_id=' + reaction.enzyme_onto_id +
-            '&enzyme_name=' + reaction.enzyme_name +
-            '&sugar_id=' + reaction.sugar_onto_id +
-            '&sugar_name=' + reaction.sugar_nt +
-            '&cell_locate=' + reaction.cellular_locate +
-            '&cell_locate_id=' + reaction.cellcomp_onto_id 
-            )
-         Net::HTTP.get(reaction_uri)
-  #     reactionArray.clear()
+      reaction_uri = URI.parse('http://localhost:3002/sparqlist/api/gpathway_test1?' + 
+        '&reaction_id=' + reaction.id.to_s  +
+        '&reactant_name=' + reaction.reactant +
+        '&reactant_touid=' + reaction.reactant_img +
+        '&product_touid=' + reaction.product_img +
+        '&product_name=' + reaction.product +
+        '&enzyme_id=' + reaction.enzyme_onto_id +
+        '&enzyme_name=' + reaction.enzyme_name +
+        '&sugar_id=' + reaction.sugar_onto_id +
+        '&sugar_name=' + reaction.sugar_nt +
+        '&cell_locate=' + reaction.cellular_locate +
+        '&cell_locate_id=' + reaction.cellcomp_onto_id 
+        )
+      Net::HTTP.get(reaction_uri)
     end
-       gpathway_uri = URI.parse('http://localhost:3002/sparqlist/api/gpathway_test1?' + 
-            '&gpathway_name=' + @gpathway.title +
-            '&gpathway_id=' + @gpathway.id.to_s  +
-            '&gpathway_comment=' + @gpathway.description +
-            '&gpathway_tissue_id=' + @gpathway.tissue +
-            '&gpathway_tissue_name=' + @gpathway.tissue_id +
-            '&gpathway_cell_name=' + @gpathway.cell_line +
-            '&gpathway_cell_id=' + @gpathway.cell_line_id +
-            '&gpathway_taxon_name=' + @gpathway.species +
-            '&gpathway_taxon_id=' + @gpathway.species_id +
-            '&gpathway_pw_category=' + @gpathway.pw_category +
-            '&gpathway_pw_category_id=' + @gpathway.pw_category_id 
-            # '&gpathway_pw_disease=' + @gpathway.disease +
-            # '&gpathway_pw_disease_id=' + @gpathway.disease_id 
-            )
-         Net::HTTP.get(gpathway_uri)
+    gpathway_uri = URI.parse('http://localhost:3002/sparqlist/api/gpathway_test1?' + 
+        '&reactionIds=' + reactionArray +
+        '&gpathway_name=' + @gpathway.title +
+        '&gpathway_id=' + @gpathway.id.to_s  +
+        '&gpathway_comment=' + @gpathway.description +
+        '&gpathway_tissue_id=' + @gpathway.tissue_id +
+        '&gpathway_tissue_name=' + @gpathway.tissue +
+        '&gpathway_cell_name=' + @gpathway.cell_line +
+        '&gpathway_cell_id=' + @gpathway.cell_line_id +
+        '&gpathway_taxon_name=' + @gpathway.species +
+        '&gpathway_taxon_id=' + @gpathway.species_id +
+        '&gpathway_pw_category=' + @gpathway.pw_category +
+        '&gpathway_pw_category_id=' + @gpathway.pw_category_id +
+        '&gpathway_pw_disease=' + @gpathway.disease +
+        '&gpathway_pw_disease_id=' + @gpathway.disease_id 
+        )
+      Net::HTTP.get(gpathway_uri)
+    puts "URI: #{gpathway_uri}"
+    @last_product = @gpathway.greactions.last[:product_img]      
   end
 
   private

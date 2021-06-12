@@ -21,11 +21,14 @@
     <% if user_signed_in? %>
       <div class="collapse navbar-collapse" id="Navber">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
+          <li class="nav-item activ">
               <%= link_to 'New Pathway', new_gpathway_path, class: "nav-link" %>
           </li>
           <li class="nav-item">
               <%= link_to 'Pathway List', gpathways_path, class: "nav-link" %>
+          </li>
+          <li class="nav-item">
+              <%= link_to 'Pathway Search', searches_index_path, class: "nav-link" %>
           </li>
         </ul>
       </div> 

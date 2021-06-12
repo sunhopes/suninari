@@ -42,7 +42,7 @@
             </div> 
             <div class="form-group selectBtn">
               <label for="gpathway_disease">Related Disease</label>
-              <%= f.select :disease_choice, options_for_select([['Human', 'Human' ], ['Animal', 'Animal'], ['Plant', 'Plant']]), include_blank: "Select a related disease", class: "form-select form-select-lg mb-3 deaseBtn" %>
+              <%= f.select :disease_choice, options_for_select([['Human', 'Human' ], ['Animal', 'Animal'], ['Plant', 'Plant'],['No', 'No']]), include_blank: "Select a related disease", class: "form-select form-select-lg mb-3 deaseBtn" %>
               <%= f.text_field :disease, class: "form-control" %>
               <%= f.hidden_field :disease_id, class: "form-control"%>
             </div>
@@ -93,12 +93,20 @@
     </div>
   </div>
 </section>
+<!-- jstree -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+
+<!-- jQuery UI-->
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> 
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+
 
 <!--jsTree for pw_category-->
 <script>
   $(function(){
     var pw_url = "http://localhost:3002/sparqlist/api/PW_category";
-    //console.log(pw_url);
+    console.log($('#pw_category').jstree);
     $('#pw_category').jstree({ 
         'core' : {
           'data' : {
@@ -281,13 +289,7 @@ $(function(){
 
 
 <%# =javascript_include_tag "gpathways.js" %>
-<!-- jQuery -->
-<%# <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> %>
-<!-- jQuery UI -->
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-<!-- jstree -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+
+
    
    
