@@ -7,13 +7,14 @@ Rails.application.routes.draw do
   resource :user, except: [:new, :create, :destroy]
   
   resources :gpathways do 
-    resources :greactions 
+    resources :greactions do 
+      collection do 
+        post 'rdf_upload'
+      end
+    end
+    member do 
+      post 'upload'
+    end 
   end
-  match 'gpathways/:gpathway_id/', to: 'greactions#rdf_upload', via: [:post]
-  
-  #get 'gpathway/top'
-  get 'gpathways/upload'
-  get 'gpathways/download_file'
- 
-  
+
 end

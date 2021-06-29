@@ -1,5 +1,5 @@
 
-
+//= require xlsx/dist/xlsx.full.min.js
 // $(function(){
 //     var taxon_url = "http://localhost:3003/sparqlist/api/jsonTest";
 //     tax_xmlHttp = new XMLHttpRequest();

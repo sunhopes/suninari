@@ -11,4 +11,4 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules')
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in the app/assets
 # folder are already added.
-#Rails.application.config.assets.precompile += %w( *.js )
+Rails.application.config.assets.precompile += %w( spv/SPV_v1.1.js spv/fixOnMouseOut.js spv/jquery.jscrollpane.min.js spv/jquery.mousewheel.js spv/viewer.js  )

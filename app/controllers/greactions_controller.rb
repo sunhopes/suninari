@@ -6,12 +6,10 @@ class GreactionsController < ApplicationController
     @greaction = Greaction.new
     @g_id = session[:glycan_id]   #gpathways_index의 session에서 받아옴(이유를 알아야 한다. 왜 이곳으로 오지 않는가?!)
     @grxn_count = @gpathway.greactions.count
-    
     if @grxn_count.to_i == 0
       @last_id = 1
       @receive_product = @g_id 
-      puts "product: #{@receive_product}"
-      #flash[:alert] = "You selected '#{@receive_product }'."
+      #puts "product: #{@receive_product}"
     elsif @grxn_count.to_i != 0
       @reaction_last_id = @gpathway.greactions.last[:rxnid].to_i
       @last_id = @reaction_last_id + 1
@@ -45,7 +43,6 @@ class GreactionsController < ApplicationController
         new_params2[:product_img] = @product_img   # !!입력으로 받은 문자열을 TouCanID로 바꿔서 이 ID를 :product_img에 넣어주고 표시는 glycosmos image convert API를 이용하여 show 에서 한다.
     end
     @greaction = @gpathway.greactions.create(new_params2)
-    
     redirect_back(fallback_location: root_path)  
   end
 
@@ -108,6 +105,7 @@ class GreactionsController < ApplicationController
     #puts "id_array: #{reactionArray}"
     
     @greactions.each do |reaction|
+      
       reaction_uri = URI.parse('http://localhost:3002/sparqlist/api/gpathway_test1?' + 
         '&reaction_id=' + reaction.id.to_s  +
         '&reactant_name=' + reaction.reactant +
@@ -140,7 +138,7 @@ class GreactionsController < ApplicationController
         '&gpathway_pw_disease_id=' + @gpathway.disease_id 
         )
       Net::HTTP.get(gpathway_uri)
-    puts "URI: #{gpathway_uri}"
+    #puts "URI: #{gpathway_uri}"
     @last_product = @gpathway.greactions.last[:product_img]      
   end
 
@@ -148,16 +146,15 @@ class GreactionsController < ApplicationController
   def set_pwGpathway
     @gpathway = Gpathway.find(params[:gpathway_id]) 
   end
-
   def set_pwGreaction
     @greaction = @gpathway.greactions.find(params[:id]) 
   end
- 
   def greaction_params
     params.require(:greaction).permit(:sugar_onto_id, :sugar_id, :rxnid, :reactant, :enzyme_name, :sugar_nt, :product, :cellular_locate, :enzyme_onto_id, :cellcomp_onto_id, :gpathway_id)
   end
-
   def get_glycanid(param_glycan, text_type)
+    require 'net/http'
+    require 'uri'
     if param_glycan.present?
       param_text = text_type
       if param_text == 'linearcode'

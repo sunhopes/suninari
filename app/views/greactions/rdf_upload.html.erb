@@ -7,18 +7,22 @@
           <div class="row">
             <% @greactions.each do |greaction|%> 
               <tr>
-                <td><glytoucan-image accession="<%=greaction.reactant_img %>" imageApi="https://api.glycosmos.org/wurcs2image/experimental/png/binary/" ></glytoucan-image></td>
+                <td><glytoucan-image accession="<%=greaction.reactant_img %>" imageApi="https://api.glycosmos.org/wurcs2image/experimental/png/binary/" ></glytoucan-image>
+                <div class="moreLink">
+            　　　　<div class=" moreLinkText"><%=greaction.enzyme_name %>
+                    <div class="lineArrow"></div>
+                  </div>
+                </div>
+                </td>
               <% end %>
               </tr> 
               <glytoucan-image accession="<%=@last_product %>" imageApi="https://api.glycosmos.org/wurcs2image/experimental/png/binary/" ></glytoucan-image>
-            
           </div>
-
         </div>
       </div>  
     </div>
     <div class="float-left">
-      <%= link_to "Pathway List", gpathways_path, class: 'btn btn-outline-info' %>
+      <%= link_to "Pathway Show", gpathway_path(@gpathway), class: 'btn btn-outline-info' %>
     </div>
 
     <div class="float-right">

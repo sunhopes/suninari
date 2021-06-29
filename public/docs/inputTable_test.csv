@@ -1,5 +1,0 @@
-﻿Reaction NO.,GlyTouCan ID of Reactant glycan,Nucleotide Sugar,Enzyme Name,GlyTouCan ID of Product glycan,Cellular location
-1,G49108TO,UDP-a-D-Glc,ALG1,G51535NO,Cell Wall
-2,G51535NO,UDP-a-D-Gal,ALG2,G16062FD,Cell Wall
-3,G16062FD,UDP-a-D-Man,ALG3,G17792PO,Cell Wall
-4,G17792PO,UDP-a-D-Man,ALG4,G05108UT,Cell Wall

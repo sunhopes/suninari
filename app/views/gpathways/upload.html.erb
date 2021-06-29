@@ -1,0 +1,102 @@
+
+<main class="mt-5 pt-2">
+  <div class="container fadeIn">
+    <div class="panel panel-info">
+      <div class="panel-heading"><h4><b>Pathway Basic Information</b></h4></div>
+      <div class="panel-body">
+        <div class="row mt-3">
+          <div class="col-md-6 mb-4">
+            <ul class="list-group mb-3 z-depth-1">
+              <li class="list-group-item d-flex justify-content-between bg-light">
+                <div class="info">
+                  <h6 class="text-primary" >Title :</h6>
+                  <h5 class="text-muted">&nbsp;&nbsp;<%= @gpathway.title %></h5>
+                </div>
+              </li>
+              <li class="list-group-item d-flex justify-content-between lh-condensed">
+                <div class="info">
+                  <h6 class="text-primary">Description :</h6>
+                  <h5 class="text-muted">&nbsp;&nbsp;<%= simple_format @gpathway.description %></h5>
+                </div>
+              </li>
+              <li class="list-group-item d-flex justify-content-between bg-light">
+                <div class="info">
+                  <h6 class="text-primary">Species :</h6>
+                  <h5 class="text-muted"> &nbsp;&nbsp;<%= @gpathway.species %></h5>
+                </div>
+              </li>
+              <li class="list-group-item d-flex justify-content-between lh-condensed">
+                <div class="info">
+                  <h6 class="text-primary">Tissue :</h6>
+                  <h5 class="text-muted">&nbsp;&nbsp;<%= @gpathway.tissue %></h5>
+                </div>
+              </li>
+              <li class="list-group-item d-flex justify-content-between bg-light">
+                <div class="info">
+                  <h6 class="text-primary">Pathway Category :</h6>
+                  <h5 class="text-muted">&nbsp;&nbsp;<%= @gpathway.pw_category %></h5>
+                </div>
+              </li>
+              <li class="list-group-item d-flex justify-content-between li-light">
+                <div class="info">
+                  <h6 class="text-primary">Cell Type :</h6>
+                  <h5 class="text-muted">&nbsp;&nbsp;<%= @gpathway.cell_line %></h5>
+                </div>
+              </li>
+              <li class="list-group-item d-flex justify-content-between li-light">
+                <div class="info">
+                  <h6 class="text-primary">Related Disease :</h6>
+                  <h5 class="text-muted">&nbsp;&nbsp;<%= @gpathway.disease %></h5>
+                </div>
+              </li>
+              <li class="list-group-item d-flex justify-content-between bg-light">
+                <div class="info">
+                  <h6 class="text-primary">Regist date :</h6>
+                  <h5 class="text-muted">&nbsp;&nbsp;<%= @gpathway.updated_at.strftime("%Y-%m-%d") %></h5>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Reaction Index -->
+<div class="container mt-11 mb-5">
+  <div class="panel panel-info">
+    <div class="panel-heading"><h4><b>Reaction Table</b></h4></div>
+      <div class="panel-body">
+        <table class="table table-hover" id="rxntable">
+          <thead class="thead-light">
+            <tr>
+              <th class="text-center">RXN ID</th>
+              <th class="text-center">Reactant</th>
+              <th class="text-center">Enzyme</th>
+              <th class="text-center">Sugar Nucleotide</th>
+              <th class="text-center">Product</th>
+              <th class="text-center">Cell Location</th>
+            </tr>
+          </thead>
+          <tbody id="rxnbody">
+            <% @gpathway.greactions.each do |greaction|%>
+            <tr class="rxnrow">
+              <td id='rxnNum'><%=greaction.rxnid%>&nbsp;</td>
+              <td><glytoucan-image accession="<%=greaction.reactant_img %>" imageApi="https://api.glycosmos.org/wurcs2image/experimental/png/binary/" ></glytoucan-image></td>
+              <td><%=greaction.enzyme_name%></td>
+              <td><%=greaction.sugar_nt%></td>
+              <td><glytoucan-image accession="<%=greaction.product_img %>" imageApi="https://api.glycosmos.org/wurcs2image/experimental/png/binary/" ></glytoucan-image></td>
+              <td><%=greaction.cellular_locate%></td>
+            </tr> 
+            <% end %>
+          </tbody>
+        </table>
+     </div>
+   </div>
+</div>
+<div class="container mb-5">
+  <%= link_to "Pathway List", gpathways_path, class: 'btn btn-secondary btn-sm' %>
+  <%= link_to_if  @grxn_count != 0, "Regist (RDF)", rdf_upload_gpathway_greactions_path(@gpathway), method: :post, class: 'btn btn-primary btn-sm' , style: 'float:right'%>  
+</div>
+

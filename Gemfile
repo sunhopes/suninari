@@ -70,3 +70,5 @@ gem 'rails-ujs'
 gem 'jquery-turbolinks'
 #gem 'jstree-rails-4'
 gem 'gon'
+
+gem 'roo', '~>2.8'

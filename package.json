@@ -1,5 +1,7 @@
 {
   "name": "mane_pathway",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "xlsx": "^0.17.0"
+  }
 }

@@ -5,75 +5,79 @@
       <div class="panel-heading"><h4><b>Pathway Basic Information</b></h4></div>
       <div class="panel-body">
         <div class="row mt-3">
-          <div class="col-md-10 mb-4">
+          <div class="col-md-6 mb-4">
             <ul class="list-group mb-3 z-depth-1">
-            <li class="list-group-item d-flex justify-content-between bg-light">
-              <div class="info">
-                <h6 class="text-primary" >Title :</h6>
-                <h5 class="text-muted">&nbsp;&nbsp;<%= @gpathway.title %></h5>
-              </div>
-            </li>
-            <li class="list-group-item d-flex justify-content-between lh-condensed">
-              <div class="info">
-                <h6 class="text-primary">Description :</h6>
-                <h5 class="text-muted">&nbsp;&nbsp;<%= simple_format @gpathway.description %></h5>
-              </div>
-            </li>
-            <li class="list-group-item d-flex justify-content-between bg-light">
-              <div class="info">
-                <h6 class="text-primary">Species :</h6>
-                <h5 class="text-muted"> &nbsp;&nbsp;<%= @gpathway.species %></h5>
-              </div>
-            </li>
-            <li class="list-group-item d-flex justify-content-between lh-condensed">
-              <div class="info">
-                <h6 class="text-primary">Tissue :</h6>
-                <h5 class="text-muted">&nbsp;&nbsp;<%= @gpathway.tissue %></h5>
-              </div>
-            </li>
-            <li class="list-group-item d-flex justify-content-between bg-light">
-              <div class="info">
-                <h6 class="text-primary">Pathway Category :</h6>
-                <h5 class="text-muted">&nbsp;&nbsp;<%= @gpathway.pw_category %></h5>
-              </div>
-            </li>
-            <li class="list-group-item d-flex justify-content-between li-light">
-              <div class="info">
-                <h6 class="text-primary">Cell Type :</h6>
-                <h5 class="text-muted">&nbsp;&nbsp;<%= @gpathway.cell_line %></h5>
-              </div>
-            </li>
-            <li class="list-group-item d-flex justify-content-between li-light">
-              <div class="info">
-                <h6 class="text-primary">Related Disease :</h6>
-                <h5 class="text-muted">&nbsp;&nbsp;<%= @gpathway.disease %></h5>
-              </div>
-            </li>
-            <li class="list-group-item d-flex justify-content-between bg-light">
-              <div class="info">
-                <h6 class="text-primary">Regist date :</h6>
-                <h5 class="text-muted">&nbsp;&nbsp;<%= @gpathway.updated_at.strftime("%Y-%m-%d") %></h5>
-              </div>
-            </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <% if @gpathway.user == current_user %>
-                <div class="float-left">
-                  <%=link_to 'Edit of Pathway basic information', edit_gpathway_path(@gpathway), remote: true, data: { target: '#pathwayModal', toggle: 'modal'}, class: "btn btn-success" %>
-                  <%#=link_to 'Delete', gpathway_path(@gpathway), method: :delete, class: "btn btn-outline-danger btn-sm", data: { confirm: 'Are you sure?' } %>
-                  <div id="pathwayModal" class="modal fade"   tabindex="-1" role="dialog" aria-labelledby="pathwayModalLabel" aria-hidden="true"> 
-                    <div class="pwModalDialog" role="document"></div>
+              <li class="list-group-item d-flex justify-content-between bg-light">
+                <div class="info">
+                  <h6 class="text-primary" >Title :</h6>
+                  <h5 class="text-muted">&nbsp;&nbsp;<%= @gpathway.title %></h5>
+                </div>
+              </li>
+              <li class="list-group-item d-flex justify-content-between lh-condensed">
+                <div class="info">
+                  <h6 class="text-primary">Description :</h6>
+                  <h5 class="text-muted">&nbsp;&nbsp;<%= simple_format @gpathway.description %></h5>
+                </div>
+              </li>
+              <li class="list-group-item d-flex justify-content-between bg-light">
+                <div class="info">
+                  <h6 class="text-primary">Species :</h6>
+                  <h5 class="text-muted"> &nbsp;&nbsp;<%= @gpathway.species %></h5>
+                </div>
+              </li>
+              <li class="list-group-item d-flex justify-content-between lh-condensed">
+                <div class="info">
+                  <h6 class="text-primary">Tissue :</h6>
+                  <h5 class="text-muted">&nbsp;&nbsp;<%= @gpathway.tissue %></h5>
+                </div>
+              </li>
+              <li class="list-group-item d-flex justify-content-between bg-light">
+                <div class="info">
+                  <h6 class="text-primary">Pathway Category :</h6>
+                  <h5 class="text-muted">&nbsp;&nbsp;<%= @gpathway.pw_category %></h5>
+                </div>
+              </li>
+              <li class="list-group-item d-flex justify-content-between li-light">
+                <div class="info">
+                  <h6 class="text-primary">Cell Type :</h6>
+                  <h5 class="text-muted">&nbsp;&nbsp;<%= @gpathway.cell_line %></h5>
+                </div>
+              </li>
+              <li class="list-group-item d-flex justify-content-between li-light">
+                <div class="info">
+                  <h6 class="text-primary">Related Disease :</h6>
+                  <h5 class="text-muted">&nbsp;&nbsp;<%= @gpathway.disease %></h5>
+                </div>
+              </li>
+              <li class="list-group-item d-flex justify-content-between bg-light">
+                <div class="info">
+                  <h6 class="text-primary">Regist date :</h6>
+                  <h5 class="text-muted">&nbsp;&nbsp;<%= @gpathway.updated_at.strftime("%Y-%m-%d") %></h5>
+                </div>
+              </li>
+              <li class="list-group-item d-flex justify-content-between">
+                <% if @gpathway.user == current_user %>
+                  <div class="float-left">
+                    <%=link_to 'Edit', edit_gpathway_path(@gpathway), remote: true, data: { target: '#pathwayModal', toggle: 'modal'}, class: "btn btn-success btn-sm" %>
+                    <%=link_to 'Delete', gpathway_path(@gpathway), method: :delete, class: "btn btn-outline-danger btn-sm", data: { confirm: 'Are you sure?' } %><pre> </pre>
+                    <div id="pathwayModal" class="modal fade"   tabindex="-1" role="dialog" aria-labelledby="pathwayModalLabel" aria-hidden="true"> 
+                      <div class="pwModalDialog" role="document"></div>
+                    </div>
                   </div>
-                </div>
-                <div class="float-right">
-                  <%=link_to 'Pathway List', gpathways_path, class: "btn btn-secondary" %>
-                </div>
-              <% end %>
-            </li>
-          </ul>
+                  <div class="float-right">
+                    <%=link_to 'Pathway List', gpathways_path, class: "btn btn-secondary btn-sm" %>
+                  </div>
+                <% end %>
+              </li>
+            </ul>
+          </div>
+          <% if @grxn_count != 0%>
+            <div id="graphArea" style="width:495px;height:505px;background:white;overflow:hidden;" class="col-md-6 mb-4"><b><%=@gpathway.title%></b>
+            </div>
+          <% end %>
         </div>
       </div>
     </div>
-  </div>
 <!-- Modal for pathway category -->
     <div class="modal fade" id="pwOntoModal" role="dialog">
       <div class="modal-dialog modal-dialog-centered">
@@ -116,24 +120,124 @@
         <div class="row mt-3">
           <div class="col-md-12 mb-4">
             <div id ="file_download">
-              <%= link_to 'Reaction Format Download', {controller: :gpathways, action: :download_file}, method: :get, class: 'btn btn-info' %></div><br>
+              <%= link_to 'Reaction Format Download', gpathway_path(@gpathway, "download": @gpathway), class: 'btn btn-info' %></div><br>
                 <div id ="file_upload">
-                  <%= form_tag({ action: :upload }, multipart: true) do %>
+                <%# 새로만든 route에 id를 보낸다. %>
+                <% if @grxn_count == 0%>
+                  <%= form_tag(upload_gpathway_path(@gpathway), method: :post, multipart: true) do %> 
                     <table>
                       <tr>
-                        <td><%= file_field_tag :fileupload %></td>
+                        <td><%= file_field_tag :fileupload, onchange: 'readExcel()' %></td>
                         <td><%= submit_tag("Upload", :style => "color:blue;") %></td>
                       </tr>
                     </table>
                   <% end %>
+                <% end %>
                 </div>
             </div>
-          </div>
+            <!--Confirm file input -->
+            <div class="row mt-3 ml-2">
+              <div class="col-md-12 mb-4">
+              <table class="table table-hover file_table" id="rxntable" style="table-layout: fixed">
+                <tbody id="rxn_json">
+                
+                </tbody>
+              </table>
+              </div>
+            </div>
         </div>
+      </div>
       </div>
     </div>
   </div>
 </main>
+
+<%= javascript_include_tag 'spv/SPV_v1.1.js', 'data-turbolinks-track' => 'reload' %>
+<!-- pathway visualization(spv)-->
+<script>
+var path_links = [];
+var node_labels = [];
+var edge_labels = [];
+  <% if @pw_rxn_array.present? %>
+    <% @pw_rxn_array.each do |data| %>
+      var reactant  = '<%= data["reactant"] %>';
+      var product  = '<%= data["product"] %>';
+      var controller  = '<%= data["controller"] %>';
+      path_links.push({
+        source: '<%= data["reactant"] %>',
+        idA: '<%= data["reactant"] %>',
+        typeA: 'smallmolecule',
+        target: '<%= data["product"] %>',
+        idB: '<%= data["product"] %>',
+        typeB: 'smallmolecule',
+        type: 'activation'
+      });
+      node_labels['<%= data["reactant"] %>']='<%= data["reactant"] %>'
+    
+      edge_labels['<%= data["reactant"] %><%= data["product"] %>']='<%= data["controller"] %>'
+      
+    //console.log(path_links);
+
+    <% end %>
+  <% end %>
+var links = path_links;
+
+initGraph(links, node_labels, edge_labels, "graphArea", 545, 475, "A", 0, 1, 1);
+</script>
+
+<!-- Excel file read-->
+<script>
+let rxn_array;
+
+function readExcel() {
+  let input = event.target;
+  let reader = new FileReader();
+    reader.onload = function () {
+      let data = reader.result;
+      let workBook = XLSX.read(data, { type: 'binary' });
+      workBook.SheetNames.forEach(function (sheetName) {
+        //console.log('SheetName: ' + sheetName);
+        let rows = XLSX.utils.sheet_to_json(workBook.Sheets[sheetName]);
+        rxn_array = (rows);
+       });
+      //console.log(rxn_array);
+        var table = document.createElement('table');
+        var tr = document.createElement('tr');
+        for (key in rxn_array[0]) {
+          // th要素を生成
+          var th = document.createElement('th');
+          // th要素内にテキストを追加
+          th.textContent = key;
+          // th要素をtr要素の子要素に追加
+          tr.appendChild(th);
+        }
+        // tr要素をtable要素の子要素に追加
+        table.appendChild(tr);
+
+        // テーブル本体を作成
+        for (var i = 0; i < rxn_array.length; i++) {
+          // tr要素を生成
+          var tr = document.createElement('tr');
+          // th・td部分のループ
+          for (key in rxn_array[0]) {
+            // td要素を生成
+            var td = document.createElement('td');
+            // td要素内にテキストを追加
+            td.textContent = rxn_array[i][key];
+            // td要素をtr要素の子要素に追加
+            tr.appendChild(td);
+          }
+          // tr要素をtable要素の子要素に追加
+          table.appendChild(tr);
+        }
+        // 生成したtable要素を追加する
+        document.getElementById('rxn_json').appendChild(table);
+    };
+    reader.readAsBinaryString(input.files[0]);
+}
+
+</script>
+
 
 <!-- Glycan select box-->
 <div class="container mb-4">
@@ -296,7 +400,7 @@
 </div>
 <div class="container mb-5">
   <%= link_to "Pathway List", gpathways_path, class: 'btn btn-secondary btn-sm' %>
-  <%= link_to_if  @grxn_count != 0, "Regist (RDF)", gpathway_path(@gpathway), method: :post, class: 'btn btn-primary btn-sm' , style: 'float:right'%>  
+  <%= link_to_if  @grxn_count != 0, "Regist (RDF)", rdf_upload_gpathway_greactions_path(@gpathway), method: :post, class: 'btn btn-primary btn-sm' , style: 'float:right'%>  
 </div>
 
 <!-- jstree -->
